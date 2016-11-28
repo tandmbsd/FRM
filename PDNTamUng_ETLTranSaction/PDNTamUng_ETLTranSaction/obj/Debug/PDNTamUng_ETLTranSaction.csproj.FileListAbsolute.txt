@@ -13,3 +13,8 @@ D:\Work\TTC\Projects\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\bin\D
 D:\Work\TTC\Projects\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\obj\Debug\PDNTamUng_ETLTranSaction.dll
 D:\Work\TTC\Projects\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\obj\Debug\PDNTamUng_ETLTranSaction.pdb
 D:\Work\TTC\Projects\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\obj\Debug\PDNTamUng_ETLTranSaction.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Projects\FRM\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\bin\Debug\PDNTamUng_ETLTranSaction.dll
+D:\Work\TTC\Projects\FRM\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\bin\Debug\PDNTamUng_ETLTranSaction.pdb
+D:\Work\TTC\Projects\FRM\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\obj\Debug\PDNTamUng_ETLTranSaction.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Projects\FRM\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\obj\Debug\PDNTamUng_ETLTranSaction.dll
+D:\Work\TTC\Projects\FRM\FRM\PDNTamUng_ETLTranSaction\PDNTamUng_ETLTranSaction\obj\Debug\PDNTamUng_ETLTranSaction.pdb

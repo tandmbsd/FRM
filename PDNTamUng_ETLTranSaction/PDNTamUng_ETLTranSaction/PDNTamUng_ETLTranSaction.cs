@@ -159,17 +159,17 @@ namespace PDNTamUng_ETLTranSaction
                         paytamung["new_suppliersitecode"] = "Tây Ninh";
 
 
-                        List<Entity> taikhoannganhang = RetrieveMultiRecord(service, "new_taikhoannganhang",
-                            new ColumnSet(new string[] { "new_sotaikhoan", "new_giaodichchinh" }),
-                            KH.LogicalName == "contact" ? "new_khachhang" : "new_khachhangdoanhnghiep", KH.Id);
+                        //List<Entity> taikhoannganhang = RetrieveMultiRecord(service, "new_taikhoannganhang",
+                        //    new ColumnSet(new string[] { "new_sotaikhoan", "new_giaodichchinh" }),
+                        //    KH.LogicalName == "contact" ? "new_khachhang" : "new_khachhangdoanhnghiep", KH.Id);
 
-                        Entity taikhoanchinh = null;
+                        //Entity taikhoanchinh = null;
 
-                        foreach (Entity en in taikhoannganhang)
-                        {
-                            if ((bool)en["new_giaodichchinh"] == true)
-                                taikhoanchinh = en;
-                        }
+                        //foreach (Entity en in taikhoannganhang)
+                        //{
+                        //    if ((bool)en["new_giaodichchinh"] == true)
+                        //        taikhoanchinh = en;
+                        //}
 
                         Entity etl_entity = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
                         if (etl_entity != null && etl_entity.Contains("new_name"))
@@ -178,7 +178,18 @@ namespace PDNTamUng_ETLTranSaction
                         }
 
                         //paytamung["new_supplierbankname"] = (taikhoanchinh == null ? "" : taikhoanchinh["new_sotaikhoan"]);
-                        paytamung["new_bankcccountnum"] = taikhoanchinh == null ? "CTXL-VND-0" : taikhoanchinh["new_sotaikhoan"];
+                        //paytamung["new_bankcccountnum"] = taikhoanchinh == null ? "CTXL-VND-0" : taikhoanchinh["new_sotaikhoan"];
+                        if (fullEntity.Contains("new_taikhoan"))
+                        {
+                            Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)fullEntity["new_taikhoan"]).Id, new ColumnSet(true));
+                            paytamung["new_bankcccountnum"] = taikhoanchinh["new_sotaikhoan"];
+                        }
+
+                        if (fullEntity.Contains("new_taikhoannganhangttcs"))
+                        {
+                            Entity taikhoanchinh = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)fullEntity["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
+                            paytamung["new_supplierbankname"] = taikhoanchinh["new_name"];
+                        }
 
                         paytamung["new_paymentamount"] = fullEntity["new_sotienung"];
                         paytamung["new_paymentdate"] = fullEntity["new_ngayduyet"];

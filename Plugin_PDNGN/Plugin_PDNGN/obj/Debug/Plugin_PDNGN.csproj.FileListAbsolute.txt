@@ -12,6 +12,6 @@ D:\Work\TTC\Projects\FRM\Plugin_PDNGN\Plugin_PDNGN\obj\Debug\Plugin_PDNGN.dll
 D:\Work\TTC\Projects\FRM\Plugin_PDNGN\Plugin_PDNGN\obj\Debug\Plugin_PDNGN.pdb
 D:\Work\TTC\Projects\FRM\FRM\Plugin_PDNGN\Plugin_PDNGN\bin\Debug\Plugin_PDNGN.dll
 D:\Work\TTC\Projects\FRM\FRM\Plugin_PDNGN\Plugin_PDNGN\bin\Debug\Plugin_PDNGN.pdb
-D:\Work\TTC\Projects\FRM\FRM\Plugin_PDNGN\Plugin_PDNGN\obj\Debug\Plugin_PDNGN.csprojResolveAssemblyReference.cache
 D:\Work\TTC\Projects\FRM\FRM\Plugin_PDNGN\Plugin_PDNGN\obj\Debug\Plugin_PDNGN.dll
 D:\Work\TTC\Projects\FRM\FRM\Plugin_PDNGN\Plugin_PDNGN\obj\Debug\Plugin_PDNGN.pdb
+D:\Work\TTC\Projects\FRM\FRM\Plugin_PDNGN\Plugin_PDNGN\obj\Debug\Plugin_PDNGN.csprojResolveAssemblyReference.cache
