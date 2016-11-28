@@ -17,6 +17,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
         private IOrganizationServiceFactory factory = null;
         ITracingService trace = null;
 
+        //change
         void IPlugin.Execute(IServiceProvider serviceProvider)
         {
             IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
