@@ -9,6 +9,8 @@ using System.Runtime.Serialization;
 using System.Messaging;
 using PbanBo_PhieuGiaoNhanHomGiong;
 
+//change
+
 namespace Plugin_CreatePBDT_PGNThuoc
 {
     public class Plugin_CreatePBDT_PGNThuoc : IPlugin
