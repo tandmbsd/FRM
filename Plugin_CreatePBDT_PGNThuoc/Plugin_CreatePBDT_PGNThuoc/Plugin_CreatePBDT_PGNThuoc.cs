@@ -28,7 +28,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
             Entity target = (Entity)context.InputParameters["Target"];
             if (target.Contains("statuscode") && ((OptionSetValue)target["statuscode"]).Value == 100000000) // da duyệt
             {
-                //own me
+                //frm
                 Entity fullEntity = (Entity)context.PostEntityImages["PostImg"];
                 Entity Vudautu = service.Retrieve("new_vudautu", ((EntityReference)fullEntity["new_vudautu"]).Id, new ColumnSet(new string[] { "new_mavudautu" }));
                 var lsVuThuHoach = RetrieveMultiRecord(service, "new_vuthuhoach", new ColumnSet(true), "new_vudautu", ((EntityReference)fullEntity["new_vudautu"]).Id);
