@@ -9,6 +9,8 @@ using System.Runtime.Serialization;
 using System.Messaging;
 using PbanBo_PhieuGiaoNhanHomGiong;
 
+//change
+
 namespace Plugin_CreatePBDT_PGNThuoc
 {
     public class Plugin_CreatePBDT_PGNThuoc : IPlugin
@@ -17,7 +19,6 @@ namespace Plugin_CreatePBDT_PGNThuoc
         private IOrganizationServiceFactory factory = null;
         ITracingService trace = null;
 
-        //change
         void IPlugin.Execute(IServiceProvider serviceProvider)
         {
             IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
