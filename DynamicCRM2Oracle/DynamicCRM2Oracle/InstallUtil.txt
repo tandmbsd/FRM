@@ -1,0 +1,2 @@
+﻿installutil /ServiceName=DynamicCRM2Oracle <SERVICE_FOLDER_PATH>\DynamicCRM2Oracle.exe
+installutil /u /ServiceName=DynamicCRM2Oracle <SERVICE_FOLDER_PATH>\DynamicCRM2Oracle.exe

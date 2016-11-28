@@ -1,0 +1,4 @@
+C:\Users\7506113\Desktop\FRM_Plugin\New_Plugin\Plugin_ChangStatusHDOnThamDinh\bin\Debug\Plugin_ChangStatusHDOnThamDinh.dll
+C:\Users\7506113\Desktop\FRM_Plugin\New_Plugin\Plugin_ChangStatusHDOnThamDinh\bin\Debug\Plugin_ChangStatusHDOnThamDinh.pdb
+C:\Users\7506113\Desktop\FRM_Plugin\New_Plugin\Plugin_ChangStatusHDOnThamDinh\obj\Debug\Plugin_ChangStatusHDOnThamDinh.dll
+C:\Users\7506113\Desktop\FRM_Plugin\New_Plugin\Plugin_ChangStatusHDOnThamDinh\obj\Debug\Plugin_ChangStatusHDOnThamDinh.pdb

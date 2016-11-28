@@ -1,0 +1,43 @@
+E:\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+E:\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+E:\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Microsoft.Xrm.Sdk.dll
+E:\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
+E:\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+E:\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+E:\CRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+E:\CRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+E:\CRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+E:\CRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+E:\CRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+E:\hpthang\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+E:\hpthang\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+E:\hpthang\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
+E:\hpthang\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+E:\hpthang\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+D:\Work\TTC\Ref\Transaction ETL\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+D:\Work\TTC\Ref\Transaction ETL\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+D:\Work\TTC\Ref\Transaction ETL\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Ref\Transaction ETL\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+D:\Work\TTC\Ref\Transaction ETL\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Microsoft.Xrm.Sdk.dll
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Microsoft.Xrm.Sdk.dll
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb

@@ -1,0 +1,5 @@
+C:\Users\7506113\Desktop\New folder (2)\MappingLeadtoContact\bin\Debug\MappingLeadtoContact.dll
+C:\Users\7506113\Desktop\New folder (2)\MappingLeadtoContact\bin\Debug\MappingLeadtoContact.pdb
+C:\Users\7506113\Desktop\New folder (2)\MappingLeadtoContact\obj\Debug\MappingLeadtoContact.dll
+C:\Users\7506113\Desktop\New folder (2)\MappingLeadtoContact\obj\Debug\MappingLeadtoContact.pdb
+C:\Users\7506113\Desktop\New folder (2)\MappingLeadtoContact\obj\Debug\MappingLeadtoContact.csprojResolveAssemblyReference.cache

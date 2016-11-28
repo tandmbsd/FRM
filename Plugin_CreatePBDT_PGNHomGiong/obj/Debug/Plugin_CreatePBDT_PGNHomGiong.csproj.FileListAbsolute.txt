@@ -1,0 +1,25 @@
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Plugin_CreatePBDT_PGNHomGiong.dll
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Plugin_CreatePBDT_PGNHomGiong.pdb
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Microsoft.Crm.Sdk.Proxy.dll
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Microsoft.Xrm.Sdk.dll
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.dll
+D:\Work\TTC\Projects\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.pdb
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.csprojResolveAssemblyReference.cache
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.dll
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.pdb
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Plugin_CreatePBDT_PGNHomGiong.dll
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Plugin_CreatePBDT_PGNHomGiong.pdb
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Microsoft.Crm.Sdk.Proxy.xml
+C:\Users\Mr Duy\AppData\Roaming\Skype\My Skype Received Files\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Microsoft.Xrm.Sdk.xml
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Plugin_CreatePBDT_PGNHomGiong.dll
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Plugin_CreatePBDT_PGNHomGiong.pdb
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.dll
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.pdb
+D:\Work\TTC\Projects\FRM\Duy_1124\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Plugin_CreatePBDT_PGNHomGiong.dll
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Plugin_CreatePBDT_PGNHomGiong.pdb
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Microsoft.Crm.Sdk.Proxy.dll
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNHomGiong\bin\Debug\Microsoft.Xrm.Sdk.dll
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.dll
+D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNHomGiong\obj\Debug\Plugin_CreatePBDT_PGNHomGiong.pdb
