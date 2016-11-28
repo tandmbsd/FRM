@@ -23,7 +23,7 @@ namespace Plugin_CreateETL_PDNThanhToan
 
             Entity target = (Entity)context.InputParameters["Target"];
 
-            if (target.Contains("statuscode") && (((OptionSetValue)target["statuscode"]).Value == 100000000 || ((OptionSetValue)target["new_loaithanhtoan"]).Value == 100000003)) // da duyet
+            if (target.Contains("statuscode") && (((OptionSetValue)target["statuscode"]).Value == 100000000)) // da duyet
             {
                 Entity fullEntity = (Entity)context.PostEntityImages["PostImg"];
                 Entity Vudautu = service.Retrieve("new_vudautu", ((EntityReference)fullEntity["new_vudautu"]).Id, new ColumnSet(new string[] { "new_mavudautu" }));
@@ -158,7 +158,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                         etl_PhaiTraSTA["new_invoicedate"] = fullEntity["new_ngaylapphieu"];// lay ngay nghiem thu (ngay thuc hien)
                         etl_PhaiTraSTA["new_descriptionheader"] = "Thanh toán dịch vụ_vụ_" + vuMua;
                         etl_PhaiTraSTA["new_terms"] = "Tra Ngay";
-                        etl_PhaiTraSTA["new_taxtype"] = "";                        
+                        etl_PhaiTraSTA["new_taxtype"] = "";
                         etl_PhaiTraSTA["new_paymentnum"] = 1;
                         // tong tien chi tiet thanh toan
                         etl_PhaiTraSTA["new_invoiceamount"] = new Money(((Money)fullEntity["new_tongtienthanhtoan"]).Value);// tong tien de nghi thanh toan
@@ -318,7 +318,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                     etl_ND["new_taxtype"] = "";
                                     // tong tien chi tiet thanh toan
                                     etl_ND["new_invoiceamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
-                                    etl_ND["new_gldate"] = phieuDNThuNo["new_ngayduyet"]; // ngay duyet phieu nghiem thu
+                                    etl_ND["new_gldate"] = phieuDNThuNo["new_ngaythu"]; // ngay duyet phieu nghiem thu
                                     etl_ND["new_invoicetype"] = "CRE";
                                     //if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
                                     //{
@@ -446,7 +446,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                         :
                         ((KH.Contains("new_makhachhang") ? KH["new_makhachhang"].ToString() : "") + "_" + (KH.Contains("new_masothue") ? KH["new_masothue"].ToString() : ""))
                         );
-                    
+
                     etl_PhaiTraSTA["new_suppliernumber"] = KH["new_makhachhang"].ToString();
                     etl_PhaiTraSTA["new_suppliersite"] = "TAY NINH";
                     etl_PhaiTraSTA["new_invoicedate"] = fullEntity["new_ngaylapphieu"];// lay ngay nghiem thu (ngay thuc hien)
@@ -662,7 +662,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                     etl_ND["new_taxtype"] = "";
                                     // tong tien chi tiet thanh toan
                                     etl_ND["new_invoiceamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
-                                    etl_ND["new_gldate"] = phieuDNThuNo["new_ngayduyet"]; // ngay duyet phieu nghiem thu
+                                    etl_ND["new_gldate"] = phieuDNThuNo["new_ngaythu"]; // ngay duyet phieu nghiem thu
                                     etl_ND["new_invoicetype"] = "CRE";
                                     //if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
                                     //{
@@ -1289,7 +1289,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                     etl_ND["new_taxtype"] = "";
                                     // tong tien chi tiet thanh toan
                                     etl_ND["new_invoiceamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
-                                    etl_ND["new_gldate"] = phieuDNThuNo["new_ngayduyet"]; // ngay duyet phieu nghiem thu
+                                    etl_ND["new_gldate"] = phieuDNThuNo["new_ngaythu"]; // ngay duyet phieu nghiem thu
                                     etl_ND["new_invoicetype"] = "CRE";
                                     //if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
                                     //{

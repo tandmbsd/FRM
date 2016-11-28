@@ -17,7 +17,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
         private IOrganizationService service = null;
         private IOrganizationServiceFactory factory = null;
         ITracingService trace = null;
-        
+
         void IPlugin.Execute(IServiceProvider serviceProvider)
         {
             IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
@@ -88,7 +88,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     etl_ND["new_suppliernumber"] = KH["new_makhachhang"].ToString();
                     etl_ND["new_suppliersite"] = "TAY NINH";
                     etl_ND["new_invoicedate"] = fullEntity["new_ngaylapphieu"];
-                    etl_ND["new_descriptionheader"] = "Ghi nợ nhận thuốc";
+                    etl_ND["new_descriptionheader"] = "Ghi nợ nhận thuốc_vụ_" + vuMua;
                     etl_ND["new_terms"] = "Tra Ngay";
                     etl_ND["new_taxtype"] = "";
                     etl_ND["new_invoiceamount"] = new Money(((Money)fullEntity["new_tongsotienhl"]).Value * (-1));
@@ -111,7 +111,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     Send(etl_ND);
                     //gen phân bổ đầu tư
                     #region begin
-                    //GenPhanBoDauTuHL(target, etl_NDID);
+                    GenPhanBoDauTuHL(target, etl_NDID);
                     #endregion
 
                     #endregion
@@ -122,7 +122,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     #region begin
                     //tạo credit
                     Entity etl_ND = new Entity("new_etltransaction");
-                    etl_ND["new_name"] = fullEntity["new_masophieu"].ToString() + "_CRE" + "_KHL"+test;
+                    etl_ND["new_name"] = fullEntity["new_masophieu"].ToString() + "_CRE" + "_KHL" + test;
                     etl_ND["new_vouchernumber"] = "DTND";
                     etl_ND["new_transactiontype"] = "3.2.2.a";
                     etl_ND["new_customertype"] = new OptionSetValue(fullEntity.Contains("new_khachhang") ? 1 : 2);
@@ -139,7 +139,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     etl_ND["new_suppliernumber"] = KH["new_makhachhang"].ToString();
                     etl_ND["new_suppliersite"] = "TAY NINH";
                     etl_ND["new_invoicedate"] = fullEntity["new_ngaylapphieu"];
-                    etl_ND["new_descriptionheader"] = "Ghi nợ nhận thuốc";
+                    etl_ND["new_descriptionheader"] = "Ghi nợ nhận thuốc_vụ_" + vuMua;
                     etl_ND["new_terms"] = "Tra Ngay";
                     etl_ND["new_taxtype"] = "";
                     etl_ND["new_invoiceamount"] = new Money(((Money)fullEntity["new_tongsotienkhl"]).Value * (-1));
@@ -163,7 +163,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
 
                     //gen phân bổ đầu tư
                     #region begin
-                    //GenPhanBoDauTuKHL(target, etl_NDID);
+                    GenPhanBoDauTuKHL(target, etl_NDID);
                     #endregion
 
                     // STA
@@ -185,7 +185,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
 
                     etl_STA["new_suppliersite"] = "TAY NINH";
                     etl_STA["new_invoicedate"] = fullEntity["new_ngaynhanthuoc"];
-                    etl_STA["new_descriptionheader"] = "Giao nhận thuốc";
+                    etl_STA["new_descriptionheader"] = "Giao nhận thuốc_vụ_" + vuMua;
                     etl_STA["new_terms"] = "Tra Ngay";
                     etl_STA["new_taxtype"] = "";
                     etl_STA["new_invoiceamount"] = (Money)fullEntity["new_tongsotienkhl"];
@@ -212,26 +212,26 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     //apply_PGNPhanbon["new_documentsequence"] = value++;
                     apply_PGNhomgiong_CRE["new_suppliersitecode"] = "Tây Ninh";
 
-                    if (KH.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)KH["new_phuongthucthanhtoan"]).Value == 100000001)
-                    {
-                        List<Entity> taikhoannganhang = RetrieveMultiRecord(service, "new_taikhoannganhang",
-                            new ColumnSet(new string[] { "new_sotaikhoan", "new_giaodichchinh" }),
-                            KH.LogicalName == "contact" ? "new_khachhang" : "new_khachhangdoanhnghiep", KH.Id);
+                    //if (KH.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)KH["new_phuongthucthanhtoan"]).Value == 100000001)
+                    //{
+                    //    List<Entity> taikhoannganhang = RetrieveMultiRecord(service, "new_taikhoannganhang",
+                    //        new ColumnSet(new string[] { "new_sotaikhoan", "new_giaodichchinh" }),
+                    //        KH.LogicalName == "contact" ? "new_khachhang" : "new_khachhangdoanhnghiep", KH.Id);
 
-                        Entity taikhoanchinh = null;
+                    //    Entity taikhoanchinh = null;
 
-                        foreach (Entity en in taikhoannganhang)
-                        {
-                            if ((bool)en["new_giaodichchinh"] == true)
-                                taikhoanchinh = en;
-                        }
+                    //    foreach (Entity en in taikhoannganhang)
+                    //    {
+                    //        if ((bool)en["new_giaodichchinh"] == true)
+                    //            taikhoanchinh = en;
+                    //    }
 
-                        apply_PGNhomgiong_CRE["new_bankcccountnum"] = (taikhoanchinh == null ? "CTXL-VND-0" : taikhoanchinh["new_sotaikhoan"]);
-                    }
-                    else
-                    {
-                        apply_PGNhomgiong_CRE["new_bankcccountnum"] = "CTXL-VND-0";
-                    }
+                    //    apply_PGNhomgiong_CRE["new_bankcccountnum"] = (taikhoanchinh == null ? "CTXL-VND-0" : taikhoanchinh["new_sotaikhoan"]);
+                    //}
+                    //else
+                    //{
+                    apply_PGNhomgiong_CRE["new_bankcccountnum"] = "CTXL-VND-0";
+                    //}
 
                     Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
                     if (etl_entityCRE != null && etl_entityCRE.Contains("new_name"))
@@ -269,27 +269,27 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     //apply_PGNPhanbon["new_documentsequence"] = value++;
                     apply_PGNhomgiong_STA["new_suppliersitecode"] = "Tây Ninh";
 
-                    if (KH.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)KH["new_phuongthucthanhtoan"]).Value == 100000001)
-                    {
-                        List<Entity> taikhoannganhang = RetrieveMultiRecord(service, "new_taikhoannganhang",
-                            new ColumnSet(new string[] { "new_sotaikhoan", "new_giaodichchinh" }),
-                            KH.LogicalName == "contact" ? "new_khachhang" : "new_khachhangdoanhnghiep", KH.Id);
+                    //if (KH.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)KH["new_phuongthucthanhtoan"]).Value == 100000001)
+                    //{
+                    //    List<Entity> taikhoannganhang = RetrieveMultiRecord(service, "new_taikhoannganhang",
+                    //        new ColumnSet(new string[] { "new_sotaikhoan", "new_giaodichchinh" }),
+                    //        KH.LogicalName == "contact" ? "new_khachhang" : "new_khachhangdoanhnghiep", KH.Id);
 
-                        Entity taikhoanchinh = null;
+                    //    Entity taikhoanchinh = null;
 
-                        foreach (Entity en in taikhoannganhang)
-                        {
-                            if ((bool)en["new_giaodichchinh"] == true)
-                                taikhoanchinh = en;
-                        }
+                    //    foreach (Entity en in taikhoannganhang)
+                    //    {
+                    //        if ((bool)en["new_giaodichchinh"] == true)
+                    //            taikhoanchinh = en;
+                    //    }
 
-                        //apply_PGNhomgiong_STA["new_supplierbankname"] = (taikhoanchinh == null ? "" : taikhoanchinh["new_sotaikhoan"]);
-                        apply_PGNhomgiong_STA["new_bankcccountnum"] = (taikhoanchinh == null ? "CTXL-VND-0" : taikhoanchinh["new_sotaikhoan"]);
-                    }
-                    else
-                    {
-                        apply_PGNhomgiong_STA["new_bankcccountnum"] = "CTXL-VND-0";
-                    }
+                    //    //apply_PGNhomgiong_STA["new_supplierbankname"] = (taikhoanchinh == null ? "" : taikhoanchinh["new_sotaikhoan"]);
+                    //    apply_PGNhomgiong_STA["new_bankcccountnum"] = (taikhoanchinh == null ? "CTXL-VND-0" : taikhoanchinh["new_sotaikhoan"]);
+                    //}
+                    //else
+                    //{
+                    apply_PGNhomgiong_STA["new_bankcccountnum"] = "CTXL-VND-0";
+                    //}
 
                     Entity etl_entitySTA = service.Retrieve("new_etltransaction", etl_STAID, new ColumnSet(new string[] { "new_name" }));
                     if (etl_entitySTA != null && etl_entitySTA.Contains("new_name"))
