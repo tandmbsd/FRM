@@ -337,7 +337,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             Entity etl_BenPhaiTraSTA = new Entity("new_etltransaction");
                             etl_BenPhaiTraSTA["new_name"] = fullEntity["new_masophieu"].ToString() + "_STA_NongTruong_KHL";
                             etl_BenPhaiTraSTA["new_vouchernumber"] = "GSND";
-                            etl_BenPhaiTraSTA["new_transactiontype"] = "----";
+                            etl_BenPhaiTraSTA["new_transactiontype"] = "3.1.3.a";
                             etl_BenPhaiTraSTA["new_customertype"] = new OptionSetValue(fullEntity.Contains("new_khachhang") ? 1 : 2);
                             etl_BenPhaiTraSTA["new_season"] = vuMua;//Vudautu["new_mavudautu"].ToString();
                             //etl_STA["new_vudautu"] = fullEntity["new_vudautu"];
@@ -429,7 +429,6 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             #endregion
                             #endregion
                         }
-
                     }
                     else if (((OptionSetValue)fullEntity["new_loaigiaonhanhom"]).Value == 100000001) //Nong dan - nong dan
                     {
