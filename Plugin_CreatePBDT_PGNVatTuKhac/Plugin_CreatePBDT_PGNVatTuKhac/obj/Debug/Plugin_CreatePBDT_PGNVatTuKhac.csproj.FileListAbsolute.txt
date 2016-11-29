@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 E:\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Plugin_CreatePBDT_PGNVatTuKhac.dll
 E:\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Plugin_CreatePBDT_PGNVatTuKhac.pdb
 E:\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Microsoft.Xrm.Sdk.dll
@@ -18,3 +19,11 @@ D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PG
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\obj\Debug\Plugin_CreatePBDT_PGNVatTuKhac.csprojResolveAssemblyReference.cache
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\obj\Debug\Plugin_CreatePBDT_PGNVatTuKhac.dll
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\obj\Debug\Plugin_CreatePBDT_PGNVatTuKhac.pdb
+=======
+D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Plugin_CreatePBDT_PGNVatTuKhac.dll
+D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Plugin_CreatePBDT_PGNVatTuKhac.pdb
+D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Microsoft.Xrm.Sdk.dll
+D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Microsoft.Xrm.Sdk.xml
+D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\obj\Debug\Plugin_CreatePBDT_PGNVatTuKhac.dll
+D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\obj\Debug\Plugin_CreatePBDT_PGNVatTuKhac.pdb
+>>>>>>> 8e4cadc4bb30ad28ce987ac484f5d64a9f778163
