@@ -783,7 +783,6 @@ namespace Plugin_CreatePBDT_PGNHomGiong
             }
         }
 
-
         List<Entity> RetrieveMultiRecord(IOrganizationService crmservices, string entity, ColumnSet column, string condition, object value)
         {
             QueryExpression q = new QueryExpression(entity);
@@ -848,10 +847,10 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                 ((EntityReference)phieugiaonhan["new_hopdongdautumia"]).Id, new ColumnSet(new string[] { "new_masohopdong" }));
 
             if (phieugiaonhan.Contains("new_khachhang"))
-                KH = service.Retrieve("contact", ((EntityReference)phieugiaonhan["new_khachhang"]).Id, new ColumnSet(true));
+                KH = service.Retrieve("contact", ((EntityReference)phieugiaonhan["new_khachhang"]).Id, new ColumnSet(new string[] { "fullname" }));
 
             else if (phieugiaonhan.Contains("new_khachhangdoanhnghiep"))
-                KH = service.Retrieve("account", ((EntityReference)phieugiaonhan["new_khachhangdoanhnghiep"]).Id, new ColumnSet(true));
+                KH = service.Retrieve("account", ((EntityReference)phieugiaonhan["new_khachhangdoanhnghiep"]).Id, new ColumnSet(new string[] { "name" }));
 
             if (KH == null)
                 throw new Exception("Phiếu giao nhận không có khách hàng");
@@ -1218,10 +1217,10 @@ namespace Plugin_CreatePBDT_PGNHomGiong
             qbangLai.Criteria.AddCondition(new ConditionExpression("new_mucdichdautu", ConditionOperator.Equal, mucdichdautu));
             qbangLai.AddOrder("new_ngayapdung", OrderType.Ascending);
             EntityCollection bls = service.RetrieveMultiple(qbangLai);
-            Entity kq = null;
+            //Entity kq = null;
             decimal result = 0;
             int n = bls.Entities.Count;
-
+            trace.Trace(n.ToString());
             for (int i = 0; i < n; i++)
             {
                 Entity q = bls[i];
@@ -1229,18 +1228,21 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                 DateTime dt = (DateTime)q["new_ngayapdung"];
                 if (n == 1 && CompareDate(ngaygiaonhan, dt) == 0)
                 {
+                    trace.Trace("A");
                     result = (decimal)q["new_phantramlaisuat"];
                     break;
                 }
                 else if (n > 1 && CompareDate(ngaygiaonhan, dt) < 0)
                 {
+                    trace.Trace("B");
                     result = (decimal)bls[i - 1]["new_phantramlaisuat"];
                     break;
                 }
-
-                if (i == n - 1)
+                else if (i == n - 1)
                 {
-                    result = (decimal)bls[i - 1]["new_phantramlaisuat"];
+                    trace.Trace("C");
+                    result = (decimal)bls[(i > 0 ? i : 1) - 1]["new_phantramlaisuat"];
+                    break;
                 }
             }
 
