@@ -880,6 +880,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                 else if (i == n - 1)
                 {
                     trace.Trace("C");
+                    
                     result = (decimal)bls[(i > 0 ? i : 1) - 1]["new_phantramlaisuat"];
                     break;
                 }

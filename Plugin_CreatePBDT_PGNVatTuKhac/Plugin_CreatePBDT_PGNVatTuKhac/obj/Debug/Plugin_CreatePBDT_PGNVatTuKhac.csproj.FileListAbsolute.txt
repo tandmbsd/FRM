@@ -2,6 +2,5 @@ D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Deb
 D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Plugin_CreatePBDT_PGNVatTuKhac.pdb
 D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Microsoft.Xrm.Sdk.dll
 D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\bin\Debug\Microsoft.Xrm.Sdk.xml
-D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\obj\Debug\Plugin_CreatePBDT_PGNVatTuKhac.csprojResolveAssemblyReference.cache
 D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\obj\Debug\Plugin_CreatePBDT_PGNVatTuKhac.dll
 D:\FRM\FRM\Plugin_CreatePBDT_PGNVatTuKhac\Plugin_CreatePBDT_PGNVatTuKhac\obj\Debug\Plugin_CreatePBDT_PGNVatTuKhac.pdb

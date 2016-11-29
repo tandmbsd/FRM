@@ -26,7 +26,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
             trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
 
             Entity target = (Entity)context.InputParameters["Target"];
-            bool flag = false;
+            trace.Trace("a");
 
             if (target.Contains("statuscode") && ((OptionSetValue)target["statuscode"]).Value == 100000000) // da duyệt
             {
@@ -41,7 +41,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 }
 
                 string test = "";
-
+                trace.Trace("b");
                 Entity HDMia = service.Retrieve("new_hopdongdautumia", ((EntityReference)fullEntity["new_hopdongdautumia"]).Id, new ColumnSet(new string[] { "new_masohopdong" }));
                 Entity KH = null;
                 if (fullEntity.Contains("new_khachhang"))
@@ -58,18 +58,19 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 if (!fullEntity.Contains("new_masophieu"))
                     throw new Exception("Phiếu giao nhận không có mã số phiếu");
 
-                if (!fullEntity.Contains("new_ngayduyet"))
-                    throw new Exception("Phiếu giao nhận không có ngày duyệt");
+                if (!fullEntity.Contains("new_ngaylapphieu"))
+                    throw new Exception("Phiếu giao nhận không có ngày lập phiếu");
 
                 QueryExpression q1 = new QueryExpression("new_chitietgiaonhanvattu");
                 q1.ColumnSet = new ColumnSet(true);
                 q1.Criteria.AddCondition(new ConditionExpression("new_phieugiaonhanvattu", ConditionOperator.Equal, target.Id));
                 q1.Criteria.AddCondition(new ConditionExpression("statecode", ConditionOperator.Equal, 0));
                 EntityCollection dsChiTietGN = service.RetrieveMultiple(q1);
-
+                trace.Trace("c");
                 //Ghi nợ hoàn lại.
                 if (fullEntity.Contains("new_tongsotienhl") && ((Money)fullEntity["new_tongsotienhl"]).Value > 0)
                 {
+                    trace.Trace("d");
                     //gen ETL transaction
                     #region begin
 
@@ -96,7 +97,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     etl_ND["new_terms"] = "Tra Ngay";
                     etl_ND["new_taxtype"] = "";
                     etl_ND["new_invoiceamount"] = new Money(((Money)fullEntity["new_tongsotienhl"]).Value * (-1));
-                    etl_ND["new_gldate"] = fullEntity["new_ngaynhanthuoc"];
+                    etl_ND["new_gldate"] = fullEntity["new_ngaynhanvattu"];
                     etl_ND["new_invoicetype"] = "CRE";
 
                     if (fullEntity.Contains("new_khachhang"))
@@ -119,10 +120,12 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     #endregion
 
                     #endregion
+                    trace.Trace("abc");
                 }
 
                 if (fullEntity.Contains("new_tongsotienkhl") && ((Money)fullEntity["new_tongsotienkhl"]).Value > 0)
                 {
+                    trace.Trace("e");
                     #region begin
                     //tạo credit
                     Entity etl_ND = new Entity("new_etltransaction");
@@ -147,7 +150,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     etl_ND["new_terms"] = "Tra Ngay";
                     etl_ND["new_taxtype"] = "";
                     etl_ND["new_invoiceamount"] = new Money(((Money)fullEntity["new_tongsotienkhl"]).Value * (-1));
-                    etl_ND["new_gldate"] = fullEntity["new_ngaynhanthuoc"];
+                    etl_ND["new_gldate"] = fullEntity["new_ngaynhanvattu"];
                     etl_ND["new_invoicetype"] = "CRE";
 
                     if (fullEntity.Contains("new_khachhang"))
@@ -390,14 +393,11 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
             decimal sotien, Guid etlID, int type, Entity tram, Entity cbnv, DateTime ngaygiaonhan,
             Entity pgnvt, string sophieu)
         {
-            bool colai = false;
+            trace.Trace("start pbdt");
             Entity thuadatcanhtac = service.Retrieve("new_thuadatcanhtac", tdct,
                 new ColumnSet(new string[] { "new_laisuat", "new_name", "new_loailaisuat", "new_dachikhonghoanlai_vattukhac", "new_dachihoanlai_vattukhac" }));
 
-            int loailaisuat = ((OptionSetValue)thuadatcanhtac["new_loailaisuat"]).Value;
-
-            if (!thuadatcanhtac.Contains("new_laisuat"))
-                throw new Exception(thuadatcanhtac["new_name"].ToString() + " không có lãi suất");
+            int loailaisuat = ((OptionSetValue)thuadatcanhtac["new_loailaisuat"]).Value;            
 
             // type = 1 - hl , type = 2 - khl
             if (sotien > 0)
@@ -460,7 +460,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 phanbodautuKHL["new_laisuat"] = Getlaisuat(vudautu, 100000000, ngaygiaonhan);
 
                 service.Create(phanbodautuKHL);
-
+                trace.Trace("Created pbdt");
                 #endregion phan bo KHL
             }
         }
@@ -478,6 +478,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
 
         public void GenPhanBoDauTuKHL(Entity target, Guid etlID)
         {
+            trace.Trace("gen khl");
             int type = 0;
             Entity phieugiaonhan = service.Retrieve(target.LogicalName, target.Id,
                     new ColumnSet(new string[] { "new_hopdongdautumia", "new_khachhang",
@@ -485,26 +486,26 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                         "new_ngaynhanvattu","new_tram","new_canbonongvu","new_masophieu" }));
 
             string sophieu = phieugiaonhan.Contains("new_masophieu") ? (string)phieugiaonhan["new_masophieu"] : "";
-
+            trace.Trace("1");
             if (!phieugiaonhan.Contains("new_ngaynhanvattu"))
                 throw new Exception("Phiếu giao nhận không có ngày lập phiếu");
 
             if (!phieugiaonhan.Contains("new_phieudangkyvattu"))
                 throw new Exception("Phiếu giao nhận không có phiếu đăng ký vật tư");
-
+            trace.Trace("1");
             Entity tram = null;
             Entity cbnv = null;
 
             if (phieugiaonhan.Contains("new_tram"))
                 tram = service.Retrieve("businessunit", ((EntityReference)phieugiaonhan["new_tram"]).Id,
                     new ColumnSet(new string[] { "businessunitid" }));
-
+            trace.Trace("1");
             if (phieugiaonhan.Contains("new_canbonongvu"))
                 cbnv = service.Retrieve("new_kiemsoatvien", ((EntityReference)phieugiaonhan["new_canbonongvu"]).Id,
                     new ColumnSet(new string[] { "new_kiemsoatvienid" }));
-
+            trace.Trace("1");
             List<Entity> lstChitietPGNHM = RetrieveMultiRecord(service, "new_chitietgiaonhanvattu",
-                    new ColumnSet(new string[] { "new_sotienhl", "new_sotienkhl" }),
+                    new ColumnSet(new string[] { "new_sotienhl", "new_sotienkhl","new_ngaynhan" }),
                     "new_phieugiaonhanvattu", phieugiaonhan.Id);
 
             EntityCollection entcChitiet = RetrieveNNRecord(service, "new_thuadatcanhtac", "new_phieugiaonhanvattu",
@@ -519,7 +520,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
 
             if (entcChitiet.Entities.Count == 0)
                 return;
-
+            trace.Trace("1");
             // error
             Entity KH = null;
 
@@ -537,7 +538,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
 
             if (KH == null)
                 throw new Exception("Phiếu giao nhận vật tư không có khách hàng");
-
+            trace.Trace("1");
             Dictionary<Guid, DinhMuc> dtDinhMuc = new Dictionary<Guid, DinhMuc>();
             foreach (Entity en in lstThoai)
             {
@@ -586,7 +587,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 decimal phanbokhonghoanlai = giaingan.Contains("new_sotienkhl") ? ((Money)giaingan["new_sotienkhl"]).Value : new decimal(0);
                 decimal phanbohoanlai = giaingan.Contains("new_sotienhl") ? ((Money)giaingan["new_sotienhl"]).Value : new decimal(0);
                 DateTime ngaynhan = (DateTime)giaingan["new_ngaynhan"];
-
+                trace.Trace("1");
                 int i = 0;
                 foreach (Guid key in dtDinhMuc.Keys)
                 {
@@ -636,6 +637,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
 
         public void GenPhanBoDauTuHL(Entity target, Guid etlID)
         {
+            trace.Trace("gen hl");
             int type = 0;
             Entity phieugiaonhan = service.Retrieve(target.LogicalName, target.Id,
                     new ColumnSet(new string[] { "new_hopdongdautumia", "new_khachhang",
@@ -739,6 +741,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
 
             foreach (Entity giaingan in lstChitietPGNHM) // vong lap giai ngan
             {
+                trace.Trace("start chi tiet");
                 decimal phanbokhonghoanlai = giaingan.Contains("new_sotienkhl") ? ((Money)giaingan["new_sotienkhl"]).Value : new decimal(0);
                 decimal phanbohoanlai = giaingan.Contains("new_sotienhl") ? ((Money)giaingan["new_sotienhl"]).Value : new decimal(0);
                 DateTime ngaynhan = (DateTime)giaingan["new_ngaynhan"];
@@ -765,11 +768,13 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
 
                 foreach (Guid key in dtTungthua.Keys)
                 {
+                    trace.Trace("3" + dtTungthua.Keys.Count.ToString());
                     List<Tylethuhoivon> lstTylethuhoivon = dtTyleThuhoi[key];
                     decimal dinhmuc = dtTungthua[key];
 
                     foreach (Tylethuhoivon a in lstTylethuhoivon)
                     {
+                        trace.Trace("10");
                         Entity tilethuhoivon = service.Retrieve("new_tylethuhoivondukien", a.tylethuhoiid,
                                 new ColumnSet(new string[] { "new_sotienthuhoi", "new_tiendaphanbo" }));
                         decimal tiendaphanbo = tilethuhoivon.Contains("new_tiendaphanbo") ?
@@ -781,7 +786,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                             CreatePBDT(hddtmia, KH, key, vudautu.ToEntityReference(), a.vuthuhoi, dinhmuc,
                         etlID, type = 2, tram, cbnv, ngaynhan, phieugiaonhan, sophieu);
                             tiendaphanbo = tiendaphanbo + dinhmuc;
-
+                            trace.Trace("7");
                             break;
                         }
                         else if (dinhmuc > a.sotien - a.daphanbo)
@@ -790,13 +795,18 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                         etlID, type = 2, tram, cbnv, ngaynhan, phieugiaonhan, sophieu);
                             tiendaphanbo = tiendaphanbo + sotienphanbo;
                             dinhmuc = dinhmuc - sotienphanbo;
+                            trace.Trace("8");
                         }
-
+                        trace.Trace(tilethuhoivon == null ? "nul" : "nn" + tiendaphanbo.ToString());
                         tilethuhoivon["new_tiendaphanbo"] = new Money(tiendaphanbo);
+                        trace.Trace("updated ti le thu hoi von");
                         //service.Update(tilethuhoivon);
                     }
+                    trace.Trace("4");
                 }
+                trace.Trace("end chi tiet");
             }
+            trace.Trace("end hl");
         }
 
         public static string Serialize(object obj)
@@ -833,8 +843,13 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle");
 
             Message m = new Message();
-            m.Body = Serialize(tmp);
-            m.Label = "cust";
+            if (tmp != null)
+            {
+                m.Body = Serialize(tmp);
+                m.Label = "invo";
+            }
+            else
+                m.Label = "brek";
             mq.Send(m);
         }
 
@@ -883,8 +898,8 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 }
                 else if (i == n - 1)
                 {
-                    trace.Trace("C");
-                    result = (decimal)bls[(i > 0 ? i : 1) - 1]["new_phantramlaisuat"];
+                    trace.Trace("C");                    
+                    result = (decimal)bls[(i > 0 ? i : 1) - 1]["new_phantramlaisuat"];                    
                     break;
                 }
             }
