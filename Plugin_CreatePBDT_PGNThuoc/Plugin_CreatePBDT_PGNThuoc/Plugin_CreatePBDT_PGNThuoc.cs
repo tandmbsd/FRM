@@ -849,8 +849,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
             QueryExpression qbangLai = new QueryExpression("new_banglaisuatthaydoi");
             qbangLai.ColumnSet = new ColumnSet(new string[] { "new_name", "new_ngayapdung", "new_phantramlaisuat" });
             qbangLai.Criteria = new FilterExpression(LogicalOperator.And);
-            //qbangLai.Criteria.AddCondition(new ConditionExpression("new_chinhsachdautu", ConditionOperator.Equal,
-            //    ((EntityReference)thuacanhtac["new_chinhsachdautu"]).Id));
+            
             qbangLai.Criteria.AddCondition(new ConditionExpression("statecode", ConditionOperator.Equal, 0));
             qbangLai.Criteria.AddCondition(new ConditionExpression("new_vudautuapdung", ConditionOperator.Equal, vudautu.Id));
             qbangLai.Criteria.AddCondition(new ConditionExpression("new_mucdichdautu", ConditionOperator.Equal, mucdichdautu));
