@@ -139,7 +139,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                     etl_ND["new_suppliernumber"] = KH["new_makhachhang"].ToString();
                     etl_ND["new_suppliersite"] = "TAY NINH";
                     etl_ND["new_invoicedate"] = fullEntity["new_ngaylapphieu"];
-                    etl_ND["new_descriptionheader"] = "Ghi nợ nhận phân bón";
+                    etl_ND["new_descriptionheader"] = "Ghi nợ nhận phân bón_vụ_" + vuMua;
                     etl_ND["new_terms"] = "Tra Ngay";
                     etl_ND["new_taxtype"] = "";
                     etl_ND["new_invoiceamount"] = new Money(((Money)fullEntity["new_tongsotienkhl"]).Value * (-1));
@@ -184,7 +184,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
 
                     etl_STA["new_suppliersite"] = "TAY NINH";
                     etl_STA["new_invoicedate"] = fullEntity["new_ngaynhan"];
-                    etl_STA["new_descriptionheader"] = "Giao nhận phân bón";
+                    etl_STA["new_descriptionheader"] = "Giao nhận phân bón_vụ_" + vuMua;
                     etl_STA["new_terms"] = "Tra Ngay";
                     etl_STA["new_taxtype"] = "";
                     etl_STA["new_invoiceamount"] = (Money)fullEntity["new_tongsotienkhl"];
