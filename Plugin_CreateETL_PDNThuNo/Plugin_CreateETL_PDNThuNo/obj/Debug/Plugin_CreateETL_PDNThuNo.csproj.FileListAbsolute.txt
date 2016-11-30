@@ -11,3 +11,7 @@ D:\Work\TTC\Projects\FRM\Plugin_CreateETL_PDNThuNo\Plugin_CreateETL_PDNThuNo\bin
 D:\Work\TTC\Projects\FRM\Plugin_CreateETL_PDNThuNo\Plugin_CreateETL_PDNThuNo\obj\Debug\Plugin_CreateETL_PDNThuNo.dll
 D:\Work\TTC\Projects\FRM\Plugin_CreateETL_PDNThuNo\Plugin_CreateETL_PDNThuNo\obj\Debug\Plugin_CreateETL_PDNThuNo.pdb
 D:\Work\TTC\Projects\FRM\Plugin_CreateETL_PDNThuNo\Plugin_CreateETL_PDNThuNo\obj\Debug\Plugin_CreateETL_PDNThuNo.csprojResolveAssemblyReference.cache
+D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThuNo\Plugin_CreateETL_PDNThuNo\bin\Debug\Plugin_CreateETL_PDNThuNo.dll
+D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThuNo\Plugin_CreateETL_PDNThuNo\bin\Debug\Plugin_CreateETL_PDNThuNo.pdb
+D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThuNo\Plugin_CreateETL_PDNThuNo\obj\Debug\Plugin_CreateETL_PDNThuNo.dll
+D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThuNo\Plugin_CreateETL_PDNThuNo\obj\Debug\Plugin_CreateETL_PDNThuNo.pdb

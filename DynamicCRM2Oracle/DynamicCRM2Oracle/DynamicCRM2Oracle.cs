@@ -138,11 +138,13 @@ namespace DynamicCRM2Oracle
                 bool co = true;
                 while (co)
                 {
+                    #region Start while
                     try
                     {
+                        #region Start try
                         Console.WriteLine("waiting get...");
                         Cursor cursor = mq.CreateCursor();
-                        Message m = mq.Peek(new TimeSpan(99999999999), cursor, PeekAction.Current);
+                        Message m = mq.Peek(MessageQueue.InfiniteTimeout, cursor, PeekAction.Current);
                         Console.WriteLine("get 1 message: " + m.Label);
 
                         if (m.Label == "cust") //insert customer
@@ -178,7 +180,7 @@ namespace DynamicCRM2Oracle
                                 {
                                     try
                                     {
-                                        Message m2 = mq.Peek(new TimeSpan(99999999999), cursor, PeekAction.Next);
+                                        Message m2 = mq.Peek(MessageQueue.InfiniteTimeout, cursor, PeekAction.Next);
                                         Console.WriteLine("get 1 sub message: " + m2.Label);
                                         if (m2.Label == "brek")
                                         {
@@ -221,14 +223,15 @@ namespace DynamicCRM2Oracle
                                 Console.ReadLine();
                             }
                         }
+                        #endregion
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                         Console.WriteLine(ex.StackTrace);
                         Console.ReadLine();
-
                     }
+                    #endregion
                 }
             }
         }
@@ -331,6 +334,12 @@ namespace DynamicCRM2Oracle
                     string cmnd = a.Contains("new_socmnd") ? a["new_socmnd"].ToString() : "";
                     string s1 = StringUtil.RemoveSign4VietnameseString(tenKh).ToUpper() + "_" + cmnd;
                     string maKH = (a.Contains("new_makhachhang") ? a["new_makhachhang"].ToString() : "");
+                    string invoiceNum = a.Contains("new_name") ? a["new_name"].ToString() : "";
+                    string lenhChi = "";
+                    if (!string.IsNullOrEmpty(invoiceNum) && invoiceNum.StartsWith("LC"))
+                    {
+                        lenhChi = invoiceNum.Split('_')[0];
+                    }
                     Console.WriteLine("maKH: " + maKH);
                     //string address = (a.Contains("new_diachithuongtru") ? ((EntityReference)a["new_diachithuongtru"]).Name : "");
 
@@ -373,8 +382,10 @@ namespace DynamicCRM2Oracle
                         "Invoice_Amount, " +//18
                         "Payment_Type, " +//19
                         "Description_Lines, " +//20
-                        "INVOICE_BATCH)" //21
-                        + " VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20, :21)", conn);
+                        "INVOICE_BATCH, " + //21
+                        "PAYMENT_NO, " + //22
+                        "PAYMENT_TYPE_DES)"//23
+                        + " VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20, :21, :22, :23)", conn);
                     cmd.Parameters.Add(new OracleParameter("1", OracleDbType.Varchar2, a.Contains("new_name") ? a["new_name"].ToString() : "", ParameterDirection.Input));//Invoice_Number
                     cmd.Parameters.Add(new OracleParameter("2", OracleDbType.Varchar2, tran_type, ParameterDirection.Input));//Invoice_Type_Des
                     cmd.Parameters.Add(new OracleParameter("3", OracleDbType.Varchar2, a.Contains("new_transactiontype") ? a["new_transactiontype"].ToString() : "", ParameterDirection.Input)); // Transaction_Type
@@ -399,7 +410,9 @@ namespace DynamicCRM2Oracle
                     cmd.Parameters.Add(new OracleParameter("19", OracleDbType.Varchar2, a.Contains("new_paymenttype") ? a["new_paymenttype"].ToString() : "", ParameterDirection.Input));//Payment_Type
                     cmd.Parameters.Add(new OracleParameter("20", OracleDbType.Varchar2, a.Contains("new_descriptionlines") ? a["new_descriptionlines"].ToString() : "", ParameterDirection.Input));//Description_Lines
 
-                    cmd.Parameters.Add(new OracleParameter("21", OracleDbType.Varchar2, "DT_CANTRU_2015", ParameterDirection.Input));//Description_Lines                    
+                    cmd.Parameters.Add(new OracleParameter("21", OracleDbType.Varchar2, "DT_CANTRU_2015", ParameterDirection.Input));//Description_Lines      
+                    cmd.Parameters.Add(new OracleParameter("22", OracleDbType.Varchar2, lenhChi, ParameterDirection.Input));
+                    cmd.Parameters.Add(new OracleParameter("23", OracleDbType.Varchar2, a.Contains("new_descriptionheader") ? a["new_descriptionheader"].ToString() : "", ParameterDirection.Input));
 
                     cmd.Transaction = trans;
                     cmd.ExecuteNonQuery();
