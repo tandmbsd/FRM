@@ -452,7 +452,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 phanbodautuKHL["new_sotien"] = new Money(sotien);
                 phanbodautuKHL["new_conlai"] = new Money(sotien);
                 phanbodautuKHL["new_tram"] = tram.ToEntityReference();
-                phanbodautuKHL["new_vbnv"] = cbnv.ToEntityReference();
+                phanbodautuKHL["new_cbnv"] = cbnv.ToEntityReference();
                 phanbodautuKHL["new_ngayphatsinh"] = ngaygiaonhan;
                 phanbodautuKHL["new_phieugiaonhanvattu"] = pgnvt.ToEntityReference();
                 phanbodautuKHL["new_loailaisuat"] = new OptionSetValue(loailaisuat);

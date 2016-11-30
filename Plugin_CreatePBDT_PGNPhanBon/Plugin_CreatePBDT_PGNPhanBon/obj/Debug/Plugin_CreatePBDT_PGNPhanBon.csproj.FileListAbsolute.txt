@@ -28,3 +28,8 @@ D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNP
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\obj\Debug\Plugin_CreatePBDT_PGNPhanBon.csprojResolveAssemblyReference.cache
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\obj\Debug\Plugin_CreatePBDT_PGNPhanBon.dll
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\obj\Debug\Plugin_CreatePBDT_PGNPhanBon.pdb
+D:\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\bin\Debug\Plugin_CreatePBDT_PGNPhanBon.dll
+D:\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\bin\Debug\Plugin_CreatePBDT_PGNPhanBon.pdb
+D:\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\obj\Debug\Plugin_CreatePBDT_PGNPhanBon.csprojResolveAssemblyReference.cache
+D:\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\obj\Debug\Plugin_CreatePBDT_PGNPhanBon.dll
+D:\FRM\FRM\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\obj\Debug\Plugin_CreatePBDT_PGNPhanBon.pdb
