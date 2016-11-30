@@ -249,7 +249,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                             apply_PGNhomgiong_CRE["new_paymentamount"] = new Money(((Money)fullEntity["new_tongsotienkhl"]).Value * (-1));
                             apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                            apply_PGNhomgiong_CRE["new_paymentdate"] = fullEntity["new_ngayduyet"];
+                            apply_PGNhomgiong_CRE["new_paymentdate"] = fullEntity["new_ngaynhan"];
                             apply_PGNhomgiong_CRE["new_paymentdocumentname"] = "CANTRU_03";
                             apply_PGNhomgiong_CRE["new_vouchernumber"] = "CTND";
                             apply_PGNhomgiong_CRE["new_cashflow"] = "00.00";
@@ -304,7 +304,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             //apply_PGNhomgiong_STA["new_name"] = "new_phieugiaonhanhomgiong";
                             apply_PGNhomgiong_STA["new_paymentamount"] = fullEntity["new_tongsotienkhl"];
                             apply_PGNhomgiong_STA["new_suppliernumber"] = KH["new_makhachhang"];
-                            apply_PGNhomgiong_STA["new_paymentdate"] = fullEntity["new_ngayduyet"];
+                            apply_PGNhomgiong_STA["new_paymentdate"] = fullEntity["new_ngaynhan"];
                             apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
                             apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
                             apply_PGNhomgiong_STA["new_cashflow"] = "00.00";
@@ -406,7 +406,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             //apply_PGNhomgiong_STA["new_name"] = "new_phieugiaonhanhomgiong";
                             apply_BenPhaiTraSTA["new_paymentamount"] = fullEntity["new_tongsotienkhl"];
                             apply_BenPhaiTraSTA["new_suppliernumber"] = KH["new_makhachhang"];
-                            apply_BenPhaiTraSTA["new_paymentdate"] = fullEntity["new_ngayduyet"];
+                            apply_BenPhaiTraSTA["new_paymentdate"] = fullEntity["new_ngaynhan"];
                             apply_BenPhaiTraSTA["new_paymentdocumentname"] = "CANTRU_03";
                             apply_BenPhaiTraSTA["new_vouchernumber"] = "CTND";
                             apply_BenPhaiTraSTA["new_cashflow"] = "00.00";
@@ -605,7 +605,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                             apply_PGNhomgiong_CRE["new_paymentamount"] = new Money(((Money)fullEntity["new_tongsotienkhl"]).Value * (-1));
                             apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                            apply_PGNhomgiong_CRE["new_paymentdate"] = fullEntity["new_ngayduyet"];
+                            apply_PGNhomgiong_CRE["new_paymentdate"] = fullEntity["new_ngaynhan"];
                             apply_PGNhomgiong_CRE["new_paymentdocumentname"] = "CANTRU_03";
                             apply_PGNhomgiong_CRE["new_vouchernumber"] = "CTND";
                             apply_PGNhomgiong_CRE["new_cashflow"] = "00.00";
@@ -660,7 +660,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             //apply_PGNhomgiong_STA["new_name"] = "new_phieugiaonhanhomgiong";
                             apply_PGNhomgiong_STA["new_paymentamount"] = fullEntity["new_tongsotienkhl"];
                             apply_PGNhomgiong_STA["new_suppliernumber"] = KH["new_makhachhang"];
-                            apply_PGNhomgiong_STA["new_paymentdate"] = fullEntity["new_ngayduyet"];
+                            apply_PGNhomgiong_STA["new_paymentdate"] = fullEntity["new_ngaynhan"];
                             apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
                             apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
                             apply_PGNhomgiong_STA["new_cashflow"] = "00.00";

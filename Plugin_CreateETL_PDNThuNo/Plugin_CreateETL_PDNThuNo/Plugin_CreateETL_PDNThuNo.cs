@@ -366,22 +366,22 @@ namespace Plugin_CreateETL_PDNThuNo
                                         );
                                     etl_ND["new_suppliernumber"] = khNongDan["new_makhachhang"].ToString();
                                     etl_ND["new_suppliersite"] = "TAY NINH";
-                                    etl_ND["new_invoicedate"] = phieuDNThuNo["new_ngaythu"];
+                                    etl_ND["new_invoicedate"] = phieuDNThuNo["new_ngaylapphieu"];
                                     etl_ND["new_descriptionheader"] = "Tiền lãi_vụ_" + vuMua;//vudautu["new_mavudautu"].ToString();
                                     etl_ND["new_terms"] = "Tra Ngay";
                                     etl_ND["new_taxtype"] = "";
                                     // tong tien chi tiet thanh toan
                                     etl_ND["new_invoiceamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
-                                    etl_ND["new_gldate"] = phieuDNThuNo["new_ngayduyet"]; // ngay duyet phieu nghiem thu
+                                    etl_ND["new_gldate"] = phieuDNThuNo["new_ngaythu"]; // ngay duyet phieu nghiem thu
                                     etl_ND["new_invoicetype"] = "CRE";
-                                    if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
-                                    {
-                                        etl_ND["new_paymenttype"] = "CK";
-                                    }
-                                    else
-                                    {
-                                        etl_ND["new_paymenttype"] = "TM";
-                                    }
+                                    //if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
+                                    //{
+                                    //    etl_ND["new_paymenttype"] = "CK";
+                                    //}
+                                    //else
+                                    //{
+                                    //    etl_ND["new_paymenttype"] = "TM";
+                                    //}
 
                                     if (phieuDNThuNo.Contains("new_khachhang"))
                                     {
@@ -453,14 +453,14 @@ namespace Plugin_CreateETL_PDNThuNo
                                     etlMix["new_terms"] = "Tra Ngay";
                                     etlMix["new_invoiceamount"] = new Money(((Money)etlTransaction["new_invoiceamount"]).Value * (-1)); ;
                                     etlMix["new_invoicetype"] = "MIX";
-                                    if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
-                                    {
-                                        etlMix["new_paymenttype"] = "CK";
-                                    }
-                                    else
-                                    {
-                                        etlMix["new_paymenttype"] = "TM";
-                                    }
+                                    //if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
+                                    //{
+                                    //    etlMix["new_paymenttype"] = "CK";
+                                    //}
+                                    //else
+                                    //{
+                                    //    etlMix["new_paymenttype"] = "TM";
+                                    //}
                                     etlMix["new_customertype"] = etlTransaction["new_customertype"];
                                     etlMix["new_season"] = vuMua;
                                     etlMix["new_sochungtu"] = etlTransaction["new_sochungtu"];

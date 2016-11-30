@@ -169,7 +169,7 @@ namespace Plugin_PDNGN
                             }
 
                             paytamung["new_paymentamount"] = PDNGN["new_sotiendthoanlai"];
-                            paytamung["new_paymentdate"] = PDNGN["new_ngayduyet"];
+                            paytamung["new_paymentdate"] = PDNGN["new_ngaydukienchi"];
                             paytamung["new_paymentdocumentname"] = "CANTRU_03";
                             paytamung["new_vouchernumber"] = "BN";
                             paytamung["new_cashflow"] = "00.00";
@@ -281,7 +281,7 @@ namespace Plugin_PDNGN
                             }
 
                             paytamung["new_paymentamount"] = PDNGN["new_sotiendtkhonghoanlai"];
-                            paytamung["new_paymentdate"] = PDNGN["new_ngayduyet"];
+                            paytamung["new_paymentdate"] = PDNGN["new_ngaydukienchi"];
                             paytamung["new_paymentdocumentname"] = "CANTRU_03";
                             paytamung["new_vouchernumber"] = "BN";
                             paytamung["new_cashflow"] = "00.00";

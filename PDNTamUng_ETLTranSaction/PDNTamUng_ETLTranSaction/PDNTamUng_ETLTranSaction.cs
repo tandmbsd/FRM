@@ -157,20 +157,7 @@ namespace PDNTamUng_ETLTranSaction
                         Entity paytamung = new Entity("new_applytransaction");
                         //apply_PGNPhanbon["new_documentsequence"] = value++;
                         paytamung["new_suppliersitecode"] = "Tây Ninh";
-
-
-                        //List<Entity> taikhoannganhang = RetrieveMultiRecord(service, "new_taikhoannganhang",
-                        //    new ColumnSet(new string[] { "new_sotaikhoan", "new_giaodichchinh" }),
-                        //    KH.LogicalName == "contact" ? "new_khachhang" : "new_khachhangdoanhnghiep", KH.Id);
-
-                        //Entity taikhoanchinh = null;
-
-                        //foreach (Entity en in taikhoannganhang)
-                        //{
-                        //    if ((bool)en["new_giaodichchinh"] == true)
-                        //        taikhoanchinh = en;
-                        //}
-
+                        
                         Entity etl_entity = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
                         if (etl_entity != null && etl_entity.Contains("new_name"))
                         {
