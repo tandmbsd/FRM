@@ -191,12 +191,12 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                         );
 
                     etl_STA["new_suppliersite"] = "TAY NINH";
-                    etl_STA["new_invoicedate"] = fullEntity["new_ngaynhanthuoc"];
+                    etl_STA["new_invoicedate"] = fullEntity["new_ngaylapphieu"];
                     etl_STA["new_descriptionheader"] = "Giao nhận vật tư khác_vụ_" + vuMua;
                     etl_STA["new_terms"] = "Tra Ngay";
                     etl_STA["new_taxtype"] = "";
                     etl_STA["new_invoiceamount"] = (Money)fullEntity["new_tongsotienkhl"];
-                    etl_STA["new_gldate"] = fullEntity["new_ngayduyet"];
+                    etl_STA["new_gldate"] = fullEntity["new_ngaynhanvattu"];
                     etl_STA["new_invoicetype"] = "STA";
 
                     if (fullEntity.Contains("new_khachhang"))
@@ -240,7 +240,8 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     apply_PGNhomgiong_CRE["new_bankcccountnum"] = "CTXL-VND-0";
                     //}
 
-                    Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
+                    Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID,
+                        new ColumnSet(new string[] { "new_name" }));
                     if (etl_entityCRE != null && etl_entityCRE.Contains("new_name"))
                     {
                         apply_PGNhomgiong_CRE["new_name"] = (string)etl_entityCRE["new_name"];
@@ -249,7 +250,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                     apply_PGNhomgiong_CRE["new_paymentamount"] = new Money(((Money)fullEntity["new_tongsotienkhl"]).Value * (-1));
                     //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                    apply_PGNhomgiong_CRE["new_paymentdate"] = fullEntity["new_ngaynhanthuoc"];
+                    apply_PGNhomgiong_CRE["new_paymentdate"] = fullEntity["new_ngaynhanvattu"];
                     apply_PGNhomgiong_CRE["new_paymentdocumentname"] = "CANTRU_03";
                     apply_PGNhomgiong_CRE["new_vouchernumber"] = "CTND";
                     apply_PGNhomgiong_CRE["new_cashflow"] = "00.00";
@@ -306,7 +307,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     //apply_PGNhomgiong_STA["new_name"] = "new_phieugiaonhanhomgiong";
                     apply_PGNhomgiong_STA["new_paymentamount"] = fullEntity["new_tongsotienkhl"];
                     //apply_PGNhomgiong_STA["new_suppliernumber"] = KH["new_makhachhang"];
-                    apply_PGNhomgiong_STA["new_paymentdate"] = fullEntity["new_ngaynhanthuoc"];
+                    apply_PGNhomgiong_STA["new_paymentdate"] = fullEntity["new_ngaynhanvattu"];
                     apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
                     apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
                     apply_PGNhomgiong_STA["new_cashflow"] = "00.00";
@@ -606,21 +607,23 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
 
                     if (!chitiet.Contains("new_chinhsachdautu"))
                         throw new Exception(chitiet["new_name"].ToString() + " không có chính sách đầu tư");
-
+                    trace.Trace("a");
                     Entity CSDT = service.Retrieve("new_chinhsachdautu", ((EntityReference)chitiet["new_chinhsachdautu"]).Id,
                         new ColumnSet(new string[] { "new_new_thoihanthuhoivon_khl", "new_machinhsach" }));
-
+                    trace.Trace("b");
                     int sonamthuhoiKHL = CSDT.Contains("new_new_thoihanthuhoivon_khl") ? (int)CSDT["new_new_thoihanthuhoivon_khl"] : 0;
+                    trace.Trace("c");
                     decimal sotienphanboKHL = 0;
-
+                    trace.Trace("c1");
                     if (sonamthuhoiKHL != 0)
                         sotienphanboKHL = sotien / sonamthuhoiKHL;
                     else
                         return;
-
-                    List<Entity> lst = RetrieveVudautu().Entities.OrderBy(p => p.GetAttributeValue<DateTime>("new_ngaybatdau")).ToList<Entity>();
+                    
+                    List<Entity> lst = RetrieveVudautu().Entities.OrderBy(p => p.Contains("new_ngaybatdau") ? p.GetAttributeValue<DateTime>("new_ngaybatdau") : DateTime.Now).ToList<Entity>();
+                    trace.Trace("d");
                     int curr = lst.FindIndex(p => p.Id == vudautu.Id);
-
+                    trace.Trace("e");
                     for (int k = 0; k < sonamthuhoiKHL; k++)
                     {
                         Entity vudaututhuhoi = lst[curr++];
