@@ -234,7 +234,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             apply_PGNhomgiong_CRE["new_vouchernumber"] = "CTND";
                             apply_PGNhomgiong_CRE["new_cashflow"] = "00.00";
                             apply_PGNhomgiong_CRE["new_paymentnum"] = "1";
-                            apply_PGNhomgiong_CRE["new_referencenumber"] = fullEntity["new_masophieu"].ToString() + "_" + apply_PGNhomgiong_CRE["new_name"];
+                            apply_PGNhomgiong_CRE["new_referencenumber"] = fullEntity["new_masophieu"].ToString();
                             apply_PGNhomgiong_CRE["new_documentnum"] = fullEntity["new_masophieu"].ToString();
                             apply_PGNhomgiong_CRE["new_documentsequence"] = fullEntity["new_lannhan"];
 
@@ -268,7 +268,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
                             apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
                             apply_PGNhomgiong_STA["new_cashflow"] = "00.00";
-                            apply_PGNhomgiong_STA["new_referencenumber"] = fullEntity["new_masophieu"].ToString() + "_" + apply_PGNhomgiong_STA["new_name"];
+                            apply_PGNhomgiong_STA["new_referencenumber"] = fullEntity["new_masophieu"].ToString();
                             apply_PGNhomgiong_STA["new_paymentnum"] = "1";
                             apply_PGNhomgiong_STA["new_documentnum"] = fullEntity["new_masophieu"].ToString();
 
@@ -448,7 +448,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             apply_PGNhomgiong_CRE["new_vouchernumber"] = "CTND";
                             apply_PGNhomgiong_CRE["new_cashflow"] = "00.00";
                             apply_PGNhomgiong_CRE["new_paymentnum"] = "1";
-                            apply_PGNhomgiong_CRE["new_referencenumber"] = fullEntity["new_masophieu"].ToString() + "_" + apply_PGNhomgiong_CRE["new_name"];
+                            apply_PGNhomgiong_CRE["new_referencenumber"] = fullEntity["new_masophieu"].ToString();
                             apply_PGNhomgiong_CRE["new_documentnum"] = fullEntity["new_masophieu"].ToString();
                             apply_PGNhomgiong_CRE["new_documentsequence"] = fullEntity["new_lannhan"];
 
@@ -482,7 +482,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
                             apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
                             apply_PGNhomgiong_STA["new_cashflow"] = "00.00";
-                            apply_PGNhomgiong_STA["new_referencenumber"] = fullEntity["new_masophieu"].ToString() + "_" + apply_PGNhomgiong_STA["new_name"];
+                            apply_PGNhomgiong_STA["new_referencenumber"] = fullEntity["new_masophieu"].ToString();
                             apply_PGNhomgiong_STA["new_paymentnum"] = "1";
                             apply_PGNhomgiong_STA["new_documentnum"] = fullEntity["new_masophieu"].ToString();
 
@@ -508,7 +508,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                 Send(null);
 
             }
-            throw new Exception("sa");
+            //throw new Exception("sa");
         }
 
         EntityCollection RetrieveNNRecord(IOrganizationService crmservices, string entity1, string entity2, string relateName, ColumnSet column, string condition, object value)

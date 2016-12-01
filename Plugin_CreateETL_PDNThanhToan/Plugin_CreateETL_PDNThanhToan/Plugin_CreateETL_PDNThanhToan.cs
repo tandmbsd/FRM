@@ -186,8 +186,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                         }
 
                         apply_PhaiTraSTA["new_suppliersitecode"] = "Tây Ninh";
-
-                        apply_PhaiTraSTA["new_supplierbankname"] = "CTXL-VND-0";
+                        apply_PhaiTraSTA["new_bankcccountnum"] = "CTXL-VND-0";
 
                         //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                         apply_PhaiTraSTA["new_paymentamount"] = new Money(((Money)fullEntity["new_sotienconlai"]).Value);
@@ -261,7 +260,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                                 apply_CanTruTienNoGoc["new_name"] = (string)etl_entity["new_name"];
                                             }
                                             apply_CanTruTienNoGoc["new_suppliersitecode"] = "Tây Ninh";
-                                            apply_CanTruTienNoGoc["new_supplierbankname"] = "CTXL-VND-0";
+                                            apply_CanTruTienNoGoc["new_bankcccountnum"] = "CTXL-VND-0";
 
                                             apply_CanTruTienNoGoc["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                             apply_CanTruTienNoGoc["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value);
@@ -300,10 +299,10 @@ namespace Plugin_CreateETL_PDNThanhToan
                                             {
                                                 apply_PhaiTraCanTruPRE["new_name"] = (string)etlTransaction["new_name"];
                                             }
+                                            apply_PhaiTraCanTruPRE["new_bankcccountnum"] = "CTXL-VND-0";
                                         }
 
                                         apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";
-                                        apply_PhaiTraCanTruPRE["new_supplierbankname"] = "CTXL-VND-0";
                                         apply_PhaiTraCanTruPRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                         apply_PhaiTraCanTruPRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
                                         apply_PhaiTraCanTruPRE["new_paymentdocumentname"] = "CANTRU_03";
@@ -401,7 +400,7 @@ namespace Plugin_CreateETL_PDNThanhToan
 
                                     apply_PhaiTraCanTruCRE["new_suppliersitecode"] = "Tây Ninh";
 
-                                    apply_PhaiTraCanTruCRE["new_supplierbankname"] = "CTXL-VND-0";
+                                    apply_PhaiTraCanTruCRE["new_bankcccountnum"] = "CTXL-VND-0";
 
                                     apply_PhaiTraCanTruCRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
 
@@ -436,7 +435,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         apply_CanTruTienNoGoc["new_name"] = (string)etl_entity["new_name"];
                                     }
                                     apply_CanTruTienNoGoc["new_suppliersitecode"] = "Tây Ninh";
-                                    apply_CanTruTienNoGoc["new_supplierbankname"] = "CTXL-VND-0";
+                                    apply_CanTruTienNoGoc["new_bankcccountnum"] = "CTXL-VND-0";
 
                                     apply_CanTruTienNoGoc["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                     apply_CanTruTienNoGoc["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value);
@@ -527,11 +526,11 @@ namespace Plugin_CreateETL_PDNThanhToan
                         //apply_PGNPhanbon["new_documentsequence"] = value++;
                         apply_STA["new_suppliersitecode"] = "Tây Ninh";
 
-                        if (fullEntity.Contains("new_taikhoan"))
-                        {
-                            var taiKhoan = service.Retrieve("new_taikhoannganhang", ((EntityReference)fullEntity["new_taikhoan"]).Id, new ColumnSet(true));
-                            apply_STA["new_supplierbankname"] = taiKhoan["new_sotaikhoan"];
-                        }
+                        //if (fullEntity.Contains("new_taikhoan"))
+                        //{
+                        //    var taiKhoan = service.Retrieve("new_taikhoannganhang", ((EntityReference)fullEntity["new_taikhoan"]).Id, new ColumnSet(true));
+                        //    apply_STA["new_supplierbankname"] = taiKhoan["new_sotaikhoan"];
+                        //}
 
                         if (fullEntity.Contains("new_taikhoannganhangttcs"))
                         {
@@ -617,7 +616,7 @@ namespace Plugin_CreateETL_PDNThanhToan
 
                                             apply_CanTruTienNoGoc["new_suppliersitecode"] = "Tây Ninh";
 
-                                            apply_CanTruTienNoGoc["new_supplierbankname"] = "CTXL-VND-0";
+                                            apply_CanTruTienNoGoc["new_bankcccountnum"] = "CTXL-VND-0";
 
                                             apply_CanTruTienNoGoc["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                             apply_CanTruTienNoGoc["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value);
@@ -656,10 +655,10 @@ namespace Plugin_CreateETL_PDNThanhToan
                                             {
                                                 apply_PhaiTraCanTruPRE["new_name"] = (string)etlTransaction["new_name"];
                                             }
+                                            apply_PhaiTraCanTruPRE["new_bankcccountnum"] = "CTXL-VND-0";
                                         }
 
                                         apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";
-                                        apply_PhaiTraCanTruPRE["new_supplierbankname"] = "CTXL-VND-0";
                                         apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
                                         apply_PhaiTraCanTruPRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                         apply_PhaiTraCanTruPRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
@@ -768,7 +767,7 @@ namespace Plugin_CreateETL_PDNThanhToan
 
                                     apply_PhaiTraCanTruCRE["new_suppliersitecode"] = "Tây Ninh";
 
-                                    apply_PhaiTraCanTruCRE["new_supplierbankname"] = "CTXL-VND-0";
+                                    apply_PhaiTraCanTruCRE["new_bankcccountnum"] = "CTXL-VND-0";
 
                                     //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                                     apply_PhaiTraCanTruCRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
@@ -806,7 +805,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         apply_CanTruTienNoGoc["new_name"] = (string)etl_entity["new_name"];
                                     }
                                     apply_CanTruTienNoGoc["new_suppliersitecode"] = "Tây Ninh";
-                                    apply_CanTruTienNoGoc["new_supplierbankname"] = "CTXL-VND-0";
+                                    apply_CanTruTienNoGoc["new_bankcccountnum"] = "CTXL-VND-0";
 
                                     apply_CanTruTienNoGoc["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                     apply_CanTruTienNoGoc["new_paymentamount"] = phieuTinhLai["new_tienlai"];
@@ -985,22 +984,20 @@ namespace Plugin_CreateETL_PDNThanhToan
 
                         apply_PhaiTraSTA["new_suppliersitecode"] = "Tây Ninh";
 
-                        if (fullEntity.Contains("new_taikhoan"))
-                        {
-                            var taiKhoan = service.Retrieve("new_taikhoannganhang", ((EntityReference)fullEntity["new_taikhoan"]).Id, new ColumnSet(true));
-                            apply_PhaiTraSTA["new_supplierbankname"] = taiKhoan["new_sotaikhoan"];
-                        }
+                        //if (fullEntity.Contains("new_taikhoan"))
+                        //{
+                        //    var taiKhoan = service.Retrieve("new_taikhoannganhang", ((EntityReference)fullEntity["new_taikhoan"]).Id, new ColumnSet(true));
+                        //    apply_PhaiTraSTA["new_supplierbankname"] = taiKhoan["new_sotaikhoan"];
+                        //}
 
                         if (fullEntity.Contains("new_taikhoannganhangttcs"))
                         {
                             var taiKhoan = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)fullEntity["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
                             apply_PhaiTraSTA["new_bankcccountnum"] = taiKhoan["new_name"];
                         }
-
                         //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                         apply_PhaiTraSTA["new_paymentamount"] = fullEntity["new_sotienconlai"];
 
-                        //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
                         apply_PhaiTraSTA["new_referencenumber"] = fullEntity["new_masophieu"].ToString() + "_" + apply_PhaiTraSTA["new_name"];
                         apply_PhaiTraSTA["new_paymentdate"] = fullEntity["new_ngayduyet"];
                         apply_PhaiTraSTA["new_paymentdocumentname"] = "CANTRU_03";
@@ -1167,7 +1164,7 @@ namespace Plugin_CreateETL_PDNThanhToan
 
                                             apply_CanTruTienNoGoc["new_suppliersitecode"] = "Tây Ninh";
 
-                                            apply_CanTruTienNoGoc["new_supplierbankname"] = "CTXL-VND-0";
+                                            apply_CanTruTienNoGoc["new_bankcccountnum"] = "CTXL-VND-0";
 
                                             apply_CanTruTienNoGoc["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                             apply_CanTruTienNoGoc["new_paymentamount"] = phieuTinhLai["new_tienvay"];
@@ -1207,9 +1204,9 @@ namespace Plugin_CreateETL_PDNThanhToan
                                             {
                                                 apply_PhaiTraCanTruPRE["new_name"] = (string)etlTransaction["new_name"];
                                             }
+                                            apply_PhaiTraCanTruPRE["new_bankcccountnum"] = "CTXL-VND-0";
                                         }
                                         apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";
-                                        apply_PhaiTraCanTruPRE["new_supplierbankname"] = "CTXL-VND-0";
                                         apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
                                         apply_PhaiTraCanTruPRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                         apply_PhaiTraCanTruPRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
@@ -1318,7 +1315,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                     }
 
                                     apply_PhaiTraCanTruCRE["new_suppliersitecode"] = "Tây Ninh";
-                                    apply_PhaiTraCanTruCRE["new_supplierbankname"] = "CTXL-VND-0";
+                                    apply_PhaiTraCanTruCRE["new_bankcccountnum"] = "CTXL-VND-0";
 
                                     //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                                     apply_PhaiTraCanTruCRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
@@ -1356,7 +1353,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         apply_CanTruTienNoGoc["new_name"] = (string)etl_entity["new_name"];
                                     }
                                     apply_CanTruTienNoGoc["new_suppliersitecode"] = "Tây Ninh";
-                                    apply_CanTruTienNoGoc["new_supplierbankname"] = "CTXL-VND-0";
+                                    apply_CanTruTienNoGoc["new_bankcccountnum"] = "CTXL-VND-0";
 
                                     apply_CanTruTienNoGoc["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + i.ToString();
                                     apply_CanTruTienNoGoc["new_paymentamount"] = phieuTinhLai["new_tienlai"];
