@@ -9,6 +9,7 @@ namespace PbanBo_PhieuGiaoNhanHomGiong
         public decimal sotien;
         public decimal daphanbo;
         public Guid tylethuhoiid;
+        public int namtaichinh;
 
         public Tylethuhoivon()
         {
@@ -16,13 +17,15 @@ namespace PbanBo_PhieuGiaoNhanHomGiong
             sotien = 0;
             daphanbo = 0;
             tylethuhoiid = Guid.Empty;
+            namtaichinh = 0;
         }
 
-        public Tylethuhoivon(EntityReference _namthuhoi, decimal _sotien, decimal _daphanbo)
+        public Tylethuhoivon(EntityReference _namthuhoi, decimal _sotien, decimal _daphanbo, int _namtaichinh)
         {
             vuthuhoi = _namthuhoi;
             sotien = _sotien;
             daphanbo = _daphanbo;
+            namtaichinh = _namtaichinh;
         }
     }
 }

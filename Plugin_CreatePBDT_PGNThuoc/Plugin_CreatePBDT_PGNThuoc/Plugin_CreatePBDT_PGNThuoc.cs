@@ -400,7 +400,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                 phanbodautuKHL["new_sotien"] = new Money(sotien);
                 phanbodautuKHL["new_conlai"] = new Money(sotien);
                 phanbodautuKHL["new_tram"] = tram.ToEntityReference();
-                phanbodautuKHL["new_vbnv"] = cbnv.ToEntityReference();
+                phanbodautuKHL["new_cbnv"] = cbnv.ToEntityReference();
                 phanbodautuKHL["new_ngayphatsinh"] = ngaygiaonhan;
                 phanbodautuKHL["new_loailaisuat"] = new OptionSetValue(loailaisuat);
                 phanbodautuKHL["new_mucdichdautu"] = new OptionSetValue(100000000);
