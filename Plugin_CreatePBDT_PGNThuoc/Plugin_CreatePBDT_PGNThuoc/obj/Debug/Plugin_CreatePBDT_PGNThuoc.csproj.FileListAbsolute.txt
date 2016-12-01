@@ -43,7 +43,6 @@ D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\o
 D:\Work\TTC\Projects\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
-D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.csprojResolveAssemblyReference.cache
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.dll
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\obj\Debug\Plugin_CreatePBDT_PGNThuoc.pdb
 D:\FRM\FRM\Plugin_CreatePBDT_PGNThuoc\Plugin_CreatePBDT_PGNThuoc\bin\Debug\Plugin_CreatePBDT_PGNThuoc.dll

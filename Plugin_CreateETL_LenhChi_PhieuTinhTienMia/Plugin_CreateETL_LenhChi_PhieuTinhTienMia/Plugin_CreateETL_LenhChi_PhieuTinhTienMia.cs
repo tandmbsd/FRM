@@ -81,7 +81,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                         khThuHoach = khNongDan;
 
                     hDMia = service.Retrieve("new_hopdongdautumia", ((EntityReference)phieuTTMia["new_hopdongdautumia"]).Id, new ColumnSet(new string[] { "new_masohopdong" }));
-                    
+
                     tamGiuNongDan = phieuTTMia.Contains("new_tamgiunongdan") ? ((Money)phieuTTMia["new_tamgiunongdan"]).Value : 0;
                     tamGiuThuHoach = phieuTTMia.Contains("new_tamgiuthuhoach") ? ((Money)phieuTTMia["new_tamgiuthuhoach"]).Value : 0;
                     tamGiuVanChuyen = phieuTTMia.Contains("new_tamgiuvanchuyen") ? ((Money)phieuTTMia["new_tamgiuvanchuyen"]).Value : 0;
@@ -152,14 +152,14 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                             apply_STAMia["new_suppliersitecode"] = "Tây Ninh";
 
                             Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)phieuTTMia["new_taikhoan"]).Id, new ColumnSet(true));
-                            apply_STAMia["new_bankcccountnum"] = taikhoanchinh["new_sotaikhoan"];
+                            apply_STAMia["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
 
                             Entity taiKhoanTTCS = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)phieuTTMia["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
-                            apply_STAMia["new_supplierbankname"] = taiKhoanTTCS["new_name"];
+                            apply_STAMia["new_bankcccountnum"] = taiKhoanTTCS["new_name"];
                             //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                             apply_STAMia["new_paymentamount"] = phieuTTMia["new_tienchichumia"];// new Money(tienMia);
 
-                            apply_STAMia["new_referencenumber"] = phieuTTMia["new_masophieu"].ToString();
+                            apply_STAMia["new_referencenumber"] = phieuTTMia["new_masophieu"].ToString() + "_" + apply_STAMia["new_name"];
                             apply_STAMia["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                             apply_STAMia["new_paymentdocumentname"] = "Tiền mía_vụ_" + vuMua;
                             apply_STAMia["new_vouchernumber"] = "BN";
@@ -631,19 +631,19 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                             {
                                 Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)khVanChuyen["new_taikhoannganhang"]).Id, new ColumnSet(true));
                                 //apply_STAVC["new_supplierbankname"] = (taikhoanchinh == null ? "TTCS-MIA-VND" : taikhoanchinh["new_sotaikhoan"]);
-                                apply_STAVC["new_bankcccountnum"] = (taikhoanchinh == null ? "TTCS-MIA-VND" : taikhoanchinh["new_sotaikhoan"]);
+                                apply_STAVC["new_supplierbankname"] = (taikhoanchinh == null ? "TTCS-MIA-VND" : taikhoanchinh["new_sotaikhoan"]);
                             }
 
                             if (khVanChuyen.Contains("new_taikhoannganhangttcs"))
                             {
                                 Entity taiKhoanTTCS = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)khVanChuyen["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
-                                apply_STAVC["new_supplierbankname"] = taiKhoanTTCS["new_name"];
+                                apply_STAVC["new_bankcccountnum"] = taiKhoanTTCS["new_name"];
                             }
 
                             //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                             apply_STAVC["new_paymentamount"] = (Money)phieuTTMia["new_tienchivanchuyen"];
                             //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                            apply_STAVC["new_referencenumber"] = phieuTTMia["new_masophieu"];
+                            apply_STAVC["new_referencenumber"] = phieuTTMia["new_masophieu"] + "_" + apply_STAVC["new_name"];
                             apply_STAVC["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                             apply_STAVC["new_paymentdocumentname"] = "Tiền vận chuyển (chủ xe)_vụ_" + vuMua;
                             apply_STAVC["new_vouchernumber"] = "BN";
@@ -680,7 +680,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                         apply_STACanTruTHVC["new_bankcccountnum"] = "CTXL-VND-0";
                         apply_STACanTruTHVC["new_paymentamount"] = (Money)phieuTTMia["new_tienxe"];
                         //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                        apply_STACanTruTHVC["new_referencenumber"] = phieuTTMia["new_masophieu"];
+                        apply_STACanTruTHVC["new_referencenumber"] = phieuTTMia["new_masophieu"] + "_" + apply_STACanTruTHVC["new_name"];
                         apply_STACanTruTHVC["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                         apply_STACanTruTHVC["new_vouchernumber"] = "BN";
                         apply_STACanTruTHVC["new_cashflow"] = "00.00";
@@ -761,7 +761,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                         apply_CREVC["new_paymentamount"] = new Money(((Money)phieuTTMia["new_tienxe"]).Value * (-1));
 
                         //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                        apply_CREVC["new_referencenumber"] = phieuTTMia["new_masophieu"];
+                        apply_CREVC["new_referencenumber"] = phieuTTMia["new_masophieu"] + "_" + apply_CREVC["new_name"];
                         apply_CREVC["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                         apply_CREVC["new_paymentdocumentname"] = "Thu hộ vận chuyển (chủ mía)_vụ_" + vuMua;
                         apply_CREVC["new_vouchernumber"] = "CTND";
@@ -1112,19 +1112,19 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                             {
                                 Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)khThuHoach["new_taikhoannganhang"]).Id, new ColumnSet(true));
                                 //apply_STAVC["new_supplierbankname"] = (taikhoanchinh == null ? "TTCS-MIA-VND" : taikhoanchinh["new_sotaikhoan"]);
-                                apply_STAVC["new_bankcccountnum"] = (taikhoanchinh == null ? "TTCS-MIA-VND" : taikhoanchinh["new_sotaikhoan"]);
+                                apply_STAVC["new_supplierbankname"] = (taikhoanchinh == null ? "TTCS-MIA-VND" : taikhoanchinh["new_sotaikhoan"]);
                             }
 
                             if (khThuHoach.Contains("new_taikhoannganhangttcs"))
                             {
                                 Entity taiKhoanTTCS = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)khThuHoach["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
-                                apply_STAVC["new_supplierbankname"] = taiKhoanTTCS["new_name"];
+                                apply_STAVC["new_bankcccountnum"] = taiKhoanTTCS["new_name"];
                             }
 
                             //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                             apply_STAVC["new_paymentamount"] = (Money)phieuTTMia["new_tienchidaucong"];
                             //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                            apply_STAVC["new_referencenumber"] = phieuTTMia["new_masophieu"];
+                            apply_STAVC["new_referencenumber"] = phieuTTMia["new_masophieu"] + "_" + apply_STAVC["new_name"];
                             apply_STAVC["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                             apply_STAVC["new_paymentdocumentname"] = "Tiền công đốn (đầu công)_vụ_" + vuMua;
                             apply_STAVC["new_vouchernumber"] = "BN";
@@ -1163,9 +1163,9 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                         apply_STACanTruTHCD["new_paymentamount"] = (Money)phieuTTMia["new_tiencongdon"];
 
                         //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                        apply_STACanTruTHCD["new_referencenumber"] = phieuTTMia["new_masophieu"];
+                        apply_STACanTruTHCD["new_referencenumber"] = phieuTTMia["new_masophieu"] + "_" + apply_STACanTruTHCD["new_name"];
                         apply_STACanTruTHCD["new_paymentdate"] = phieuTTMia["new_ngaylap"];
-                        apply_STACanTruTHCD["new_vouchernumber"] = "BN";
+                        apply_STACanTruTHCD["new_vouchernumber"] = "CTND";
                         apply_STACanTruTHCD["new_cashflow"] = "00.00";
                         apply_STACanTruTHCD["new_paymentnum"] = "1";
                         apply_STACanTruTHCD["new_documentnum"] = phieuTTMia["new_masophieu"].ToString();
@@ -1257,7 +1257,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                         apply_CRETH["new_paymentamount"] = new Money(((Money)phieuTTMia["new_tiencongdon"]).Value * (-1));
 
                         //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                        apply_CRETH["new_referencenumber"] = phieuTTMia["new_masophieu"];
+                        apply_CRETH["new_referencenumber"] = phieuTTMia["new_masophieu"] + "_" + apply_CRETH["new_name"];
                         apply_CRETH["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                         apply_CRETH["new_paymentdocumentname"] = "Thu hộ công đốn (chủ mía)_vụ_" + vuMua;
                         apply_CRETH["new_vouchernumber"] = "CTND";

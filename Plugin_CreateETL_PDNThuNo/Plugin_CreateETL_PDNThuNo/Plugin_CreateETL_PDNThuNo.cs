@@ -407,7 +407,7 @@ namespace Plugin_CreateETL_PDNThuNo
 
                                     apply_PayRefundCRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
 
-                                    apply_PayRefundCRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString();
+                                    apply_PayRefundCRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"].ToString() + "_" + apply_PayRefundCRE["new_name"];
                                     apply_PayRefundCRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
                                     apply_PayRefundCRE["new_paymentdocumentname"] = "CANTRU_04";
                                     apply_PayRefundCRE["new_vouchernumber"] = vouchernumber["new_name"];
@@ -485,7 +485,7 @@ namespace Plugin_CreateETL_PDNThuNo
 
                                     apply_PayRefundMix["new_paymentamount"] = new Money(sotien * (-1));
 
-                                    apply_PayRefundMix["new_referencenumber"] = phieuDNThuNo["new_masophieu"];
+                                    apply_PayRefundMix["new_referencenumber"] = phieuDNThuNo["new_masophieu"] + "_" + apply_PayRefundMix["new_name"];
                                     apply_PayRefundMix["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
                                     apply_PayRefundMix["new_paymentdocumentname"] = "CANTRU_04";
 
@@ -525,7 +525,7 @@ namespace Plugin_CreateETL_PDNThuNo
                                     apply_PayRefundCRE["new_paymentamount"] = new Money(sotien);
 
                                     //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                                    apply_PayRefundCRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"];
+                                    apply_PayRefundCRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"] + "_" + apply_PayRefundCRE["new_name"];
                                     apply_PayRefundCRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
                                     apply_PayRefundCRE["new_paymentdocumentname"] = "CANTRU_04";
 
