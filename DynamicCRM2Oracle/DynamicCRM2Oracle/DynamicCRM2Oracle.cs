@@ -442,8 +442,9 @@ namespace DynamicCRM2Oracle
                         "SUPPLIER_BANK_NUM, " +//15
                         "Reference_Num, " + //16
                         "Payment_num, " + //17
-                        "TYPE) "//18
-                        + " VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18)", conn);
+                        "TYPE, " +//18
+                        "PREPAY_NUM)"//19
+                        + " VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19)", conn);
                     cmd.Parameters.Add(new OracleParameter("1", OracleDbType.Varchar2, a.Id, ParameterDirection.Input));//ApplyId
                     cmd.Parameters.Add(new OracleParameter("2", OracleDbType.Varchar2, s1, ParameterDirection.Input));//Supplier_Name
                     cmd.Parameters.Add(new OracleParameter("3", OracleDbType.Varchar2, maKH, ParameterDirection.Input)); // FRM_Customer_ID
@@ -463,8 +464,9 @@ namespace DynamicCRM2Oracle
                     cmd.Parameters.Add(new OracleParameter("15", OracleDbType.Varchar2, a.Contains("new_supplierbankname") ? a["new_supplierbankname"].ToString() : "", ParameterDirection.Input));//Supplier_Bank_Name
 
                     cmd.Parameters.Add(new OracleParameter("16", OracleDbType.Varchar2, a.Contains("new_referencenumber") ? a["new_referencenumber"].ToString() : "", ParameterDirection.Input));//Reference_Num
-                    cmd.Parameters.Add(new OracleParameter("17", OracleDbType.Varchar2, "1", ParameterDirection.Input));//Reference_Num
+                    cmd.Parameters.Add(new OracleParameter("17", OracleDbType.Varchar2, a.Contains("new_paymentnum") ? a["new_paymentnum"].ToString() : "", ParameterDirection.Input));//Reference_Num
                     cmd.Parameters.Add(new OracleParameter("18", OracleDbType.Varchar2, a.Contains("new_type") ? a["new_type"].ToString() : "", ParameterDirection.Input));//Type
+                    cmd.Parameters.Add(new OracleParameter("19", OracleDbType.Varchar2, a.Contains("new_prepay_num") ? a["new_prepay_num"].ToString() : "", ParameterDirection.Input));//Type
 
                     cmd.Transaction = trans;
                     cmd.ExecuteNonQuery();

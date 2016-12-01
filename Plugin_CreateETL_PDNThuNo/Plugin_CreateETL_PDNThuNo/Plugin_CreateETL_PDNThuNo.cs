@@ -95,7 +95,7 @@ namespace Plugin_CreateETL_PDNThuNo
                     //    //apply_PhaiTraSTA["new_paymentdocumentname"] = "CANTRU_03";
                     //    //apply_PhaiTraSTA["new_vouchernumber"] = "CTND";
                     //    //apply_PhaiTraSTA["new_cashflow"] = "00.00";
-                    //    //apply_PhaiTraSTA["new_paymentnum"] = 1;
+                    //    //apply_PhaiTraSTA["new_paymentnum"] = "1";
                     //    //apply_PhaiTraSTA["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
                     //    //apply_PhaiTraSTA["new_documentsequence"] = "";// phieuDNThuNo["new_lannhan"];
 
@@ -165,7 +165,7 @@ namespace Plugin_CreateETL_PDNThuNo
                     //                    apply_PhaiTraCanTruPRE["new_paymentdocumentname"] = "CANTRU_04";
                     //                    apply_PhaiTraCanTruPRE["new_vouchernumber"] = "CTND";
                     //                    apply_PhaiTraCanTruPRE["new_cashflow"] = "00.00";
-                    //                    apply_PhaiTraCanTruPRE["new_paymentnum"] = 1;
+                    //                    apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                     //                    apply_PhaiTraCanTruPRE["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
                     //                    apply_PhaiTraCanTruPRE["new_documentsequence"] = phieuDNThuNo["new_lannhan"];
 
@@ -285,7 +285,7 @@ namespace Plugin_CreateETL_PDNThuNo
                     //                apply_PhaiTraCanTruCRE["new_paymentdocumentname"] = "CANTRU_04";
                     //                apply_PhaiTraCanTruCRE["new_vouchernumber"] = "CTND";
                     //                apply_PhaiTraCanTruCRE["new_cashflow"] = "00.00";
-                    //                apply_PhaiTraCanTruCRE["new_paymentnum"] = 1;
+                    //                apply_PhaiTraCanTruCRE["new_paymentnum"] = "1";
                     //                apply_PhaiTraCanTruCRE["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
                     //                apply_PhaiTraCanTruCRE["new_documentsequence"] = phieuDNThuNo["new_lannhan"];
 
@@ -374,14 +374,6 @@ namespace Plugin_CreateETL_PDNThuNo
                                     etl_ND["new_invoiceamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
                                     etl_ND["new_gldate"] = phieuDNThuNo["new_ngaythu"]; // ngay duyet phieu nghiem thu
                                     etl_ND["new_invoicetype"] = "CRE";
-                                    //if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
-                                    //{
-                                    //    etl_ND["new_paymenttype"] = "CK";
-                                    //}
-                                    //else
-                                    //{
-                                    //    etl_ND["new_paymenttype"] = "TM";
-                                    //}
 
                                     if (phieuDNThuNo.Contains("new_khachhang"))
                                     {
@@ -420,7 +412,7 @@ namespace Plugin_CreateETL_PDNThuNo
                                     apply_PayRefundCRE["new_paymentdocumentname"] = "CANTRU_04";
                                     apply_PayRefundCRE["new_vouchernumber"] = vouchernumber["new_name"];
                                     apply_PayRefundCRE["new_cashflow"] = cashFlow["new_name"];
-                                    apply_PayRefundCRE["new_paymentnum"] = 1;
+                                    apply_PayRefundCRE["new_paymentnum"] = "1";
                                     apply_PayRefundCRE["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
 
                                     if (phieuDNThuNo.Contains("new_khachhang"))
@@ -441,6 +433,7 @@ namespace Plugin_CreateETL_PDNThuNo
                                 #endregion
 
                                 Entity etlTransaction = service.Retrieve("new_etltransaction", ((EntityReference)phanBoDauTu["new_etltransaction"]).Id, new ColumnSet(true));
+                                var sotien = ((Money)etlTransaction["new_invoiceamount"]).Value > 0 ? ((Money)etlTransaction["new_invoiceamount"]).Value * (-1) : ((Money)etlTransaction["new_invoiceamount"]).Value;
                                 if (etlTransaction.Contains("new_invoicetype") && (etlTransaction["new_invoicetype"].ToString() == "PRE"))
                                 {
                                     #region Phat sinh MIX
@@ -448,19 +441,12 @@ namespace Plugin_CreateETL_PDNThuNo
                                     etlMix.Id = Guid.Empty;
                                     etlMix["new_name"] = phieuDNThuNo["new_masophieu"].ToString() + "_MIX_" + i.ToString();
                                     etlMix["new_transactiontype"] = "5.4.4.b";
-                                    etlMix["new_descriptionlines"] = "Phiếu đề nghị thu nợ tiền mặt theo NN";
+                                    etlMix["new_descriptionheader"] = "Phiếu đề nghị thu nợ tiền mặt theo NN";
                                     etlMix["new_vouchernumber"] = "GSND";
                                     etlMix["new_terms"] = "Tra Ngay";
-                                    etlMix["new_invoiceamount"] = new Money(((Money)etlTransaction["new_invoiceamount"]).Value * (-1)); ;
+                                    etlMix["new_invoiceamount"] = new Money(sotien);
                                     etlMix["new_invoicetype"] = "MIX";
-                                    //if (phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"]).Value == 100000001)
-                                    //{
-                                    //    etlMix["new_paymenttype"] = "CK";
-                                    //}
-                                    //else
-                                    //{
-                                    //    etlMix["new_paymenttype"] = "TM";
-                                    //}
+
                                     etlMix["new_customertype"] = etlTransaction["new_customertype"];
                                     etlMix["new_season"] = vuMua;
                                     etlMix["new_sochungtu"] = etlTransaction["new_sochungtu"];
@@ -468,9 +454,9 @@ namespace Plugin_CreateETL_PDNThuNo
                                     etlMix["new_tradingpartner"] = etlTransaction["new_tradingpartner"];
                                     etlMix["new_suppliernumber"] = etlTransaction["new_suppliernumber"];
                                     etlMix["new_suppliersite"] = "TAY NINH";
-                                    etlMix["new_invoicedate"] = etlTransaction["new_invoicedate"];
+                                    etlMix["new_invoicedate"] = phieuDNThuNo["new_ngaylapphieu"];// etlTransaction["new_invoicedate"];
                                     etlMix["new_taxtype"] = "";
-                                    etlMix["new_gldate"] = etlTransaction["new_gldate"]; // ngay duyet phieu nghiem thu
+                                    etlMix["new_gldate"] = phieuDNThuNo["new_ngaythu"]; // ngay duyet phieu nghiem thu
 
                                     if (phieuDNThuNo.Contains("new_khachhang"))
                                     {
@@ -492,16 +478,12 @@ namespace Plugin_CreateETL_PDNThuNo
                                     #endregion
 
                                     #region App PayRefund
-
                                     Entity apply_PayRefundMix = new Entity("new_applytransaction");
-
                                     apply_PayRefundMix["new_name"] = (string)etlMix["new_name"];
-
                                     apply_PayRefundMix["new_suppliersitecode"] = "Tây Ninh";
-
                                     apply_PayRefundMix["new_bankcccountnum"] = bankAccount["new_name"];
 
-                                    apply_PayRefundMix["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
+                                    apply_PayRefundMix["new_paymentamount"] = new Money(sotien * (-1));
 
                                     apply_PayRefundMix["new_referencenumber"] = phieuDNThuNo["new_masophieu"];
                                     apply_PayRefundMix["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
@@ -509,7 +491,8 @@ namespace Plugin_CreateETL_PDNThuNo
 
                                     apply_PayRefundMix["new_vouchernumber"] = vouchernumber["new_name"];
                                     apply_PayRefundMix["new_cashflow"] = cashFlow["new_name"];
-                                    apply_PayRefundMix["new_paymentnum"] = 1;
+                                    apply_PayRefundMix["new_paymentnum"] = "1";
+                                    apply_PayRefundMix["new_prepay_num"] = etlTransaction["new_name"];
                                     apply_PayRefundMix["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
 
                                     if (phieuDNThuNo.Contains("new_khachhang"))
@@ -522,7 +505,7 @@ namespace Plugin_CreateETL_PDNThuNo
                                     apply_PayRefundMix["new_makhachhang"] = khNongDan.Contains("new_makhachhang") ? khNongDan["new_makhachhang"].ToString() : "";
                                     apply_PayRefundMix["name"] = (khNongDan.LogicalName.ToLower() == "contact" ? (khNongDan.Contains("fullname") ? khNongDan["fullname"].ToString() : "") : (khNongDan.Contains("name") ? khNongDan["name"].ToString() : ""));
                                     apply_PayRefundMix["new_socmnd"] = (khNongDan.LogicalName.ToLower() == "contact" ? (khNongDan.Contains("new_socmnd") ? khNongDan["new_socmnd"].ToString() : "") : (khNongDan.Contains("new_masothue") ? khNongDan["new_masothue"].ToString() : ""));
-                                    apply_PayRefundMix["new_type"] = "TYPE6";
+                                    apply_PayRefundMix["new_type"] = "TYPE3";
                                     Send(apply_PayRefundMix);
                                     #endregion
                                 }
@@ -539,7 +522,7 @@ namespace Plugin_CreateETL_PDNThuNo
                                     apply_PayRefundCRE["new_bankcccountnum"] = bankAccount["new_name"];
 
                                     //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
-                                    apply_PayRefundCRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
+                                    apply_PayRefundCRE["new_paymentamount"] = new Money(sotien);
 
                                     //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
                                     apply_PayRefundCRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"];
@@ -548,7 +531,7 @@ namespace Plugin_CreateETL_PDNThuNo
 
                                     apply_PayRefundCRE["new_vouchernumber"] = vouchernumber["new_name"];
                                     apply_PayRefundCRE["new_cashflow"] = cashFlow["new_name"];
-                                    apply_PayRefundCRE["new_paymentnum"] = 1;
+                                    apply_PayRefundCRE["new_paymentnum"] = "1";
                                     apply_PayRefundCRE["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
 
                                     if (phieuDNThuNo.Contains("new_khachhang"))

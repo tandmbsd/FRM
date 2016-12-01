@@ -174,7 +174,7 @@ namespace Plugin_PDNGN
                             paytamung["new_vouchernumber"] = "BN";
                             paytamung["new_cashflow"] = "00.00";
 
-                            paytamung["new_paymentnum"] = 1;
+                            paytamung["new_paymentnum"] = "1";
                             paytamung["new_referencenumber"] = PDNGN["new_masophieu"].ToString();
                             paytamung["new_documentnum"] = PDNGN["new_masophieu"].ToString();
 
@@ -285,7 +285,7 @@ namespace Plugin_PDNGN
                             paytamung["new_paymentdocumentname"] = "CANTRU_03";
                             paytamung["new_vouchernumber"] = "BN";
                             paytamung["new_cashflow"] = "00.00";
-                            paytamung["new_paymentnum"] = 1;
+                            paytamung["new_paymentnum"] = "1";
                             paytamung["new_referencenumber"] = PDNGN["new_masophieu"].ToString();
                             paytamung["new_documentnum"] = PDNGN["new_masophieu"].ToString();
 

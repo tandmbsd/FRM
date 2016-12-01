@@ -184,7 +184,7 @@ namespace PDNTamUng_ETLTranSaction
                         paytamung["new_vouchernumber"] = "BN";
                         paytamung["new_cashflow"] = "00.00";
                         paytamung["new_referencenumber"] = fullEntity["new_masophieutamung"].ToString();
-                        paytamung["new_paymentnum"] = 1;
+                        paytamung["new_paymentnum"] = "1";
                         paytamung["new_documentnum"] = fullEntity["new_masophieutamung"].ToString();
 
                         if (fullEntity.Contains("new_khachhang"))
