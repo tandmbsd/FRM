@@ -688,7 +688,9 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                 }
                 else throw new InvalidPluginExecutionException("Phiếu giao nhận hom giống chưa chọn Loại giao nhận hom !");
                 Send(null);
+
             }
+            throw new Exception("sa");
         }
 
         EntityCollection RetrieveNNRecord(IOrganizationService crmservices, string entity1, string entity2, string relateName, ColumnSet column, string condition, object value)
@@ -959,6 +961,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
 
         public void GenPhanBoDauTuHL(Entity target, Guid idCRE)
         {
+            trace.Trace("gen hl");
             int type = 0;
             Entity phieugiaonhan = service.Retrieve(target.LogicalName, target.Id,
                     new ColumnSet(new string[] { "new_hopdongdautumia", "new_khachhang",

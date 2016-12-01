@@ -398,7 +398,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
             Entity thuadatcanhtac = service.Retrieve("new_thuadatcanhtac", tdct,
                 new ColumnSet(new string[] { "new_laisuat", "new_name", "new_loailaisuat", "new_dachikhonghoanlai_vattukhac", "new_dachihoanlai_vattukhac" }));
 
-            int loailaisuat = ((OptionSetValue)thuadatcanhtac["new_loailaisuat"]).Value;            
+            int loailaisuat = ((OptionSetValue)thuadatcanhtac["new_loailaisuat"]).Value;
 
             // type = 1 - hl , type = 2 - khl
             if (sotien > 0)
@@ -506,7 +506,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     new ColumnSet(new string[] { "new_kiemsoatvienid" }));
             trace.Trace("1");
             List<Entity> lstChitietPGNHM = RetrieveMultiRecord(service, "new_chitietgiaonhanvattu",
-                    new ColumnSet(new string[] { "new_sotienhl", "new_sotienkhl","new_ngaynhan" }),
+                    new ColumnSet(new string[] { "new_sotienhl", "new_sotienkhl", "new_ngaynhan" }),
                     "new_phieugiaonhanvattu", phieugiaonhan.Id);
 
             EntityCollection entcChitiet = RetrieveNNRecord(service, "new_thuadatcanhtac", "new_phieugiaonhanvattu",
@@ -619,7 +619,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                         sotienphanboKHL = sotien / sonamthuhoiKHL;
                     else
                         return;
-                    
+
                     List<Entity> lst = RetrieveVudautu().Entities.OrderBy(p => p.Contains("new_ngaybatdau") ? p.GetAttributeValue<DateTime>("new_ngaybatdau") : DateTime.Now).ToList<Entity>();
                     trace.Trace("d");
                     int curr = lst.FindIndex(p => p.Id == vudautu.Id);
@@ -729,11 +729,15 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 foreach (Entity tylethuhoivon in lstTylethuhoi)
                 {
                     decimal tiendaphanbo = tylethuhoivon.Contains("new_tiendaphanbo") ? ((Money)tylethuhoivon["new_tiendaphanbo"]).Value : new decimal(0);
+                    Entity vdt = service.Retrieve("new_vudautu", ((EntityReference)tylethuhoivon["new_vudautu"]).Id,
+                        new ColumnSet(new string[] { "new_namtaichinh" }));
+
                     Tylethuhoivon item = new Tylethuhoivon();
                     item.daphanbo = tiendaphanbo;
-                    item.vuthuhoi = (EntityReference)tylethuhoivon["new_vudautu"];
+                    item.vuthuhoi = vdt.ToEntityReference();
                     item.sotien = tylethuhoivon.Contains("new_sotienthuhoi") ? ((Money)tylethuhoivon["new_sotienthuhoi"]).Value : new decimal(0);
                     item.tylethuhoiid = tylethuhoivon.Id;
+                    item.namtaichinh = (int)vdt["new_namtaichinh"];
 
                     if (!dtTyleThuhoi.ContainsKey(chitiet.Id))
                         dtTyleThuhoi.Add(chitiet.Id, new List<Tylethuhoivon>());
@@ -772,7 +776,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 foreach (Guid key in dtTungthua.Keys)
                 {
                     trace.Trace("3" + dtTungthua.Keys.Count.ToString());
-                    List<Tylethuhoivon> lstTylethuhoivon = dtTyleThuhoi[key];
+                    List<Tylethuhoivon> lstTylethuhoivon = dtTyleThuhoi[key].OrderBy(p => p.namtaichinh).ToList();
                     decimal dinhmuc = dtTungthua[key];
 
                     foreach (Tylethuhoivon a in lstTylethuhoivon)
@@ -901,8 +905,8 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                 }
                 else if (i == n - 1)
                 {
-                    trace.Trace("C");                    
-                    result = (decimal)bls[(i > 0 ? i : 1) - 1]["new_phantramlaisuat"];                    
+                    trace.Trace("C");
+                    result = (decimal)bls[(i > 0 ? i : 1) - 1]["new_phantramlaisuat"];
                     break;
                 }
             }
