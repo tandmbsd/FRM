@@ -589,7 +589,6 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                 Send(null);
 
             }
-            throw new Exception("sa");
         }
 
         EntityCollection RetrieveNNRecord(IOrganizationService crmservices, string entity1, string entity2, string relateName, ColumnSet column, string condition, object value)
