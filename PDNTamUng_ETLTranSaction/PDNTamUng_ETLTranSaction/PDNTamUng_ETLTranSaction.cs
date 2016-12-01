@@ -157,7 +157,7 @@ namespace PDNTamUng_ETLTranSaction
                         Entity paytamung = new Entity("new_applytransaction");
                         //apply_PGNPhanbon["new_documentsequence"] = value++;
                         paytamung["new_suppliersitecode"] = "Tây Ninh";
-                        
+
                         Entity etl_entity = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
                         if (etl_entity != null && etl_entity.Contains("new_name"))
                         {
@@ -169,13 +169,13 @@ namespace PDNTamUng_ETLTranSaction
                         if (fullEntity.Contains("new_taikhoan"))
                         {
                             Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)fullEntity["new_taikhoan"]).Id, new ColumnSet(true));
-                            paytamung["new_bankcccountnum"] = taikhoanchinh["new_sotaikhoan"];
+                            paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
                         }
 
                         if (fullEntity.Contains("new_taikhoannganhangttcs"))
                         {
                             Entity taikhoanchinh = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)fullEntity["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
-                            paytamung["new_supplierbankname"] = taikhoanchinh["new_name"];
+                            paytamung["new_bankcccountnum"] = taikhoanchinh["new_name"];
                         }
 
                         paytamung["new_paymentamount"] = fullEntity["new_sotienung"];
@@ -183,7 +183,7 @@ namespace PDNTamUng_ETLTranSaction
                         paytamung["new_paymentdocumentname"] = "CANTRU_03";
                         paytamung["new_vouchernumber"] = "BN";
                         paytamung["new_cashflow"] = "00.00";
-                        paytamung["new_referencenumber"] = fullEntity["new_masophieutamung"].ToString();
+                        paytamung["new_referencenumber"] = fullEntity["new_masophieutamung"].ToString() + "_" + paytamung["new_name"];
                         paytamung["new_paymentnum"] = "1";
                         paytamung["new_documentnum"] = fullEntity["new_masophieutamung"].ToString();
 

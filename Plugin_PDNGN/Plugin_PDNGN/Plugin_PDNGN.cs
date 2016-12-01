@@ -153,13 +153,13 @@ namespace Plugin_PDNGN
                             if (PDNGN.Contains("new_taikhoan"))
                             {
                                 Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)PDNGN["new_taikhoan"]).Id, new ColumnSet(true));
-                                paytamung["new_bankcccountnum"] = taikhoanchinh["new_sotaikhoan"];
+                                paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
                             }
 
                             if (PDNGN.Contains("new_taikhoannganhangttcs"))
                             {
                                 Entity taikhoanchinh = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)PDNGN["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
-                                paytamung["new_supplierbankname"] = taikhoanchinh["new_name"];
+                                paytamung["new_bankcccountnum"] = taikhoanchinh["new_name"];
                             }
 
                             Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
@@ -175,7 +175,7 @@ namespace Plugin_PDNGN
                             paytamung["new_cashflow"] = "00.00";
 
                             paytamung["new_paymentnum"] = "1";
-                            paytamung["new_referencenumber"] = PDNGN["new_masophieu"].ToString();
+                            paytamung["new_referencenumber"] = PDNGN["new_masophieu"].ToString() + "_" + paytamung["new_name"];
                             paytamung["new_documentnum"] = PDNGN["new_masophieu"].ToString();
 
                             if (PDNGN.Contains("new_khachhang"))
@@ -265,13 +265,13 @@ namespace Plugin_PDNGN
                             if (PDNGN.Contains("new_taikhoan"))
                             {
                                 Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)PDNGN["new_taikhoan"]).Id, new ColumnSet(true));
-                                paytamung["new_bankcccountnum"] = taikhoanchinh["new_sotaikhoan"];
+                                paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
                             }
 
                             if (PDNGN.Contains("new_taikhoannganhangttcs"))
                             {
                                 Entity taikhoanchinh = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)PDNGN["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
-                                paytamung["new_supplierbankname"] = taikhoanchinh["new_name"];
+                                paytamung["new_bankcccountnum"] = taikhoanchinh["new_name"];
                             }
 
                             Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
@@ -286,7 +286,7 @@ namespace Plugin_PDNGN
                             paytamung["new_vouchernumber"] = "BN";
                             paytamung["new_cashflow"] = "00.00";
                             paytamung["new_paymentnum"] = "1";
-                            paytamung["new_referencenumber"] = PDNGN["new_masophieu"].ToString();
+                            paytamung["new_referencenumber"] = PDNGN["new_masophieu"].ToString() + "_" + paytamung["new_name"];
                             paytamung["new_documentnum"] = PDNGN["new_masophieu"].ToString();
 
                             if (PDNGN.Contains("new_khachhang"))

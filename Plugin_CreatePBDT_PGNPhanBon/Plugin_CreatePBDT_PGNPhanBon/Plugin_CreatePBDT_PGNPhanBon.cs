@@ -215,7 +215,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                     }
 
                     apply_PGNhomgiong_CRE["new_suppliersitecode"] = "Tây Ninh";
-                    apply_PGNhomgiong_CRE["new_bankcccountnum"] = "CTXL-VND-0";
+                    apply_PGNhomgiong_CRE["new_supplierbankname"] = "CTXL-VND-0";
 
                     //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                     apply_PGNhomgiong_CRE["new_paymentamount"] = new Money(((Money)fullEntity["new_tongsotienkhl"]).Value * (-1));
@@ -224,7 +224,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                     apply_PGNhomgiong_CRE["new_paymentdocumentname"] = "CANTRU_03";
                     apply_PGNhomgiong_CRE["new_vouchernumber"] = "CTND";
                     apply_PGNhomgiong_CRE["new_cashflow"] = "00.00";
-                    apply_PGNhomgiong_CRE["new_referencenumber"] = fullEntity["new_masophieu"].ToString();
+                    apply_PGNhomgiong_CRE["new_referencenumber"] = fullEntity["new_masophieu"].ToString() + "_" + apply_PGNhomgiong_CRE["new_name"];
                     apply_PGNhomgiong_CRE["new_paymentnum"] = "1";
                     apply_PGNhomgiong_CRE["new_documentnum"] = fullEntity["new_masophieu"].ToString();
 
@@ -251,7 +251,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                     }
 
                     apply_PGNhomgiong_STA["new_suppliersitecode"] = "Tây Ninh";
-                    apply_PGNhomgiong_STA["new_bankcccountnum"] = "CTXL-VND-0";
+                    apply_PGNhomgiong_STA["new_supplierbankname"] = "CTXL-VND-0";
                     //apply_PGNhomgiong_STA["new_name"] = "new_phieugiaonhanhomgiong";
                     apply_PGNhomgiong_STA["new_paymentamount"] = fullEntity["new_tongsotienkhl"];
                     //apply_PGNhomgiong_STA["new_suppliernumber"] = KH["new_makhachhang"];
@@ -259,7 +259,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                     apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
                     apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
                     apply_PGNhomgiong_STA["new_cashflow"] = "00.00";
-                    apply_PGNhomgiong_STA["new_referencenumber"] = fullEntity["new_masophieu"].ToString();
+                    apply_PGNhomgiong_STA["new_referencenumber"] = fullEntity["new_masophieu"].ToString() + "_" + apply_PGNhomgiong_STA["new_name"];
                     apply_PGNhomgiong_STA["new_paymentnum"] = "1";
                     apply_PGNhomgiong_STA["new_documentnum"] = fullEntity["new_masophieu"].ToString();
 
