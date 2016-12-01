@@ -463,7 +463,6 @@ namespace Plugin_CreateETL_PDNThanhToan
 
                                 }
                                 #endregion
-
                             }
                         }
                     }
