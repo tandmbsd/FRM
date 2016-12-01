@@ -159,7 +159,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                             Entity taiKhoanTTCS = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)phieuTTMia["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
                             apply_STAMia["new_supplierbankname"] = taiKhoanTTCS["new_name"];
                             //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
-                            apply_STAMia["new_paymentamount"] = fullEntity["new_tienchichumia"];// new Money(tienMia);
+                            apply_STAMia["new_paymentamount"] = phieuTTMia["new_tienchichumia"];// new Money(tienMia);
 
                             //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
                             apply_STAMia["new_referencenumber"] = phieuTTMia["new_masophieu"].ToString();
