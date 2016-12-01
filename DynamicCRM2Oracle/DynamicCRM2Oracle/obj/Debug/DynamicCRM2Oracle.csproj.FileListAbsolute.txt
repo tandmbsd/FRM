@@ -32,8 +32,8 @@ D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\bin\Debug\Dynam
 D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\bin\Debug\DynamicCRM2Oracle.application
 D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\bin\Debug\DynamicCRM2Oracle.exe
 D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\bin\Debug\DynamicCRM2Oracle.pdb
-D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\obj\Debug\DynamicCRM2Oracle.csprojResolveAssemblyReference.cache
 D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\obj\Debug\DynamicCRM2Oracle.ProjectInstaller.resources
 D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\obj\Debug\DynamicCRM2Oracle.csproj.GenerateResource.Cache
 D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\obj\Debug\DynamicCRM2Oracle.exe.manifest
 D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\obj\Debug\DynamicCRM2Oracle.application
+D:\Work\TTC\Projects\FRM\FRM\DynamicCRM2Oracle\DynamicCRM2Oracle\obj\Debug\DynamicCRM2Oracle.csprojResolveAssemblyReference.cache

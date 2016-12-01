@@ -58,6 +58,7 @@ namespace Service_Syndata
             {
                 try
                 {
+                    #region Start try
                     DateTime currentTime = DateTime.Now;
 
                     XmlDocument xkey = new XmlDocument();
@@ -341,6 +342,7 @@ namespace Service_Syndata
                             catch (Exception e)
                             {
                                 Console.WriteLine(e.ToString());
+                                
                                 myTrans.Rollback();
                             }
                             finally
@@ -475,6 +477,7 @@ namespace Service_Syndata
                             #endregion
                         }
                     }
+#endregion
                 }
                 catch (Exception ex)
                 {

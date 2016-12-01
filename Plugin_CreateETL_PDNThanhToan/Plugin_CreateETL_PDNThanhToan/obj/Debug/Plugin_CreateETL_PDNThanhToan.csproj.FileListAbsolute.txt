@@ -15,3 +15,4 @@ D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThanhToan\Plugin_CreateETL_PDNT
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThanhToan\Plugin_CreateETL_PDNThanhToan\bin\Debug\Plugin_CreateETL_PDNThanhToan.pdb
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThanhToan\Plugin_CreateETL_PDNThanhToan\obj\Debug\Plugin_CreateETL_PDNThanhToan.dll
 D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThanhToan\Plugin_CreateETL_PDNThanhToan\obj\Debug\Plugin_CreateETL_PDNThanhToan.pdb
+D:\Work\TTC\Projects\FRM\FRM\Plugin_CreateETL_PDNThanhToan\Plugin_CreateETL_PDNThanhToan\obj\Debug\Plugin_CreateETL_PDNThanhToan.csprojResolveAssemblyReference.cache

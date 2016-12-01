@@ -47,14 +47,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DynamicCRM2Oracle.exe" size="22976">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DynamicCRM2Oracle.exe" size="23488">
       <assemblyIdentity name="DynamicCRM2Oracle" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>1+KWtqeWrSYORZiN7lFnspmBMNtODdpSYa2GaFcKQrk=</dsig:DigestValue>
+        <dsig:DigestValue>v6+cJTk5dsXouv9wApsmvcwnGzejg0TEAEVAvcpz8/s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
