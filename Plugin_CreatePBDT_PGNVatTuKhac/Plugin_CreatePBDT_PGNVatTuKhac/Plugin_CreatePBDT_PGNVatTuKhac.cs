@@ -587,9 +587,9 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     trace.Trace("e");
                     for (int k = 0; k < sonamthuhoiKHL; k++)
                     {
-                        Entity vudaututhuhoi = lst[curr++];
+                        Entity vudaututhuhoi = lst[++curr];
                         trace.Trace(vudaututhuhoi["new_mavudautu"].ToString());
-                        CreatePBDT(hddtmia, KH, key, vudaututhuhoi.ToEntityReference(), vudaututhuhoi.ToEntityReference(), sotienphanboKHL,
+                        CreatePBDT(hddtmia, KH, key, vudautu.ToEntityReference(), vudaututhuhoi.ToEntityReference(), sotienphanboKHL,
                         etlID, type = 1, tram, cbnv, ngaynhan, phieugiaonhan, sophieu);
 
                         if (curr > lst.Count - 1)
