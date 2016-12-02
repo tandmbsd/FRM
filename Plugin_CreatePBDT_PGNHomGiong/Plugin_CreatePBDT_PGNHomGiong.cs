@@ -762,7 +762,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
 
                     for (int k = 0; k < sonamthuhoiKHL; k++)
                     {
-                        Entity vudaututhuhoi = lst[curr++];
+                        Entity vudaututhuhoi = lst[++curr];
                         trace.Trace(vudaututhuhoi["new_mavudautu"].ToString());
                         CreatePBDT(hddtmia, KH, key, vudautu.ToEntityReference(), vudaututhuhoi.ToEntityReference(), sotienphanboKHL,
                         idSTA, type = 1, tram, cbnv, ngaynhan, phieugiaonhan, sophieu, lannhan);
