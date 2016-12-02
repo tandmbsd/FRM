@@ -219,7 +219,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     //apply_PGNPhanbon["new_documentsequence"] = value++;
                     apply_PGNhomgiong_CRE["new_suppliersitecode"] = "Tây Ninh";
 
-                    apply_PGNhomgiong_CRE["new_supplierbankname"] = "CTXL-VND-0";
+                    apply_PGNhomgiong_CRE["new_bankcccountnum"] = "CTXL-VND-0";
 
                     Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID,
                         new ColumnSet(new string[] { "new_name" }));
@@ -258,7 +258,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
                     //apply_PGNPhanbon["new_documentsequence"] = value++;
                     apply_PGNhomgiong_STA["new_suppliersitecode"] = "Tây Ninh";
 
-                    apply_PGNhomgiong_STA["new_supplierbankname"] = "CTXL-VND-0";
+                    apply_PGNhomgiong_STA["new_bankcccountnum"] = "CTXL-VND-0";
 
                     Entity etl_entitySTA = service.Retrieve("new_etltransaction", etl_STAID, new ColumnSet(new string[] { "new_name" }));
                     if (etl_entitySTA != null && etl_entitySTA.Contains("new_name"))

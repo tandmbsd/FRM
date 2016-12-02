@@ -218,7 +218,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             Entity apply_PGNhomgiong_CRE = new Entity("new_applytransaction");
                             //apply_PGNPhanbon["new_documentsequence"] = value++;
                             apply_PGNhomgiong_CRE["new_suppliersitecode"] = "Tây Ninh";
-                            apply_PGNhomgiong_CRE["new_supplierbankname"] = "CTXL-VND-0";
+                            apply_PGNhomgiong_CRE["new_bankcccountnum"] = "CTXL-VND-0";
                             //}
 
                             Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
@@ -250,11 +250,12 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             apply_PGNhomgiong_CRE["new_type"] = "TYPE4";
                             #endregion
                             Send(apply_PGNhomgiong_CRE);
+
                             #region Tạo transaction apply STA
                             Entity apply_PGNhomgiong_STA = new Entity("new_applytransaction");
                             //apply_PGNPhanbon["new_documentsequence"] = value++;
                             apply_PGNhomgiong_STA["new_suppliersitecode"] = "Tây Ninh";
-                            apply_PGNhomgiong_STA["new_supplierbankname"] = "CTXL-VND-0";
+                            apply_PGNhomgiong_STA["new_bankcccountnum"] = "CTXL-VND-0";
 
                             Entity etl_entitySTA = service.Retrieve("new_etltransaction", etl_STAID, new ColumnSet(new string[] { "new_name" }));
                             if (etl_entitySTA != null && etl_entitySTA.Contains("new_name"))
@@ -433,7 +434,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             Entity apply_PGNhomgiong_CRE = new Entity("new_applytransaction");
                             //apply_PGNPhanbon["new_documentsequence"] = value++;
                             apply_PGNhomgiong_CRE["new_suppliersitecode"] = "Tây Ninh";
-                            apply_PGNhomgiong_CRE["new_supplierbankname"] = "CTXL-VND-0";
+                            apply_PGNhomgiong_CRE["new_bankcccountnum"] = "CTXL-VND-0";
 
                             Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID, new ColumnSet(new string[] { "new_name" }));
                             if (etl_entityCRE != null && etl_entityCRE.Contains("new_name"))
@@ -468,7 +469,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                             Entity apply_PGNhomgiong_STA = new Entity("new_applytransaction");
                             //apply_PGNPhanbon["new_documentsequence"] = value++;
                             apply_PGNhomgiong_STA["new_suppliersitecode"] = "Tây Ninh";
-                            apply_PGNhomgiong_STA["new_supplierbankname"] = "CTXL-VND-0";
+                            apply_PGNhomgiong_STA["new_bankcccountnum"] = "CTXL-VND-0";
 
                             Entity etl_entitySTA = service.Retrieve("new_etltransaction", etl_STAID, new ColumnSet(new string[] { "new_name" }));
                             if (etl_entitySTA != null && etl_entitySTA.Contains("new_name"))
@@ -506,9 +507,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
                 }
                 else throw new InvalidPluginExecutionException("Phiếu giao nhận hom giống chưa chọn Loại giao nhận hom !");
                 Send(null);
-
             }
-            //throw new Exception("sa");
         }
 
         EntityCollection RetrieveNNRecord(IOrganizationService crmservices, string entity1, string entity2, string relateName, ColumnSet column, string condition, object value)

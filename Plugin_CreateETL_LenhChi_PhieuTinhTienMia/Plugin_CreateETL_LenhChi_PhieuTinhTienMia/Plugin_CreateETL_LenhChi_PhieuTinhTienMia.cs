@@ -153,9 +153,12 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
 
                             //Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)phieuTTMia["new_taikhoan"]).Id, new ColumnSet(true));
                             //apply_STAMia["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
+                            if (khNongDan.Contains("new_taikhoannganhangttcs"))
+                            {
+                                Entity taiKhoanTTCS = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)khNongDan["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
+                                apply_STAMia["new_bankcccountnum"] = taiKhoanTTCS["new_name"];
+                            }
 
-                            Entity taiKhoanTTCS = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)phieuTTMia["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
-                            apply_STAMia["new_bankcccountnum"] = taiKhoanTTCS["new_name"];                            
                             apply_STAMia["new_paymentamount"] = phieuTTMia["new_tienchichumia"];// new Money(tienMia);
 
                             apply_STAMia["new_referencenumber"] = phieuTTMia["new_masophieu"].ToString() + "_" + apply_STAMia["new_name"];
@@ -389,7 +392,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                                             apply_PhaiTraCanTruPRE["new_bankcccountnum"] = "CTXL-VND-0";
                                         }
 
-                                        apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";                                        
+                                        apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";
 
                                         apply_PhaiTraCanTruPRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"] + "_" + i.ToString();
                                         apply_PhaiTraCanTruPRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
@@ -867,7 +870,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                                                     apply_PhaiTraCanTruPRE["new_bankcccountnum"] = "CTXL-VND-0";
                                                 }
 
-                                                apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";                                                
+                                                apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";
 
                                                 apply_PhaiTraCanTruPRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"] + "_" + i.ToString();
                                                 apply_PhaiTraCanTruPRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
@@ -1106,12 +1109,12 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
 
                             apply_STAVC["new_suppliersitecode"] = "Tây Ninh";
 
-                            if (khThuHoach.Contains("new_taikhoannganhang"))
+                            /*if (khThuHoach.Contains("new_taikhoannganhang"))
                             {
                                 Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)khThuHoach["new_taikhoannganhang"]).Id, new ColumnSet(true));
                                 //apply_STAVC["new_supplierbankname"] = (taikhoanchinh == null ? "TTCS-MIA-VND" : taikhoanchinh["new_sotaikhoan"]);
                                 apply_STAVC["new_supplierbankname"] = (taikhoanchinh == null ? "TTCS-MIA-VND" : taikhoanchinh["new_sotaikhoan"]);
-                            }
+                            }*/
 
                             if (khThuHoach.Contains("new_taikhoannganhangttcs"))
                             {
@@ -1359,7 +1362,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                                                 apply_PhaiTraCanTruPRE["new_bankcccountnum"] = "CTXL-VND-0";
                                             }
 
-                                            apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";                                            
+                                            apply_PhaiTraCanTruPRE["new_suppliersitecode"] = "Tây Ninh";
 
                                             apply_PhaiTraCanTruPRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"] + "_" + i.ToString();
                                             apply_PhaiTraCanTruPRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];

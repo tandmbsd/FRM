@@ -185,8 +185,13 @@ namespace Plugin_CreateETL_PDNThanhToan
                             apply_PhaiTraSTA["new_name"] = (string)etl_PhaiTra["new_name"];
                         }
 
+                        if (fullEntity.Contains("new_taikhoannganhangttcs"))
+                        {
+                            var taiKhoan = service.Retrieve("new_taikhoannganhangcuattcs", ((EntityReference)fullEntity["new_taikhoannganhangttcs"]).Id, new ColumnSet(true));
+                            apply_PhaiTraSTA["new_bankcccountnum"] = taiKhoan["new_name"];
+                        }
+
                         apply_PhaiTraSTA["new_suppliersitecode"] = "Tây Ninh";
-                        apply_PhaiTraSTA["new_bankcccountnum"] = "CTXL-VND-0";
 
                         //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                         apply_PhaiTraSTA["new_paymentamount"] = new Money(((Money)fullEntity["new_sotienconlai"]).Value);
