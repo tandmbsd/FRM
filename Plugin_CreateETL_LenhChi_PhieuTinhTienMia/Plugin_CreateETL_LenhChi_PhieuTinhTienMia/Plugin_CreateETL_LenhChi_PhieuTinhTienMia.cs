@@ -16,10 +16,11 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
         IOrganizationService service;
         IOrganizationServiceFactory factory = null;
         ITracingService trace = null;
+        IPluginExecutionContext context;
 
         public void Execute(IServiceProvider serviceProvider)
         {
-            IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+            context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
             factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             service = factory.CreateOrganizationService(context.UserId);
             trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
@@ -139,7 +140,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
 
                         trace.Trace("Apply Tien Mia");
                         #region Apply Tien Mia
-                        if (phieuTTMia.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuTTMia["new_phuongthucthanhtoan"]).Value == 100000001)
+                        if (khNongDan.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)khNongDan["new_phuongthucthanhtoan"]).Value == 100000001)
                         {
                             Entity apply_STAMia = new Entity("new_applytransaction");
 
@@ -165,7 +166,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                             apply_STAMia["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                             apply_STAMia["new_paymentdocumentname"] = "Tiền mía_vụ_" + vuMua;
                             apply_STAMia["new_vouchernumber"] = "BN";
-                            apply_STAMia["new_cashflow"] = "00.00";
+                            apply_STAMia["new_cashflow"] = "02.01";
                             apply_STAMia["new_paymentnum"] = "1";
                             apply_STAMia["new_documentnum"] = phieuTTMia["new_masophieu"].ToString();
                             //apply_STAMia["new_documentsequence"] = 1;
@@ -399,14 +400,14 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                                         apply_PhaiTraCanTruPRE["new_paymentdocumentname"] = "CANTRU_04";
                                         apply_PhaiTraCanTruPRE["new_vouchernumber"] = "CTND";
                                         apply_PhaiTraCanTruPRE["new_cashflow"] = "00.00";
+                                        apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                                         if (etlTransaction["new_invoicetype"].ToString() == "PRE")
                                         {
-                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = etlTransaction["new_name"];
+                                            apply_PhaiTraCanTruPRE["new_prepay_num"] = etlTransaction["new_name"];
                                             apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value);
                                         }
                                         else
-                                        {
-                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
+                                        {                                            
                                             apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
                                         }
                                         apply_PhaiTraCanTruPRE["new_documentnum"] = etlTransaction["new_sochungtu"];//phieuDNThuNo["new_masophieu"].ToString();
@@ -648,7 +649,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                             apply_STAVC["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                             apply_STAVC["new_paymentdocumentname"] = "Tiền vận chuyển (chủ xe)_vụ_" + vuMua;
                             apply_STAVC["new_vouchernumber"] = "BN";
-                            apply_STAVC["new_cashflow"] = "00.00";
+                            apply_STAVC["new_cashflow"] = "02.01";
                             apply_STAVC["new_paymentnum"] = "1";
                             apply_STAVC["new_documentnum"] = phieuTTMia["new_masophieu"].ToString();
                             //apply_STAVC["new_documentsequence"] = 1;
@@ -877,14 +878,14 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                                                 apply_PhaiTraCanTruPRE["new_paymentdocumentname"] = "CANTRU_04";
                                                 apply_PhaiTraCanTruPRE["new_vouchernumber"] = "CTND";
                                                 apply_PhaiTraCanTruPRE["new_cashflow"] = "00.00";
+                                                apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                                                 if (etlTransaction["new_invoicetype"].ToString() == "PRE")
                                                 {
-                                                    apply_PhaiTraCanTruPRE["new_paymentnum"] = etlTransaction["new_name"];
+                                                    apply_PhaiTraCanTruPRE["new_prepay_num"] = etlTransaction["new_name"];
                                                     apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value);
                                                 }
                                                 else
-                                                {
-                                                    apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
+                                                {                                                    
                                                     apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
                                                 }
                                                 apply_PhaiTraCanTruPRE["new_documentnum"] = etlTransaction["new_sochungtu"];//phieuDNThuNo["new_masophieu"].ToString();
@@ -1129,7 +1130,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                             apply_STAVC["new_paymentdate"] = phieuTTMia["new_ngaylap"];
                             apply_STAVC["new_paymentdocumentname"] = "Tiền công đốn (đầu công)_vụ_" + vuMua;
                             apply_STAVC["new_vouchernumber"] = "BN";
-                            apply_STAVC["new_cashflow"] = "00.00";
+                            apply_STAVC["new_cashflow"] = "02.01";
                             apply_STAVC["new_paymentnum"] = "1";
                             apply_STAVC["new_documentnum"] = phieuTTMia["new_masophieu"].ToString();
                             //apply_STAVC["new_documentsequence"] = 1;
@@ -1369,14 +1370,15 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                                             apply_PhaiTraCanTruPRE["new_paymentdocumentname"] = "CANTRU_04";
                                             apply_PhaiTraCanTruPRE["new_vouchernumber"] = "CTND";
                                             apply_PhaiTraCanTruPRE["new_cashflow"] = "00.00";
+                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                                             if (etlTransaction["new_invoicetype"].ToString() == "PRE")
                                             {
-                                                apply_PhaiTraCanTruPRE["new_paymentnum"] = etlTransaction["new_name"];
+                                                apply_PhaiTraCanTruPRE["new_prepay_num"] = etlTransaction["new_name"];
                                                 apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value);
                                             }
                                             else
                                             {
-                                                apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
+                                                
                                                 apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
                                             }
                                             apply_PhaiTraCanTruPRE["new_documentnum"] = etlTransaction["new_sochungtu"];//phieuDNThuNo["new_masophieu"].ToString();
@@ -1927,14 +1929,14 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
             }
         }
 
-        public static void Send(Entity tmp)
+        public void Send(Entity tmp)
         {
             MessageQueue mq;
 
-            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle"))
-                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle");
+            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName))
+                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
             else
-                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle");
+                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
 
             Message m = new Message();
 

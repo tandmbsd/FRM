@@ -127,10 +127,10 @@ namespace DynamicCRM2Oracle
 
         void BeginETL()
         {
-            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle"))
-                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle");
+            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_TEST"))
+                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_TEST");
             else
-                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle");
+                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_TEST");
             mq.Formatter = new System.Messaging.XmlMessageFormatter(new string[] { "System.String,mscorlib" });
 
             while (!stop)

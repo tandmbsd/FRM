@@ -15,9 +15,10 @@ namespace Plugin_CreateETL_PDNThanhToan
     {
         IOrganizationService service = null;
         IOrganizationServiceFactory factory = null;
+        IPluginExecutionContext context;
         public void Execute(IServiceProvider serviceProvider)
         {
-            IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+            context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
             factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             service = factory.CreateOrganizationService(context.UserId);
 
@@ -70,56 +71,235 @@ namespace Plugin_CreateETL_PDNThanhToan
                                 // kiem tra neu la khach hang dau tu mia thi phat sinh, nong truong khong phat sinh CRE
                                 if (phieuNghiemThu != null && phieuNghiemThu.Contains("new_khachhangdautumia"))
                                 {
-                                    // phat sinh nhan no
-                                    #region Nhan No
                                     Entity kHNhanNo = service.Retrieve("contact", ((EntityReference)phieuNghiemThu["new_khachhangdautumia"]).Id, new ColumnSet(true));
-                                    Entity etl_ND = new Entity("new_etltransaction");
-                                    etl_ND["new_name"] = phieuNghiemThu["new_manghiemthu"].ToString() + "_CRE";
-                                    etl_ND["new_vouchernumber"] = "DTND";
-                                    etl_ND["new_transactiontype"] = "3.3.3.a";
-                                    etl_ND["new_customertype"] = new OptionSetValue(1);
-                                    etl_ND["new_season"] = vuMua;//Vudautu["new_mavudautu"].ToString();
-                                    //etl_ND["new_vudautu"] = fullEntity["new_vudautu"];
-                                    etl_ND["new_sochungtu"] = phieuNghiemThu["new_manghiemthu"].ToString();
-                                    //etl_ND["new_lannhan"] =  phieuNghiemThu["new_lannhan"];
-                                    etl_ND["new_contractnumber"] = hDDauTuMiaCT["new_masohopdong"].ToString();// lay hop dong mia tren phieu nghiem thu
-                                    etl_ND["new_tradingpartner"] = (kHNhanNo.LogicalName.ToLower().Trim() == "contact" ? // phieu nghiem thu
-                                        ((kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "") + "_" + (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : ""))
-                                        :
-                                        ((kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "") + "_" + (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""))
-                                        );
-                                    etl_ND["new_suppliernumber"] = kHNhanNo["new_makhachhang"].ToString();
-                                    etl_ND["new_suppliersite"] = "TAY NINH";
-                                    etl_ND["new_invoicedate"] = phieuNghiemThu["actualstart"];// lay ngay nghiem thu (ngay thuc hien)
 
-                                    etl_ND["new_descriptionheader"] = "Thanh toán dịch vụ_vụ_" + vuMua;
-
-                                    etl_ND["new_terms"] = "Tra Ngay";
-                                    etl_ND["new_taxtype"] = "";
-                                    // tong tien chi tiet thanh toan
-                                    etl_ND["new_invoiceamount"] = new Money(((Money)chiTiet["new_tongtien"]).Value * (-1));
-                                    etl_ND["new_gldate"] = phieuNghiemThu["new_ngayduyet"]; // ngay duyet phieu nghiem thu
-                                    etl_ND["new_invoicetype"] = "CRE";
-
-                                    if (phieuNghiemThu.Contains("new_khachhang"))
+                                    if (phieuNghiemThu.Contains("new_qd_dautukhl") && ((Money)phieuNghiemThu["new_qd_dautukhl"]).Value > 0)
                                     {
-                                        etl_ND["new_khachhang"] = phieuNghiemThu["new_khachhang"];
+                                        // Phat sinh khong hoan lai
+                                        #region begin khong hoan lai
+                                        //tạo credit
+                                        Entity etl_ND = new Entity("new_etltransaction");
+                                        etl_ND["new_name"] = phieuNghiemThu["new_masophieu"].ToString() + "_CRE" + "_KHL";
+                                        etl_ND["new_vouchernumber"] = "DTND";
+                                        etl_ND["new_transactiontype"] = "3.2.2.a";
+                                        etl_ND["new_customertype"] = new OptionSetValue(phieuNghiemThu.Contains("new_khachhang") ? 1 : 2);
+                                        etl_ND["new_season"] = vuMua;//Vudautu["new_mavudautu"].ToString();
+                                                                     //etl_ND["new_vudautu"] = fullEntity["new_vudautu"];
+                                        etl_ND["new_sochungtu"] = phieuNghiemThu["new_masophieu"].ToString();
+                                        etl_ND["new_lannhan"] = phieuNghiemThu["new_lannhan"];
+                                        etl_ND["new_contractnumber"] = hDDauTuMiaCT["new_masohopdong"].ToString();
+                                        etl_ND["new_tradingpartner"] = (kHNhanNo.LogicalName.ToLower().Trim() == "contact" ?
+                                            ((kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "") + "_" + (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : ""))
+                                            :
+                                            ((kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "") + "_" + (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""))
+                                            );
+                                        etl_ND["new_suppliernumber"] = kHNhanNo["new_makhachhang"].ToString();
+                                        etl_ND["new_suppliersite"] = "TAY NINH";
+                                        etl_ND["new_invoicedate"] = phieuNghiemThu["actualstart"];
+                                        etl_ND["new_descriptionheader"] = "Ghi nợ nhận dịch vụ_vụ_" + vuMua;
+                                        etl_ND["new_terms"] = "Tra Ngay";
+                                        etl_ND["new_taxtype"] = "";
+                                        etl_ND["new_invoiceamount"] = new Money(((Money)phieuNghiemThu["new_qd_dautukhl"]).Value * (-1));
+                                        etl_ND["new_gldate"] = phieuNghiemThu["new_ngayduyet"];
+                                        etl_ND["new_invoicetype"] = "CRE";
+
+                                        if (phieuNghiemThu.Contains("new_khachhang"))
+                                            etl_ND["new_khachhang"] = phieuNghiemThu["new_khachhang"];
+                                        else if (phieuNghiemThu.Contains("new_khachhangdoanhnghiep"))
+                                            etl_ND["new_khachhangdoanhnghiep"] = phieuNghiemThu["new_khachhangdoanhnghiep"];
+
+                                        Guid etl_NDID = service.Create(etl_ND);
+
+                                        etl_ND["new_makhachhang"] = kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "";
+                                        etl_ND["name"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("fullname") ? kHNhanNo["fullname"].ToString() : "") : (kHNhanNo.Contains("name") ? kHNhanNo["name"].ToString() : ""));
+                                        etl_ND["new_socmnd"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : "") : (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""));
+                                        etl_ND["new_descriptionlines"] = phieuNghiemThu["new_name"].ToString();
+                                        etl_ND["tran_type"] = "CRE";
+
+                                        Send(etl_ND);
+
+                                        // STA
+                                        Entity etl_STA = new Entity("new_etltransaction");
+                                        etl_STA["new_name"] = phieuNghiemThu["new_masophieu"].ToString() + "_STA_KHL";
+                                        etl_STA["new_vouchernumber"] = "GSND";
+                                        etl_STA["new_transactiontype"] = "3.1.3.a";
+                                        etl_STA["new_customertype"] = new OptionSetValue(phieuNghiemThu.Contains("new_khachhang") ? 1 : 2);
+                                        etl_STA["new_season"] = vuMua;//Vudautu["new_mavudautu"].ToString();
+                                                                      //etl_STA["new_vudautu"] = fullEntity["new_vudautu"];
+                                        etl_STA["new_sochungtu"] = phieuNghiemThu["new_masophieu"].ToString();
+                                        etl_STA["new_lannhan"] = phieuNghiemThu["new_lannhan"];
+                                        etl_STA["new_contractnumber"] = hDDauTuMiaCT["new_masohopdong"].ToString();
+                                        etl_STA["new_tradingpartner"] = (kHNhanNo.LogicalName.ToLower().Trim() == "contact" ?
+                                            ((kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "") + "_" + (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : ""))
+                                            :
+                                            ((kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "") + "_" + (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""))
+                                            );
+
+                                        etl_STA["new_suppliersite"] = "TAY NINH";
+                                        etl_STA["new_invoicedate"] = phieuNghiemThu["actualstart"];
+                                        etl_STA["new_descriptionheader"] = "Nhận nợ dịch vụ_vụ_" + vuMua;
+                                        etl_STA["new_terms"] = "Tra Ngay";
+                                        etl_STA["new_taxtype"] = "";
+                                        etl_STA["new_invoiceamount"] = (Money)phieuNghiemThu["new_qd_dautukhl"];
+                                        etl_STA["new_gldate"] = phieuNghiemThu["new_ngayduyet"];
+                                        etl_STA["new_invoicetype"] = "STA";
+
+                                        if (phieuNghiemThu.Contains("new_khachhang"))
+                                            etl_STA["new_khachhang"] = phieuNghiemThu["new_khachhang"];
+                                        else if (phieuNghiemThu.Contains("new_khachhangdoanhnghiep"))
+                                            etl_STA["new_khachhangdoanhnghiep"] = phieuNghiemThu["new_khachhangdoanhnghiep"];
+
+                                        var etl_STAID = service.Create(etl_STA);
+
+                                        etl_STA["new_makhachhang"] = kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "";
+                                        etl_STA["name"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("fullname") ? kHNhanNo["fullname"].ToString() : "") : (kHNhanNo.Contains("name") ? kHNhanNo["name"].ToString() : ""));
+                                        etl_STA["new_socmnd"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : "") : (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""));
+                                        etl_STA["new_descriptionlines"] = phieuNghiemThu["new_name"].ToString();
+                                        etl_STA["tran_type"] = "STA";
+
+                                        Send(etl_STA);
+                                        //Pay cấn trừ
+                                        #region Tạo transaction apply CRE
+                                        Entity apply_PGNhomgiong_CRE = new Entity("new_applytransaction");
+                                        //apply_PGNPhanbon["new_documentsequence"] = value++;
+                                        apply_PGNhomgiong_CRE["new_suppliersitecode"] = "Tây Ninh";
+
+                                        apply_PGNhomgiong_CRE["new_bankcccountnum"] = "CTXL-VND-0";
+
+                                        Entity etl_entityCRE = service.Retrieve("new_etltransaction", etl_NDID,
+                                            new ColumnSet(new string[] { "new_name" }));
+                                        if (etl_entityCRE != null && etl_entityCRE.Contains("new_name"))
+                                        {
+                                            apply_PGNhomgiong_CRE["new_name"] = (string)etl_entityCRE["new_name"];
+                                        }
+
+                                        //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
+                                        apply_PGNhomgiong_CRE["new_paymentamount"] = new Money(((Money)phieuNghiemThu["new_qd_dautukhl"]).Value * (-1));
+                                        //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
+                                        apply_PGNhomgiong_CRE["new_paymentdate"] = phieuNghiemThu["new_ngayduyet"];
+                                        apply_PGNhomgiong_CRE["new_paymentdocumentname"] = "CANTRU_03";
+                                        apply_PGNhomgiong_CRE["new_vouchernumber"] = "CTND";
+                                        apply_PGNhomgiong_CRE["new_cashflow"] = "00.00";
+                                        apply_PGNhomgiong_CRE["new_referencenumber"] = phieuNghiemThu["new_masophieu"].ToString();
+                                        apply_PGNhomgiong_CRE["new_paymentnum"] = "1";
+                                        apply_PGNhomgiong_CRE["new_documentnum"] = phieuNghiemThu["new_masophieu"].ToString();
+
+                                        if (fullEntity.Contains("new_khachhang"))
+                                            apply_PGNhomgiong_CRE["new_khachhang"] = phieuNghiemThu["new_khachhang"];
+                                        else if (fullEntity.Contains("new_khachhangdoanhnghiep"))
+                                            apply_PGNhomgiong_CRE["new_khachhangdoanhnghiep"] = phieuNghiemThu["new_khachhangdoanhnghiep"];
+
+                                        apply_PGNhomgiong_CRE.Id = service.Create(apply_PGNhomgiong_CRE);
+
+                                        apply_PGNhomgiong_CRE["new_makhachhang"] = kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "";
+                                        apply_PGNhomgiong_CRE["name"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("fullname") ? kHNhanNo["fullname"].ToString() : "") : (kHNhanNo.Contains("name") ? kHNhanNo["name"].ToString() : ""));
+                                        apply_PGNhomgiong_CRE["new_socmnd"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : "") : (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""));
+                                        apply_PGNhomgiong_CRE["new_type"] = "TYPE4";
+
+                                        #endregion
+                                        Send(apply_PGNhomgiong_CRE);
+                                        #region Tạo transaction apply STA
+                                        Entity apply_PGNhomgiong_STA = new Entity("new_applytransaction");
+                                        //apply_PGNPhanbon["new_documentsequence"] = value++;
+                                        apply_PGNhomgiong_STA["new_suppliersitecode"] = "Tây Ninh";
+
+                                        apply_PGNhomgiong_STA["new_bankcccountnum"] = "CTXL-VND-0";
+
+                                        Entity etl_entitySTA = service.Retrieve("new_etltransaction", etl_STAID, new ColumnSet(new string[] { "new_name" }));
+                                        if (etl_entitySTA != null && etl_entitySTA.Contains("new_name"))
+                                        {
+                                            apply_PGNhomgiong_STA["new_name"] = (string)etl_entitySTA["new_name"];
+                                        }
+                                        //apply_PGNhomgiong_STA["new_name"] = "new_phieugiaonhanhomgiong";
+                                        apply_PGNhomgiong_STA["new_paymentamount"] = phieuNghiemThu["new_qd_dautukhl"];
+                                        //apply_PGNhomgiong_STA["new_suppliernumber"] = KH["new_makhachhang"];
+                                        apply_PGNhomgiong_STA["new_paymentdate"] = phieuNghiemThu["new_ngaynhanvattu"];
+                                        apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
+                                        apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
+                                        apply_PGNhomgiong_STA["new_cashflow"] = "00.00";
+                                        apply_PGNhomgiong_STA["new_referencenumber"] = phieuNghiemThu["new_masophieu"].ToString();
+                                        apply_PGNhomgiong_STA["new_paymentnum"] = "1";
+                                        apply_PGNhomgiong_STA["new_documentnum"] = phieuNghiemThu["new_masophieu"].ToString();
+
+                                        if (fullEntity.Contains("new_khachhang"))
+                                            apply_PGNhomgiong_STA["new_khachhang"] = phieuNghiemThu["new_khachhang"];
+                                        else if (fullEntity.Contains("new_khachhangdoanhnghiep"))
+                                            apply_PGNhomgiong_STA["new_khachhangdoanhnghiep"] = phieuNghiemThu["new_khachhangdoanhnghiep"];
+
+                                        apply_PGNhomgiong_STA.Id = service.Create(apply_PGNhomgiong_STA);
+
+                                        apply_PGNhomgiong_STA["new_makhachhang"] = kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "";
+                                        apply_PGNhomgiong_STA["name"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("fullname") ? kHNhanNo["fullname"].ToString() : "") : (kHNhanNo.Contains("name") ? kHNhanNo["name"].ToString() : ""));
+                                        apply_PGNhomgiong_STA["new_socmnd"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : "") : (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""));
+                                        apply_PGNhomgiong_STA["new_type"] = "TYPE4";
+
+                                        Send(apply_PGNhomgiong_STA);
+
+                                        #endregion
+
+                                        #endregion
                                     }
-                                    else if (phieuNghiemThu.Contains("new_khachhangdoanhnghiep"))
+                                    else
                                     {
-                                        etl_ND["new_khachhangdoanhnghiep"] = phieuNghiemThu["new_khachhangdoanhnghiep"];
+                                        decimal tien = 0;
+                                        if (phieuNghiemThu.Contains("new_qd_dautuhl_tienmat"))
+                                        {
+                                            tien = ((Money)phieuNghiemThu["new_qd_dautuhl_tienmat"]).Value;
+                                        }
+                                        if (phieuNghiemThu.Contains("new_qd_dautuhl_vattu"))
+                                        {
+                                            tien += ((Money)phieuNghiemThu["new_qd_dautuhl_vattu"]).Value;
+                                        }
+                                        // phat sinh nhan no hoan lai
+                                        #region Nhan No
+                                        Entity etl_ND = new Entity("new_etltransaction");
+                                        etl_ND["new_name"] = phieuNghiemThu["new_manghiemthu"].ToString() + "_CRE";
+                                        etl_ND["new_vouchernumber"] = "DTND";
+                                        etl_ND["new_transactiontype"] = "3.3.3.a";
+                                        etl_ND["new_customertype"] = new OptionSetValue(1);
+                                        etl_ND["new_season"] = vuMua;//Vudautu["new_mavudautu"].ToString();
+                                                                     //etl_ND["new_vudautu"] = fullEntity["new_vudautu"];
+                                        etl_ND["new_sochungtu"] = phieuNghiemThu["new_manghiemthu"].ToString();
+                                        //etl_ND["new_lannhan"] =  phieuNghiemThu["new_lannhan"];
+                                        etl_ND["new_contractnumber"] = hDDauTuMiaCT["new_masohopdong"].ToString();// lay hop dong mia tren phieu nghiem thu
+                                        etl_ND["new_tradingpartner"] = (kHNhanNo.LogicalName.ToLower().Trim() == "contact" ? // phieu nghiem thu
+                                            ((kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "") + "_" + (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : ""))
+                                            :
+                                            ((kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "") + "_" + (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""))
+                                            );
+                                        etl_ND["new_suppliernumber"] = kHNhanNo["new_makhachhang"].ToString();
+                                        etl_ND["new_suppliersite"] = "TAY NINH";
+                                        etl_ND["new_invoicedate"] = phieuNghiemThu["actualstart"];// lay ngay nghiem thu (ngay thuc hien)
+
+                                        etl_ND["new_descriptionheader"] = "Thanh toán dịch vụ_vụ_" + vuMua;
+
+                                        etl_ND["new_terms"] = "Tra Ngay";
+                                        etl_ND["new_taxtype"] = "";
+                                        // tong tien chi tiet thanh toan
+                                        etl_ND["new_invoiceamount"] = new Money(tien * (-1));
+                                        etl_ND["new_gldate"] = phieuNghiemThu["new_ngayduyet"]; // ngay duyet phieu nghiem thu
+                                        etl_ND["new_invoicetype"] = "CRE";
+
+                                        if (phieuNghiemThu.Contains("new_khachhang"))
+                                        {
+                                            etl_ND["new_khachhang"] = phieuNghiemThu["new_khachhang"];
+                                        }
+                                        else if (phieuNghiemThu.Contains("new_khachhangdoanhnghiep"))
+                                        {
+                                            etl_ND["new_khachhangdoanhnghiep"] = phieuNghiemThu["new_khachhangdoanhnghiep"];
+                                        }
+
+                                        service.Create(etl_ND);
+
+                                        etl_ND["new_makhachhang"] = kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "";
+                                        etl_ND["name"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("fullname") ? kHNhanNo["fullname"].ToString() : "") : (kHNhanNo.Contains("name") ? kHNhanNo["name"].ToString() : ""));
+                                        etl_ND["new_socmnd"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : "") : (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""));
+                                        etl_ND["new_descriptionlines"] = phieuNghiemThu["subject"].ToString();
+                                        etl_ND["tran_type"] = "CRE";
+
+                                        Send(etl_ND);
+                                        #endregion
                                     }
-
-                                    service.Create(etl_ND);
-
-                                    etl_ND["new_makhachhang"] = kHNhanNo.Contains("new_makhachhang") ? kHNhanNo["new_makhachhang"].ToString() : "";
-                                    etl_ND["name"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("fullname") ? kHNhanNo["fullname"].ToString() : "") : (kHNhanNo.Contains("name") ? kHNhanNo["name"].ToString() : ""));
-                                    etl_ND["new_socmnd"] = (kHNhanNo.LogicalName.ToLower() == "contact" ? (kHNhanNo.Contains("new_socmnd") ? kHNhanNo["new_socmnd"].ToString() : "") : (kHNhanNo.Contains("new_masothue") ? kHNhanNo["new_masothue"].ToString() : ""));
-                                    etl_ND["new_descriptionlines"] = phieuNghiemThu["subject"].ToString();
-                                    etl_ND["tran_type"] = "CRE";
-
-                                    Send(etl_ND);
-                                    #endregion
                                 }
                             }
                         }
@@ -201,7 +381,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                         apply_PhaiTraSTA["new_paymentdate"] = fullEntity["new_ngayduyet"];
                         apply_PhaiTraSTA["new_paymentdocumentname"] = "CANTRU_03";
                         apply_PhaiTraSTA["new_vouchernumber"] = "CTND";
-                        apply_PhaiTraSTA["new_cashflow"] = "00.00";
+                        apply_PhaiTraSTA["new_cashflow"] = "02.03";
                         apply_PhaiTraSTA["new_paymentnum"] = "1";
                         apply_PhaiTraSTA["new_documentnum"] = HDDichVu["new_sohopdong"].ToString();
                         //apply_PhaiTraSTA["new_documentsequence"] = phieuNghiemThu["new_lannhan"];
@@ -313,14 +493,15 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         apply_PhaiTraCanTruPRE["new_paymentdocumentname"] = "CANTRU_03";
                                         apply_PhaiTraCanTruPRE["new_vouchernumber"] = "CTND";
                                         apply_PhaiTraCanTruPRE["new_cashflow"] = "00.00";
+                                        apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                                         if (etlTransaction["new_invoicetype"].ToString() == "CRE")
                                         {
-                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
+
                                             apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
                                         }
                                         else
                                         {
-                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = etlTransaction["new_name"];
+                                            apply_PhaiTraCanTruPRE["new_prepay_num"] = etlTransaction["new_name"];
                                             apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value);
                                         }
                                         apply_PhaiTraCanTruPRE["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
@@ -554,7 +735,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                         apply_STA["new_paymentdate"] = fullEntity["new_ngayduyet"];
                         apply_STA["new_paymentdocumentname"] = "CANTRU_03";
                         apply_STA["new_vouchernumber"] = "BN";
-                        apply_STA["new_cashflow"] = "00.00";
+                        apply_STA["new_cashflow"] = "02.03";
                         apply_STA["new_referencenumber"] = fullEntity["new_masophieu"].ToString() + "_" + apply_STA["new_name"];
                         apply_STA["new_paymentnum"] = "1";
                         apply_STA["new_documentnum"] = fullEntity["new_masophieu"].ToString();
@@ -670,14 +851,14 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         apply_PhaiTraCanTruPRE["new_paymentdocumentname"] = "CANTRU_03";
                                         apply_PhaiTraCanTruPRE["new_vouchernumber"] = "CTND";
                                         apply_PhaiTraCanTruPRE["new_cashflow"] = "00.00";
+                                        apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                                         if (etlTransaction["new_invoicetype"].ToString() == "CRE")
                                         {
-                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                                             apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
                                         }
                                         else
                                         {
-                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = etlTransaction["new_name"];
+                                            apply_PhaiTraCanTruPRE["new_prepay_num"] = etlTransaction["new_name"];
                                             apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value);
                                         }
                                         apply_PhaiTraCanTruPRE["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
@@ -879,7 +1060,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                     if (hdHaTang.Contains("new_sotienhotro") && ((Money)hdHaTang["new_sotienhotro"]).Value > 0)
                     {
                         soTienNhaMayHoTro = ((Money)hdHaTang["new_sotienhotro"]).Value;
-                        decimal thanhTien = soTienNhaMayHoTro * (tongSoTienThanhToan / (giaTriHopDong - soTienDiaPhuongHoTro));
+                        decimal thanhTien = Math.Round(soTienNhaMayHoTro * (tongSoTienThanhToan / (giaTriHopDong - soTienDiaPhuongHoTro)), 0);
 
                         #region Phat Sinh STA
                         Entity etl_NDSTA = new Entity("new_etltransaction");
@@ -1007,7 +1188,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                         apply_PhaiTraSTA["new_paymentdate"] = fullEntity["new_ngayduyet"];
                         apply_PhaiTraSTA["new_paymentdocumentname"] = "CANTRU_03";
                         apply_PhaiTraSTA["new_vouchernumber"] = "BN";
-                        apply_PhaiTraSTA["new_cashflow"] = "00.00";
+                        apply_PhaiTraSTA["new_cashflow"] = "02.03";
                         apply_PhaiTraSTA["new_paymentnum"] = "1";
                         apply_PhaiTraSTA["new_documentnum"] = fullEntity["new_masophieu"].ToString();
                         //apply_PhaiTraSTA["new_documentsequence"] = phieuNghiemThu["new_lannhan"];
@@ -1073,6 +1254,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                             {
                                                 thanhTien = soTienNDChiu - tongTienCacND;
                                             }
+                                            thanhTien = Math.Round(thanhTien, 0);
                                             Entity etl_ND = new Entity("new_etltransaction");
                                             etl_ND["new_name"] = phieuNghiemThu["new_manghiemthu"].ToString() + "_CRE";
                                             etl_ND["new_vouchernumber"] = "DTND";
@@ -1218,14 +1400,14 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         apply_PhaiTraCanTruPRE["new_paymentdocumentname"] = "CANTRU_03";
                                         apply_PhaiTraCanTruPRE["new_vouchernumber"] = "CTND";
                                         apply_PhaiTraCanTruPRE["new_cashflow"] = "00.00";
+                                        apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                                         if (etlTransaction["new_invoicetype"].ToString() == "CRE")
                                         {
-                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = "1";
                                             apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value * (-1));
                                         }
                                         else
                                         {
-                                            apply_PhaiTraCanTruPRE["new_paymentnum"] = etlTransaction["new_name"];
+                                            apply_PhaiTraCanTruPRE["new_prepay_num"] = etlTransaction["new_name"];
                                             apply_PhaiTraCanTruPRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienvay"]).Value);
                                         }
                                         apply_PhaiTraCanTruPRE["new_documentnum"] = phieuDNThuNo["new_masophieu"].ToString();
@@ -1397,10 +1579,10 @@ namespace Plugin_CreateETL_PDNThanhToan
         {
             MessageQueue mq;
 
-            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle"))
-                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle");
+            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName))
+                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
             else
-                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle");
+                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
 
             Message m = new Message();
 

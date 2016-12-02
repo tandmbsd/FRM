@@ -15,11 +15,11 @@ namespace PDNTamUng_ETLTranSaction
         IOrganizationService service = null;
         IOrganizationServiceFactory factory = null;
         ITracingService trace = null;
+        IPluginExecutionContext context;
 
         void IPlugin.Execute(IServiceProvider serviceProvider)
         {
-
-            IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+            context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
             factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             service = factory.CreateOrganizationService(context.UserId);
             trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
@@ -182,7 +182,7 @@ namespace PDNTamUng_ETLTranSaction
                         paytamung["new_paymentdate"] = fullEntity["new_ngayduyet"];
                         paytamung["new_paymentdocumentname"] = "CANTRU_03";
                         paytamung["new_vouchernumber"] = "BN";
-                        paytamung["new_cashflow"] = "00.00";
+                        paytamung["new_cashflow"] = "25.02";
                         paytamung["new_referencenumber"] = fullEntity["new_masophieutamung"].ToString() + "_" + paytamung["new_name"];
                         paytamung["new_paymentnum"] = "1";
                         paytamung["new_documentnum"] = fullEntity["new_masophieutamung"].ToString();
@@ -460,16 +460,17 @@ namespace PDNTamUng_ETLTranSaction
             }
         }
 
-        private void Send(Entity tmp)
+        public void Send(Entity tmp)
         {
             MessageQueue mq;
 
-            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle"))
-                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle");
+            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName))
+                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
             else
-                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle");
+                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
 
             Message m = new Message();
+
             if (tmp != null)
             {
                 m.Body = Serialize(tmp);
