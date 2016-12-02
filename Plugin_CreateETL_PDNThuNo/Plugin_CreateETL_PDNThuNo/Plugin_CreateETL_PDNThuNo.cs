@@ -481,7 +481,7 @@ namespace Plugin_CreateETL_PDNThuNo
                                     Entity apply_PayRefundMix = new Entity("new_applytransaction");
                                     apply_PayRefundMix["new_name"] = (string)etlMix["new_name"];
                                     apply_PayRefundMix["new_suppliersitecode"] = "Tây Ninh";
-                                    apply_PayRefundMix["new_bankcccountnum"] = bankAccount["new_name"];
+                                    //apply_PayRefundMix["new_bankcccountnum"] = bankAccount["new_name"];
 
                                     apply_PayRefundMix["new_paymentamount"] = new Money(sotien * (-1));
 

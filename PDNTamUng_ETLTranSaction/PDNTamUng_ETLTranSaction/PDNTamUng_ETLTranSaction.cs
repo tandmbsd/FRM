@@ -166,11 +166,11 @@ namespace PDNTamUng_ETLTranSaction
 
                         //paytamung["new_supplierbankname"] = (taikhoanchinh == null ? "" : taikhoanchinh["new_sotaikhoan"]);
                         //paytamung["new_bankcccountnum"] = taikhoanchinh == null ? "CTXL-VND-0" : taikhoanchinh["new_sotaikhoan"];
-                        if (fullEntity.Contains("new_taikhoan"))
-                        {
-                            Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)fullEntity["new_taikhoan"]).Id, new ColumnSet(true));
-                            paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
-                        }
+                        //if (fullEntity.Contains("new_taikhoan"))
+                        //{
+                        //    Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)fullEntity["new_taikhoan"]).Id, new ColumnSet(true));
+                        //    paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
+                        //}
 
                         if (fullEntity.Contains("new_taikhoannganhangttcs"))
                         {

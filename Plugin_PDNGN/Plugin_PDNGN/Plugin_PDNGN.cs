@@ -150,11 +150,11 @@ namespace Plugin_PDNGN
                             //apply_PGNPhanbon["new_documentsequence"] = value++;
                             paytamung["new_suppliersitecode"] = "Tây Ninh";
 
-                            if (PDNGN.Contains("new_taikhoan"))
-                            {
-                                Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)PDNGN["new_taikhoan"]).Id, new ColumnSet(true));
-                                paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
-                            }
+                            //if (PDNGN.Contains("new_taikhoan"))
+                            //{
+                            //    Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)PDNGN["new_taikhoan"]).Id, new ColumnSet(true));
+                            //    paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
+                            //}
 
                             if (PDNGN.Contains("new_taikhoannganhangttcs"))
                             {
@@ -262,11 +262,11 @@ namespace Plugin_PDNGN
                             //apply_PGNPhanbon["new_documentsequence"] = value++;
                             paytamung["new_suppliersitecode"] = "Tây Ninh";
 
-                            if (PDNGN.Contains("new_taikhoan"))
-                            {
-                                Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)PDNGN["new_taikhoan"]).Id, new ColumnSet(true));
-                                paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
-                            }
+                            //if (PDNGN.Contains("new_taikhoan"))
+                            //{
+                            //    Entity taikhoanchinh = service.Retrieve("new_taikhoannganhang", ((EntityReference)PDNGN["new_taikhoan"]).Id, new ColumnSet(true));
+                            //    paytamung["new_supplierbankname"] = taikhoanchinh["new_sotaikhoan"];
+                            //}
 
                             if (PDNGN.Contains("new_taikhoannganhangttcs"))
                             {
