@@ -217,7 +217,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     {
                         apply_PGNhomgiong_CRE["new_name"] = (string)etl_entityCRE["new_name"];
                     }
-                    
+
                     apply_PGNhomgiong_CRE["new_paymentamount"] = new Money(((Money)fullEntity["new_tongsotienkhl"]).Value * (-1));
                     apply_PGNhomgiong_CRE["new_paymentdate"] = fullEntity["new_ngaynhanthuoc"];
                     apply_PGNhomgiong_CRE["new_paymentdocumentname"] = "CANTRU_03";
@@ -274,8 +274,6 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     apply_PGNhomgiong_STA["new_type"] = "TYPE4";
 
                     Send(apply_PGNhomgiong_STA);
-
-
                     #endregion
 
                     #endregion
@@ -732,28 +730,26 @@ namespace Plugin_CreatePBDT_PGNThuoc
                              ((Money)tilethuhoivon["new_tiendaphanbo"]).Value : new decimal(0);
                         decimal sotienphanbo = a.sotien - a.daphanbo;
 
-                        while (dinhmuc > sotienphanbo)
+                        while (true)
                         {
-                            
-                        }
-
-                        if (dinhmuc < sotienphanbo)
-                        {
-                            CreatePBDT(hddtmia, KH, key, vudautu.ToEntityReference(), a.vuthuhoi, dinhmuc, etlID,
-                                type = 2, tram, cbnv, ngaynhan, phieugiaonhan, sophieu, lannhan);
-                            tiendaphanbo = tiendaphanbo + dinhmuc;
-                            tilethuhoivon["new_tiendaphanbo"] = new Money(tiendaphanbo);
-                            //service.Update(tilethuhoivon);
-                            break;
-                        }
-                        else if (dinhmuc > sotienphanbo)
-                        {
-                            CreatePBDT(hddtmia, KH, key, vudautu.ToEntityReference(), a.vuthuhoi, sotienphanbo,
-                                etlID, type = 2, tram, cbnv, ngaynhan, phieugiaonhan, sophieu, lannhan);
-                            tiendaphanbo = tiendaphanbo + sotienphanbo;
-                            dinhmuc = dinhmuc - sotienphanbo;
-                            tilethuhoivon["new_tiendaphanbo"] = new Money(tiendaphanbo);
-                            //service.Update(tilethuhoivon);
+                            if (dinhmuc < sotienphanbo)
+                            {
+                                CreatePBDT(hddtmia, KH, key, vudautu.ToEntityReference(), a.vuthuhoi, dinhmuc, etlID,
+                                    type = 2, tram, cbnv, ngaynhan, phieugiaonhan, sophieu, lannhan);
+                                tiendaphanbo = tiendaphanbo + dinhmuc;
+                                tilethuhoivon["new_tiendaphanbo"] = new Money(tiendaphanbo);
+                                //service.Update(tilethuhoivon);
+                                break;
+                            }
+                            else if (dinhmuc > sotienphanbo)
+                            {
+                                CreatePBDT(hddtmia, KH, key, vudautu.ToEntityReference(), a.vuthuhoi, sotienphanbo,
+                                    etlID, type = 2, tram, cbnv, ngaynhan, phieugiaonhan, sophieu, lannhan);
+                                tiendaphanbo = tiendaphanbo + sotienphanbo;
+                                dinhmuc = dinhmuc - sotienphanbo;
+                                tilethuhoivon["new_tiendaphanbo"] = new Money(tiendaphanbo);
+                                //service.Update(tilethuhoivon);
+                            }
                         }
                     }
                 }
