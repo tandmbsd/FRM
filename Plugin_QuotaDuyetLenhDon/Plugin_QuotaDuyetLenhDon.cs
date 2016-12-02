@@ -1,4 +1,4 @@
-﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
@@ -63,7 +63,7 @@ namespace Plugin_QuotaDuyetLenhDon
                                                         </filter>
                                                       </entity>
                                                     </fetch>"
-                        , FullEntity.Id.ToString() , ((DateTime)FullEntity["new_ngaycap"]).AddHours(7).ToString("yyyy-MM-dd"), ((EntityReference)FullEntity["new_tram"]).Id.ToString(), ((EntityReference)FullEntity["new_vudautu"]).Id.ToString());
+                        , FullEntity.Id.ToString(), ((DateTime)FullEntity["new_ngaycap"]).AddHours(7).ToString("yyyy-MM-dd"), ((EntityReference)FullEntity["new_tram"]).Id.ToString(), ((EntityReference)FullEntity["new_vudautu"]).Id.ToString());
                         RetrieveMultipleRequest fetchRequest1 = new RetrieveMultipleRequest
                         {
                             Query = new FetchExpression(fetch)
@@ -76,11 +76,67 @@ namespace Plugin_QuotaDuyetLenhDon
                             if (kq >= quota)
                                 throw new Exception(string.Format("Quota ngày {0} của trạm {1} đã hết, bạn vui lòng cấp ngày khác!",
                                 ((DateTime)FullEntity["new_ngaycap"]).AddHours(7).ToString("dd/MM/yyyy"), ((EntityReference)FullEntity["new_tram"]).Name));
+                            else //check update uu tien
+                            {
+                                QueryExpression qek = new QueryExpression("new_xeuutien");
+                                qek.ColumnSet = new ColumnSet("new_loaiuutien", "new_soxe", "new_tram", "new_chumiakhcn", "new_chumiakhdn");
+                                qek.Criteria.Conditions.Add(new ConditionExpression("new_tungay", ConditionOperator.OnOrBefore, (DateTime)FullEntity["new_ngaycap"]));
+                                qek.Criteria.Conditions.Add(new ConditionExpression("new_denngay", ConditionOperator.OnOrAfter, (DateTime)FullEntity["new_ngaycap"]));
+                                qek.Criteria.Conditions.Add(new ConditionExpression("new_vudautu", ConditionOperator.Equal, ((EntityReference)FullEntity["new_vudautu"]).Id));
+
+                                EntityCollection dsut = service.RetrieveMultiple(qek);
+                                bool co = false;
+                                foreach (Entity a in dsut.Entities)
+                                {
+                                    if (((OptionSetValue)a["new_loaiuutien"]).Value == 100000000)
+                                    {
+                                        if (((EntityReference)FullEntity["new_tram"]).Id == ((EntityReference)a["new_tram"]).Id)
+                                        {
+                                            co = true;
+                                            break;
+                                        }
+                                    }
+                                    else if (((OptionSetValue)a["new_loaiuutien"]).Value == 100000001) //theo chủ mía
+                                    {
+                                        if (FullEntity.Contains("new_khachhang") && a.Contains("new_chumiakhcn"))
+                                        {
+                                            if (((EntityReference)FullEntity["new_khachhang"]).Id == ((EntityReference)FullEntity["new_chumiakhcn"]).Id)
+                                            {
+                                                co = true;
+                                                break;
+                                            }
+                                        }
+                                        else if (FullEntity.Contains("new_khachhangdoanhnghiep") && a.Contains("new_chumiakhdn"))
+                                        {
+                                            if (((EntityReference)FullEntity["new_khachhangdoanhnghiep"]).Id == ((EntityReference)FullEntity["new_chumiakhdn"]).Id)
+                                            {
+                                                co = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else //theo xe
+                                    {
+                                        if (FullEntity.Contains("new_xevanchuyen") && ((EntityReference)FullEntity["new_xevanchuyen"]).Id == ((EntityReference)FullEntity["new_soxe"]).Id)
+                                        {
+                                            co = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (co)
+                                {
+                                    Entity up = new Entity("new_lenhdon");
+                                    up.Id = target.Id;
+                                    up["new_uutien"] = true;
+                                    service.Update(up);
+                                }
+                            }
                         }
                     }
                 }
                 else
-                    throw new Exception(string.Format("Quota ngày {0} của trạm {1} chưa được cấp, vui lòng báo về phòng Nông Nghiệp để hỗ trợ !", 
+                    throw new Exception(string.Format("Quota ngày {0} của trạm {1} chưa được cấp, vui lòng báo về phòng Nông Nghiệp để hỗ trợ !",
                         ((DateTime)FullEntity["new_ngaycap"]).AddHours(7).ToString("dd/MM/yyyy"), ((EntityReference)FullEntity["new_tram"]).Name
                         ));
             }
