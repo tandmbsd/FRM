@@ -1,0 +1,4 @@
+C:\Users\7506113\Desktop\FRM_Plugin\New_Plugin\Plugin_QuotaDuyetLenhDon\bin\Debug\Plugin_QuotaDuyetLenhDon.dll
+C:\Users\7506113\Desktop\FRM_Plugin\New_Plugin\Plugin_QuotaDuyetLenhDon\bin\Debug\Plugin_QuotaDuyetLenhDon.pdb
+C:\Users\7506113\Desktop\FRM_Plugin\New_Plugin\Plugin_QuotaDuyetLenhDon\obj\Debug\Plugin_QuotaDuyetLenhDon.dll
+C:\Users\7506113\Desktop\FRM_Plugin\New_Plugin\Plugin_QuotaDuyetLenhDon\obj\Debug\Plugin_QuotaDuyetLenhDon.pdb

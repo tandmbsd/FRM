@@ -1,0 +1,5 @@
+C:\Users\7506113\Desktop\New folder (2)\Plugin_GiaTriHDTheChap\bin\Debug\Plugin_GiaTriHDTheChap.dll
+C:\Users\7506113\Desktop\New folder (2)\Plugin_GiaTriHDTheChap\bin\Debug\Plugin_GiaTriHDTheChap.pdb
+C:\Users\7506113\Desktop\New folder (2)\Plugin_GiaTriHDTheChap\obj\Debug\Plugin_GiaTriHDTheChap.csprojResolveAssemblyReference.cache
+C:\Users\7506113\Desktop\New folder (2)\Plugin_GiaTriHDTheChap\obj\Debug\Plugin_GiaTriHDTheChap.dll
+C:\Users\7506113\Desktop\New folder (2)\Plugin_GiaTriHDTheChap\obj\Debug\Plugin_GiaTriHDTheChap.pdb

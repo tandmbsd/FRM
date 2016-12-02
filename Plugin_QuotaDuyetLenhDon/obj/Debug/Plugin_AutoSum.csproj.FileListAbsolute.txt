@@ -1,0 +1,29 @@
+C:\Users\7506113\Desktop\New folder (2)\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.dll
+C:\Users\7506113\Desktop\New folder (2)\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.pdb
+C:\Users\7506113\Desktop\New folder (2)\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.dll
+C:\Users\7506113\Desktop\New folder (2)\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.pdb
+C:\Users\7506113\Desktop\FRM_Plugin\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.dll
+C:\Users\7506113\Desktop\FRM_Plugin\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.pdb
+C:\Users\7506113\Desktop\FRM_Plugin\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.dll
+C:\Users\7506113\Desktop\FRM_Plugin\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.pdb
+D:\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.dll
+D:\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.pdb
+D:\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.dll
+D:\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.pdb
+D:\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.csprojResolveAssemblyReference.cache
+D:\PROJECTS\MIA DUONG\PLUGIN-CUSTOM_WF\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.dll
+D:\PROJECTS\MIA DUONG\PLUGIN-CUSTOM_WF\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.pdb
+D:\PROJECTS\MIA DUONG\PLUGIN-CUSTOM_WF\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.csprojResolveAssemblyReference.cache
+D:\PROJECTS\MIA DUONG\PLUGIN-CUSTOM_WF\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.dll
+D:\PROJECTS\MIA DUONG\PLUGIN-CUSTOM_WF\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.pdb
+C:\Users\Mr Duy\Downloads\USB\PLUGIN-CUSTOM_WF\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.dll
+C:\Users\Mr Duy\Downloads\USB\PLUGIN-CUSTOM_WF\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.pdb
+C:\Users\Mr Duy\Downloads\USB\PLUGIN-CUSTOM_WF\Plugin_AutoSum\bin\Debug\Microsoft.Xrm.Sdk.dll
+C:\Users\Mr Duy\Downloads\USB\PLUGIN-CUSTOM_WF\Plugin_AutoSum\bin\Debug\Microsoft.Xrm.Sdk.xml
+C:\Users\Mr Duy\Downloads\USB\PLUGIN-CUSTOM_WF\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.dll
+C:\Users\Mr Duy\Downloads\USB\PLUGIN-CUSTOM_WF\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.pdb
+C:\Users\Mr Duy\Downloads\USB\PLUGIN-CUSTOM_WF\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.csprojResolveAssemblyReference.cache
+C:\Users\7506113\Desktop\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.dll
+C:\Users\7506113\Desktop\Plugin_AutoSum\bin\Debug\Plugin_AutoSum.pdb
+C:\Users\7506113\Desktop\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.dll
+C:\Users\7506113\Desktop\Plugin_AutoSum\obj\Debug\Plugin_AutoSum.pdb
