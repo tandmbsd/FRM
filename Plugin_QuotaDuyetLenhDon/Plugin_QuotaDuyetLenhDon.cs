@@ -22,9 +22,12 @@ namespace Plugin_QuotaDuyetLenhDon
             ITracingService trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
             Entity target = context.InputParameters["Target"] as Entity;
 
-            if (target.Contains("statuscode") && ((OptionSetValue)target["statuscode"]).Value == 100000000)
+            if (target.Contains("statuscode") && (((OptionSetValue)target["statuscode"]).Value == 100000000 || ((OptionSetValue)target["statuscode"]).Value == 100000004))
             {
                 Entity FullEntity = (Entity)context.PostEntityImages["PostImg"];
+                if (((DateTime)FullEntity["new_ngaycap"]).AddHours(7) < DateTime.Now || ((DateTime)FullEntity["new_ngaycap"]).AddHours(7) >= DateTime.Now.AddDays(1))
+                    throw new Exception("Ngày cấp không hợp lệ, phải lớn hơn ngày giờ hiện tại và không quá hiện tại 1 ngày!");
+
                 //get quota
                 QueryExpression qe = new QueryExpression("new_quotacaplenhdon");
                 qe.ColumnSet = new ColumnSet(new string[] { "new_quotacaplenhdonid" });
