@@ -1,4 +1,4 @@
-﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
@@ -380,7 +380,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                         apply_PhaiTraSTA["new_referencenumber"] = HDDichVu["new_sohopdong"].ToString() + "_" + apply_PhaiTraSTA["new_name"];
                         apply_PhaiTraSTA["new_paymentdate"] = fullEntity["new_ngayduyet"];
                         apply_PhaiTraSTA["new_paymentdocumentname"] = "CANTRU_03";
-                        apply_PhaiTraSTA["new_vouchernumber"] = "CTND";
+                        apply_PhaiTraSTA["new_vouchernumber"] = "BN";
                         apply_PhaiTraSTA["new_cashflow"] = "02.03";
                         apply_PhaiTraSTA["new_paymentnum"] = "1";
                         apply_PhaiTraSTA["new_documentnum"] = HDDichVu["new_sohopdong"].ToString();

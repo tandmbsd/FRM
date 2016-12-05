@@ -1,4 +1,4 @@
-﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -684,7 +684,7 @@ namespace Plugin_CreateETL_LenhChi_PhieuTinhTienMia
                         //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
                         apply_STACanTruTHVC["new_referencenumber"] = phieuTTMia["new_masophieu"] + "_VC";
                         apply_STACanTruTHVC["new_paymentdate"] = phieuTTMia["new_ngaylap"];
-                        apply_STACanTruTHVC["new_vouchernumber"] = "BN";
+                        apply_STACanTruTHVC["new_vouchernumber"] = "CTND";
                         apply_STACanTruTHVC["new_cashflow"] = "00.00";
                         apply_STACanTruTHVC["new_paymentnum"] = "1";
                         apply_STACanTruTHVC["new_documentnum"] = phieuTTMia["new_masophieu"].ToString();
