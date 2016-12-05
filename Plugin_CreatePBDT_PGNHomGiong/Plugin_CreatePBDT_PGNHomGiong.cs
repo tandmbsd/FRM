@@ -195,7 +195,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
 
                             etl_STA["new_suppliersite"] = "TAY NINH";
                             etl_STA["new_invoicedate"] = fullEntity["new_ngaylapphieu"];
-                            etl_STA["new_descriptionheader"] = "Giao nhận hôm giống_vụ_" + vuMua;
+                            etl_STA["new_descriptionheader"] = "Giao nhận hom giống_vụ_" + vuMua;
                             etl_STA["new_terms"] = "Tra Ngay";
                             etl_STA["new_taxtype"] = "";
                             etl_STA["new_invoiceamount"] = (Money)fullEntity["new_tongsotienkhl"];
@@ -411,7 +411,7 @@ namespace Plugin_CreatePBDT_PGNHomGiong
 
                             etl_STA["new_suppliersite"] = "TAY NINH";
                             etl_STA["new_invoicedate"] = fullEntity["new_ngaylapphieu"];
-                            etl_STA["new_descriptionheader"] = "Giao nhận hôm giống_vụ_" + vuMua;
+                            etl_STA["new_descriptionheader"] = "Giao nhận hom giống_vụ_" + vuMua;
                             etl_STA["new_terms"] = "Tra Ngay";
                             etl_STA["new_taxtype"] = "";
                             etl_STA["new_invoiceamount"] = (Money)fullEntity["new_tongsotienkhl"];

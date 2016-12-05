@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Connection>
-  <Host>10.33.1.33</Host>
-  <Port>1521</Port>
-  <Service>ERPFRM</Service>
-  <UserName>erptest</UserName>
-  <Password>erptest</Password>
-</Connection>

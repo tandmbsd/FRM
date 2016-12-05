@@ -114,7 +114,7 @@ namespace PDNTamUng_ETLTranSaction
                     etl_ND["new_suppliernumber"] = KH["new_makhachhang"].ToString();
                     etl_ND["new_suppliersite"] = "TAY NINH";
                     etl_ND["new_invoicedate"] = fullEntity["new_ngaylapphieu"];
-                    etl_ND["new_descriptionheader"] = "Tạm ứng tiền mặt cho nông dân";
+                    etl_ND["new_descriptionheader"] = "Tạm ứng tiền mặt cho nông dân_vụ_" + vuMua;
                     etl_ND["new_terms"] = "Tra Ngay";
                     etl_ND["new_taxtype"] = "";
                     decimal sotien = ((Money)fullEntity["new_sotienung"]).Value;
