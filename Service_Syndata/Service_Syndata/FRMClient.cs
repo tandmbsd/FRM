@@ -342,7 +342,7 @@ namespace Service_Syndata
                             catch (Exception e)
                             {
                                 Console.WriteLine(e.ToString());
-                                
+
                                 myTrans.Rollback();
                             }
                             finally
@@ -477,7 +477,7 @@ namespace Service_Syndata
                             #endregion
                         }
                     }
-#endregion
+                    #endregion
                 }
                 catch (Exception ex)
                 {
