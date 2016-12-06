@@ -503,34 +503,37 @@ namespace Service_Syndata
         public static string GetoptionsetText(string entityName, string attributeName, int optionsetValue)
         {
             string optionsetText = string.Empty;
-            try
-            {
-                RetrieveAttributeRequest retrieveAttributeRequest = new RetrieveAttributeRequest();
-                retrieveAttributeRequest.EntityLogicalName = entityName;
-                retrieveAttributeRequest.LogicalName = attributeName;
-                retrieveAttributeRequest.RetrieveAsIfPublished = true;
 
-                RetrieveAttributeResponse retrieveAttributeResponse =
-                  (RetrieveAttributeResponse)crmServices.Execute(retrieveAttributeRequest);
+            RetrieveAttributeRequest retrieveAttributeRequest = new RetrieveAttributeRequest();
+            retrieveAttributeRequest.EntityLogicalName = entityName;
+            retrieveAttributeRequest.LogicalName = attributeName;
+            retrieveAttributeRequest.RetrieveAsIfPublished = true;
+
+            RetrieveAttributeResponse retrieveAttributeResponse =
+              (RetrieveAttributeResponse)crmServices.Execute(retrieveAttributeRequest);
+
+            OptionSetMetadata optionsetMetadata = null;
+            if (retrieveAttributeResponse.AttributeMetadata.GetType() == typeof(StatusAttributeMetadata))
+            {
+                optionsetMetadata = ((StatusAttributeMetadata)retrieveAttributeResponse.AttributeMetadata).OptionSet;
+            }
+            else
+            {
                 PicklistAttributeMetadata picklistAttributeMetadata =
                   (PicklistAttributeMetadata)retrieveAttributeResponse.AttributeMetadata;
 
-                OptionSetMetadata optionsetMetadata = picklistAttributeMetadata.OptionSet;
-
-                foreach (OptionMetadata optionMetadata in optionsetMetadata.Options)
-                {
-                    if (optionMetadata.Value == optionsetValue)
-                    {
-                        optionsetText = optionMetadata.Label.UserLocalizedLabel.Label;
-                        return optionsetText;
-                    }
-
-                }
+                optionsetMetadata = picklistAttributeMetadata.OptionSet;
             }
-            catch (Exception ex)
+            foreach (OptionMetadata optionMetadata in optionsetMetadata.Options)
             {
-                int a = 0;
+                if (optionMetadata.Value == optionsetValue)
+                {
+                    optionsetText = optionMetadata.Label.UserLocalizedLabel.Label;
+                    return optionsetText;
+                }
+
             }
+
             return optionsetText;
         }
 

@@ -73,7 +73,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     Entity etl_ND = new Entity("new_etltransaction");
                     etl_ND["new_name"] = fullEntity["new_masophieu"].ToString() + "_CRE_HL" + test;
                     etl_ND["new_vouchernumber"] = "DTND";
-                    etl_ND["new_transactiontype"] = "3.2.2.a";
+                    etl_ND["new_transactiontype"] = "2.2.2.a";
                     etl_ND["new_customertype"] = new OptionSetValue(fullEntity.Contains("new_khachhang") ? 1 : 2);
                     etl_ND["new_season"] = vuMua;//Vudautu["new_mavudautu"].ToString();
                     //etl_ND["new_vudautu"] = fullEntity["new_vudautu"];
@@ -124,7 +124,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     Entity etl_ND = new Entity("new_etltransaction");
                     etl_ND["new_name"] = fullEntity["new_masophieu"].ToString() + "_CRE" + "_KHL" + test;
                     etl_ND["new_vouchernumber"] = "DTND";
-                    etl_ND["new_transactiontype"] = "3.2.2.a";
+                    etl_ND["new_transactiontype"] = "2.2.2.a";
                     etl_ND["new_customertype"] = new OptionSetValue(fullEntity.Contains("new_khachhang") ? 1 : 2);
                     etl_ND["new_season"] = vuMua;//Vudautu["new_mavudautu"].ToString();
                     //etl_ND["new_vudautu"] = fullEntity["new_vudautu"];
@@ -170,7 +170,7 @@ namespace Plugin_CreatePBDT_PGNThuoc
                     Entity etl_STA = new Entity("new_etltransaction");
                     etl_STA["new_name"] = fullEntity["new_masophieu"].ToString() + "_STA_KHL" + test;
                     etl_STA["new_vouchernumber"] = "GSND";
-                    etl_STA["new_transactiontype"] = "3.1.3.a";
+                    etl_STA["new_transactiontype"] = "2.1.3.a";
                     etl_STA["new_customertype"] = new OptionSetValue(fullEntity.Contains("new_khachhang") ? 1 : 2);
                     etl_STA["new_season"] = vuMua;
                     etl_STA["new_sochungtu"] = fullEntity["new_masophieu"].ToString();
