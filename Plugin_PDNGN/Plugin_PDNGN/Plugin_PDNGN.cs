@@ -58,9 +58,9 @@ namespace Plugin_PDNGN
                     {
                         HDTTB = service.Retrieve("new_hopdongdaututrangthietbi", ((EntityReference)PDNGN["new_hopdongdautummtb"]).Id, new ColumnSet(new string[] { "new_sohopdong" }));
                     }
-                    if (!PDNGN.Contains("new_ngaydukienchi"))
+                    if (!PDNGN.Contains("new_ngayduyet"))
                     {
-                        throw new Exception("Chưa có ngày dự kiến chi!");
+                        throw new Exception("Chưa có ngày duyệt!");
                     }
                     Entity KH = null;
                     if (PDNGN.Contains("new_khachhang"))
@@ -125,7 +125,7 @@ namespace Plugin_PDNGN
                         etl_ND["new_taxtype"] = "";
                         trace.Trace("begin4");
                         etl_ND["new_invoiceamount"] = new Money(((Money)PDNGN["new_sotiendthoanlai"]).Value);
-                        etl_ND["new_gldate"] = PDNGN["new_ngaydukienchi"];
+                        etl_ND["new_gldate"] = PDNGN["new_ngayduyet"];
                         etl_ND["new_invoicetype"] = "PRE";
 
                         if (PDNGN.Contains("new_khachhang"))
@@ -237,7 +237,7 @@ namespace Plugin_PDNGN
                         etl_ND["new_terms"] = "Tra Ngay";
                         etl_ND["new_taxtype"] = "";
                         etl_ND["new_invoiceamount"] = new Money(((Money)PDNGN["new_sotiendtkhonghoanlai"]).Value);
-                        etl_ND["new_gldate"] = PDNGN["new_ngaydukienchi"];
+                        etl_ND["new_gldate"] = PDNGN["new_ngayduyet"];
                         etl_ND["new_invoicetype"] = "STA";
 
                         if (PDNGN.Contains("new_khachhang"))
