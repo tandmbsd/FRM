@@ -48,7 +48,7 @@ namespace Service_Syndata
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.Message);
                 }
             } while (crmServices == null);
             Console.WriteLine("Ket noi thanh cong");
@@ -213,6 +213,7 @@ namespace Service_Syndata
                                         }
                                         catch (NpgsqlException ex)
                                         {
+                                            Console.WriteLine("Type 0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
                                             Console.WriteLine(SqlExceptionMessage(ex).ToString());
                                             break;
                                         }
@@ -321,6 +322,7 @@ namespace Service_Syndata
                                         }
                                         catch (NpgsqlException ex)
                                         {
+                                            Console.WriteLine("Type 0.1 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
                                             Console.WriteLine(SqlExceptionMessage(ex).ToString());
                                             break;
                                         }
@@ -341,6 +343,7 @@ namespace Service_Syndata
                             }
                             catch (Exception e)
                             {
+                                Console.WriteLine("Type 0.2 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + e.StackTrace);
                                 Console.WriteLine(e.ToString());
 
                                 myTrans.Rollback();
@@ -462,6 +465,7 @@ namespace Service_Syndata
                                     }
                                     catch (Exception ex)
                                     {
+                                        Console.WriteLine("Type 1.0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
                                         Console.WriteLine(ex.Message + ex.StackTrace);
                                         break;
                                     }
@@ -470,6 +474,7 @@ namespace Service_Syndata
                             }
                             catch (Exception ex)
                             {
+                                Console.WriteLine("Type 1.1 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
                                 Console.WriteLine(ex.ToString());
                             }
                             conn.Close();
@@ -488,6 +493,7 @@ namespace Service_Syndata
                         try
                         {
                             crmServices = new OrganizationServiceProxy(new Uri(url), null, clientCredentials, null);
+                            Console.WriteLine("Connect success!");
                         }
                         catch (Exception ex1)
                         {

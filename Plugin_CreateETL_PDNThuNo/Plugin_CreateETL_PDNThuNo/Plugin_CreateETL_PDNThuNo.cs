@@ -311,11 +311,12 @@ namespace Plugin_CreateETL_PDNThuNo
                 }
                 else if (((OptionSetValue)phieuDNThuNo["new_loaithuno"]).Value == 100000000)//Tien mat
                 {
-                    if (!phieuDNThuNo.Contains("new_bank_acc"))
-                    {
-                        throw new Exception("Phiếu đề nghị thu nợ chưa có Bank Account Name");
-                    }
-                    else if (!phieuDNThuNo.Contains("new_cash_flow"))
+                    //if (!phieuDNThuNo.Contains("new_bank_acc"))
+                    //{
+                    //    throw new Exception("Phiếu đề nghị thu nợ chưa có Bank Account Name");
+                    //}
+                    //else
+                    if (!phieuDNThuNo.Contains("new_cash_flow"))
                     {
                         throw new Exception("Phiếu đề nghị thu nợ chưa có Cash Flow");
                     }
@@ -337,7 +338,11 @@ namespace Plugin_CreateETL_PDNThuNo
                         foreach (var phieuTinhLai in dsPhieuTinhLai.Entities)
                         {
                             ++i;
-                            var bankAccount = service.Retrieve("new_bank_acc", ((EntityReference)phieuDNThuNo["new_bank_acc"]).Id, new ColumnSet(new string[] { "new_name" }));
+                            Entity bankAccount = null;
+                            if (phieuDNThuNo.Contains("new_bank_acc"))
+                            {
+                                bankAccount = service.Retrieve("new_bank_acc", ((EntityReference)phieuDNThuNo["new_bank_acc"]).Id, new ColumnSet(new string[] { "new_name" }));
+                            }
                             var vouchernumber = service.Retrieve("new_voucher_num", ((EntityReference)phieuDNThuNo["new_voucher_num"]).Id, new ColumnSet(new string[] { "new_name" }));
                             var cashFlow = service.Retrieve("new_cashflow", ((EntityReference)phieuDNThuNo["new_cash_flow"]).Id, new ColumnSet(new string[] { "new_name" }));
 
@@ -404,7 +409,7 @@ namespace Plugin_CreateETL_PDNThuNo
 
                                     apply_PayRefundCRE["new_suppliersitecode"] = "Tây Ninh";
 
-                                    apply_PayRefundCRE["new_bankcccountnum"] = bankAccount["new_name"];
+                                    apply_PayRefundCRE["new_bankcccountnum"] = bankAccount != null ? bankAccount["new_name"] : "";
 
                                     apply_PayRefundCRE["new_paymentamount"] = new Money(((Money)phieuTinhLai["new_tienlai"]).Value * (-1));
 

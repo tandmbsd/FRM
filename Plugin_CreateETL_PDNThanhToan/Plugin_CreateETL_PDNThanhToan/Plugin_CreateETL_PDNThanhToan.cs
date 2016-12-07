@@ -213,7 +213,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         //apply_PGNhomgiong_STA["new_name"] = "new_phieugiaonhanhomgiong";
                                         apply_PGNhomgiong_STA["new_paymentamount"] = phieuNghiemThu["new_qd_dautukhl"];
                                         //apply_PGNhomgiong_STA["new_suppliernumber"] = KH["new_makhachhang"];
-                                        apply_PGNhomgiong_STA["new_paymentdate"] = phieuNghiemThu["new_ngaynhanvattu"];
+                                        apply_PGNhomgiong_STA["new_paymentdate"] = phieuNghiemThu["new_ngayduyet"];
                                         apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
                                         apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
                                         apply_PGNhomgiong_STA["new_cashflow"] = "00.00";

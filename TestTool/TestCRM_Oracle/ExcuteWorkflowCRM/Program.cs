@@ -26,7 +26,7 @@ namespace TestCRM_Oracle
                 service = (IOrganizationService)serviceProxy;
 
                 Dictionary<string, string> data = new Dictionary<string, string>();
-                data.Add("13F418C9-2BB9-E611-80CA-9457A558474F", "new_phieudenghithanhtoan");
+                /*data.Add("13F418C9-2BB9-E611-80CA-9457A558474F", "new_phieudenghithanhtoan");
                 data.Add("142927E2-7DB8-E611-80CA-9457A558474F", "new_phieugiaonhanvattu");
                 data.Add("1CDF5EBC-7EB8-E611-80CA-9457A558474F", "new_phieudenghithanhtoan");
                 data.Add("447B13A8-79B8-E611-80CA-9457A558474F", "new_phieudenghigiaingan");
@@ -42,7 +42,11 @@ namespace TestCRM_Oracle
                 data.Add("DC154153-31B9-E611-80CA-9457A558474F", "new_bangketienmia");
                 data.Add("E431D3C2-80B8-E611-80CA-9457A558474F", "new_phieudenghithanhtoan");
                 data.Add("EBF1FD49-7BB8-E611-80CA-9457A558474F", "new_phieugiaonhanhomgiong");
-                data.Add("F7C41861-7DB8-E611-80CA-9457A558474F", "new_phieugiaonhanthuoc");
+                data.Add("F7C41861-7DB8-E611-80CA-9457A558474F", "new_phieugiaonhanthuoc");*/
+
+                
+                data.Add("74BCD0C0-2DB9-E611-80CA-9457A558474F", "new_phieudenghithuno");
+                
 
                 foreach (var a in data)
                 {
