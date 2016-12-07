@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xrm.Sdk">
-      <HintPath>C:\Users\user\Downloads\Compressed\SDK\Bin\Microsoft.Xrm.Sdk.dll</HintPath>
+      <HintPath>..\..\..\..\Duy\frm\Owner\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\bin\Debug\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,6 +58,7 @@
     <Compile Include="Tylethuhoivon.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Fakes Include="Fakes\Microsoft.Xrm.Sdk.fakes" />
     <None Include="key.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
