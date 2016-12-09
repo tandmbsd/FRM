@@ -748,6 +748,7 @@ namespace Plugin_CreatePBDT_PGNVatTuKhac
 
                         decimal tiendaphanbo = tilethuhoivon.Contains("new_tiendaphanbo") ?
                              ((Money)tilethuhoivon["new_tiendaphanbo"]).Value : new decimal(0);
+
                         decimal sotienphanbo = a.sotien - a.daphanbo;
 
                         while (true)

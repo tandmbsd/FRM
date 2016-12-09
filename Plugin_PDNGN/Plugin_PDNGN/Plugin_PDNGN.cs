@@ -72,7 +72,7 @@ namespace Plugin_PDNGN
                     // TH so tien hoan lai > 0 PRE => GEN ETL
                     if (((Money)PDNGN["new_sotiendthoanlai"]).Value > 0)
                     {
-                        trace.Trace("begin1");
+                        trace.Trace("so tien hoan lai");
                         //traceService.Trace("1");
                         Entity etl_ND = new Entity("new_etltransaction");
                         if (PDNGN.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)PDNGN["new_phuongthucthanhtoan"]).Value.ToString() == "100000000")
@@ -134,7 +134,7 @@ namespace Plugin_PDNGN
                             etl_ND["new_khachhangdoanhnghiep"] = PDNGN["new_khachhangdoanhnghiep"];
 
                         trace.Trace("2.0");
-                        Guid etl_NDID = service.Create(etl_ND);
+                        Guid etl_NDID = Guid.Empty;
 
                         etl_ND["new_makhachhang"] = KH.Contains("new_makhachhang") ? KH["new_makhachhang"].ToString() : "";
                         etl_ND["name"] = (KH.LogicalName.ToLower() == "contact" ? (KH.Contains("fullname") ? KH["fullname"].ToString() : "") : (KH.Contains("name") ? KH["name"].ToString() : ""));
@@ -142,7 +142,7 @@ namespace Plugin_PDNGN
                         etl_ND["tran_type"] = "PRE";
 
                         Send(etl_ND);
-                        //GenPhanBoDauTuHL(target, etl_NDID);
+                        GenPhanBoDauTuHL(target, etl_NDID);
                         trace.Trace("2");
                         if (PDNGN.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)PDNGN["new_phuongthucthanhtoan"]).Value == 100000001) // neu la chuyen khoan
                         {
@@ -245,7 +245,7 @@ namespace Plugin_PDNGN
                         else if (PDNGN.Contains("new_khachhangdoanhnghiep"))
                             etl_ND["new_khachhangdoanhnghiep"] = PDNGN["new_khachhangdoanhnghiep"];
 
-                        Guid etl_NDID = service.Create(etl_ND);
+                        Guid etl_NDID = Guid.Empty;
 
                         etl_ND["new_makhachhang"] = KH.Contains("new_makhachhang") ? KH["new_makhachhang"].ToString() : "";
                         etl_ND["name"] = (KH.LogicalName.ToLower() == "contact" ? (KH.Contains("fullname") ? KH["fullname"].ToString() : "") : (KH.Contains("name") ? KH["name"].ToString() : ""));
@@ -253,7 +253,7 @@ namespace Plugin_PDNGN
                         etl_ND["tran_type"] = "STA";
 
                         Send(etl_ND);
-                        //GenPhanBoDauTuKHL(target, etl_NDID);
+                        GenPhanBoDauTuKHL(target, etl_NDID);
                         #endregion
 
                         if (PDNGN.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)PDNGN["new_phuongthucthanhtoan"]).Value == 100000001) // neu la chuyen khoan
