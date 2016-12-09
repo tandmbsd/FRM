@@ -1,0 +1,21 @@
+﻿<fetch mapping='logical' aggregate='true' version='1.0'>
+  <entity name='new_chitietdangkydichvu'>
+    <attribute name='new_thanhtien' alias='thanhtien' aggregate='sum' />
+    <link-entity name='new_phieudangkydichvu' from='new_phieudangkydichvuid' to='new_phieudangkydichvu' alias='dk' link-type='inner'>
+      <filter type='and'>
+        <condition attribute='new_tinhtrangduyet' operator='neq' value='100000000'/>
+        <condition attribute='new_tinhtrangduyet' operator='neq' value='100000001'/>
+      </filter>
+      <link-entity name='new_new_pdkdichvu_new_chitiethddtmia' from='new_phieudangkydichvuid' to='new_phieudangkydichvuid' alias='pk' link-type='inner'>
+        <filter type='and'>
+          <condition attribute='new_thuadatcanhtacid' operator='eq' value=''></condition>
+        </filter>
+      </link-entity>
+    </link-entity>
+  </entity>
+</fetch>
+
+
+select sum(cdk.new_thanhtien) as thanhtien from new_chitietdangkydichvu cdk 
+inner join new_phieudangkydichvu dk on dk.new_phieudangkydichvuid = cdk.new_phieudangkydichvu
+inner join new_new_pdkdichvu_new_chitiethddtmia pk on pk.new_phieudangkydichvuid = dk.new_phieudangkydichvuid

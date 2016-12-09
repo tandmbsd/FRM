@@ -1,0 +1,42 @@
+﻿<fetch mapping='logical' version='1.0'>
+  <entity name='new_quitrinhcanhtac'>
+    <all-attributes />
+    <filter>
+      <filter type='or'>
+        <condition attribute='new_hidetuoimia' operator='like' value='%100000000%' />
+        <condition attribute='new_hidetuoimia' operator='null' />
+      </filter>
+
+      <filter type='or'>
+        <condition attribute='new_hidenhomgiongmia' operator='like' value='%100000002%' />
+        <condition attribute='new_hidenhomgiongmia' operator='null' />
+      </filter>
+
+      <filter type='or'>
+        <condition attribute='new_hidenhomdat' operator='like' value='%100000000%' />
+        <condition attribute='new_hidenhomdat' operator='null' />
+      </filter>
+
+      <filter type='or'>
+        <condition attribute='new_loaidat_vl' operator='like' value='%100000000%' />
+        <condition attribute='new_loaidat_vl' operator='null' />
+      </filter>
+
+      <filter type='or'>
+        <condition attribute='new_hidevutrong' operator='like' value='%100000000%' />
+        <condition attribute='new_hidevutrong' operator='null' />
+      </filter>
+
+      <filter type='or'>
+        <condition attribute='new_hidemucdichsanxuatmia' operator='eq' value='%100000001%' />
+        <condition attribute='new_mucdichsanxuatmia' operator='null' />
+      </filter>
+      <filter type='or'>
+        <condition attribute='new_loaigocmia' operator='like' value='%100000000%' />
+        <condition attribute='new_loaigocmia' operator='null' />
+      </filter>
+
+
+    </filter>
+  </entity>
+</fetch>

@@ -74,10 +74,11 @@ namespace Service_Syndata
                         //DateTime lastTime = DateTime.Parse(ConfigurationManager.AppSettings.Get(synkey));
                         XmlNodeList xnList = xkey.SelectNodes("/Keys/Key[@value='" + synkey + "']");
                         XmlNode xn = xnList[0];
-                        DateTime lastTime = DateTime.Parse(xn.InnerText).AddMinutes(-5);
+                        DateTime lastTime = DateTime.Parse(xn.InnerText);
 
                         if (type == "0") //CRM to Client
                         {
+                            lastTime = lastTime.AddMinutes(-15);
                             Console.WriteLine("Syn from CRM - Client [ " + from + "] : ");
 
                             #region type 0
@@ -334,7 +335,7 @@ namespace Service_Syndata
                                 if ((flagInserted == true || flagUpdated == true) && !loi)
                                 {
                                     myTrans.Commit();
-                                    currentTime = DateTime.Now;
+                                    //currentTime = DateTime.Now;
                                     ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     xn.InnerText = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                     xkey.Save("Synkey.xml");
@@ -378,6 +379,7 @@ namespace Service_Syndata
                             try
                             {
                                 #region begin insert
+                                currentTime = DateTime.Now;
                                 // Insert data
                                 NpgsqlCommand scmd = new NpgsqlCommand();
                                 scmd.Connection = conn;
@@ -479,8 +481,7 @@ namespace Service_Syndata
                                         }
                                     }
                                     if (!loi)
-                                    {
-                                        currentTime = DateTime.Now;
+                                    {                                        
                                         ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                         xn.InnerText = t.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                         xkey.Save("Synkey.xml");
