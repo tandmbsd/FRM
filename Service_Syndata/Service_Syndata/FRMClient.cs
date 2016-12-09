@@ -56,6 +56,7 @@ namespace Service_Syndata
             Console.WriteLine("Start");
             while (true)
             {
+                Console.WriteLine("Restart");
                 try
                 {
                     #region Start try
@@ -65,6 +66,7 @@ namespace Service_Syndata
                     xkey.Load(keyfile);
                     foreach (XmlNode a in xdoc.GetElementsByTagName("Table"))
                     {
+
                         string key = "";
                         string type = a.Attributes["type"].Value;
                         string from = a.Attributes["from"].Value;
@@ -75,8 +77,11 @@ namespace Service_Syndata
                         XmlNode xn = xnList[0];
                         DateTime lastTime = DateTime.Parse(xn.InnerText);
 
+
                         if (type == "0") //CRM to Client
                         {
+                            Console.WriteLine("Syn from CRM - Client [ " + from + "] : ");
+
                             #region type 0
                             Dictionary<Guid, int> listInsert = new Dictionary<Guid, int>();
                             NpgsqlConnection conn = new NpgsqlConnection(connectString);
@@ -87,6 +92,8 @@ namespace Service_Syndata
                             DateTime t = DateTime.Now;
                             try
                             {
+                                bool loi = false;
+
                                 string newLastTime = lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                 string newCurrentTime = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                 bool flagInserted = false;
@@ -107,7 +114,7 @@ namespace Service_Syndata
                                 }
 
                                 exp.Criteria.AddCondition("createdon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
-                                while (true)
+                                while (!loi)
                                 {
                                     // Retrieve the page.
                                     EntityCollection insert = crmServices.RetrieveMultiple(exp);
@@ -199,22 +206,20 @@ namespace Service_Syndata
                                                 {
                                                     continue;
                                                 }
-
                                             }
                                             tcmd += "INSERT INTO \"" + to + "\" ( " + clm + " ) Values (" + tvalue + ")";
 
                                             //byte[] bytes = Encoding.Default.GetBytes(tcmd);
 
                                             pgCommand.CommandText = tcmd; // Encoding.UTF8.GetString(bytes);
-                                            pgCommand.ExecuteNonQuery();
-
+                                            var i = pgCommand.ExecuteNonQuery();
                                             flagInserted = true;
-
                                         }
                                         catch (NpgsqlException ex)
                                         {
                                             Console.WriteLine("Type 0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
                                             Console.WriteLine(SqlExceptionMessage(ex).ToString());
+                                            loi = true;
                                             break;
                                         }
                                     }
@@ -236,14 +241,6 @@ namespace Service_Syndata
                                 }
 
                                 #endregion
-
-                                if (flagInserted == true)
-                                {
-                                    myTrans.Commit();
-                                    ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
-                                    xn.InnerText = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                    xkey.Save("Synkey.xml");
-                                }
 
                                 #region begin update
                                 exp.Criteria.Conditions.Clear();
@@ -324,6 +321,7 @@ namespace Service_Syndata
                                         {
                                             Console.WriteLine("Type 0.1 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
                                             Console.WriteLine(SqlExceptionMessage(ex).ToString());
+                                            loi = true;
                                             break;
                                         }
 
@@ -332,14 +330,13 @@ namespace Service_Syndata
 
                                 #endregion
 
-                                if (flagUpdated == true)
+                                if ((flagInserted == true || flagUpdated == true) && !loi)
                                 {
                                     myTrans.Commit();
                                     ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     xn.InnerText = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                     xkey.Save("Synkey.xml");
                                 }
-
                             }
                             catch (Exception e)
                             {
@@ -358,12 +355,22 @@ namespace Service_Syndata
                         }
                         else //Client to CRM
                         {
+                            bool loi = false;
+                            Console.WriteLine("Syn from Client - CRM: " + from);
                             #region type 1
                             Dictionary<Guid, int> listInsert = new Dictionary<Guid, int>();
-                            ExecuteMultipleRequest rqs = new ExecuteMultipleRequest();
-                            rqs.Settings = new ExecuteMultipleSettings();
-                            rqs.Settings.ContinueOnError = false;
-                            rqs.Requests = new OrganizationRequestCollection();
+
+                            ExecuteMultipleRequest rqs = new ExecuteMultipleRequest()
+                            {
+                                Settings = new ExecuteMultipleSettings()
+                                {
+                                    ContinueOnError = false,
+                                    ReturnResponses = true
+                                },
+                                // Create an empty organization request collection.
+                                Requests = new OrganizationRequestCollection()
+                            };
+
                             NpgsqlConnection conn = new NpgsqlConnection(connectString);
                             conn.Open();
                             try
@@ -455,21 +462,27 @@ namespace Service_Syndata
 
                                 #endregion
 
-                                if (insert.Rows.Count > 0)
+                                if (rqs.Requests.Count > 0)
                                 {
-                                    try
+                                    ExecuteMultipleResponse responseWithResults2 = (ExecuteMultipleResponse)crmServices.Execute(rqs);
+
+                                    foreach (ExecuteMultipleResponseItem ab in responseWithResults2.Responses)
                                     {
-                                        ExecuteMultipleResponse rps = (ExecuteMultipleResponse)crmServices.Execute(rqs);
+                                        if (ab.Fault != null)
+                                        {
+                                            loi = true;
+                                            Console.WriteLine("Type 1.0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + ": " + ab.Fault.Message);
+                                            Console.WriteLine(ab.Fault.TraceText);
+                                            break;
+                                        }
+                                    }
+                                    if (!loi)
+                                    {
                                         ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                         xn.InnerText = t.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                                        xkey.Save("Synkey.xml");
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine("Type 1.0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
-                                        Console.WriteLine(ex.Message + ex.StackTrace);
-                                        break;
-                                    }
-                                    xkey.Save("Synkey.xml");
+
                                 }
                             }
                             catch (Exception ex)

@@ -489,7 +489,7 @@ namespace Plugin_CreateETL_PDNThuNo
                                     apply_PayRefundMix["new_suppliersitecode"] = "Tây Ninh";
                                     //apply_PayRefundMix["new_bankcccountnum"] = bankAccount["new_name"];
 
-                                    apply_PayRefundMix["new_paymentamount"] = new Money(sotien * (-1));
+                                    apply_PayRefundMix["new_paymentamount"] = new Money(sotien);
 
                                     apply_PayRefundMix["new_referencenumber"] = phieuDNThuNo["new_masophieu"] + "_" + apply_PayRefundMix["new_name"];
                                     apply_PayRefundMix["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
@@ -534,7 +534,7 @@ namespace Plugin_CreateETL_PDNThuNo
                                     apply_PayRefundCRE["new_referencenumber"] = phieuDNThuNo["new_masophieu"] + "_" + apply_PayRefundCRE["new_name"];
                                     apply_PayRefundCRE["new_paymentdate"] = phieuDNThuNo["new_ngaythu"];
                                     apply_PayRefundCRE["new_paymentdocumentname"] = "CANTRU_04";
-
+                                    //if(phieuDNThuNo.Contains("new_phuongthucthanhtoan") && ((OptionSetValue)phieuDNThuNo["new_phuongthucthanhtoan"])
                                     apply_PayRefundCRE["new_vouchernumber"] = vouchernumber["new_name"];
                                     apply_PayRefundCRE["new_cashflow"] = cashFlow["new_name"];
                                     apply_PayRefundCRE["new_paymentnum"] = "1";
