@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xrm.Sdk">
-      <HintPath>..\..\Microsoft.Xrm.Sdk.dll</HintPath>
+      <HintPath>..\..\..\..\Duy\frm\Owner\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\bin\Debug\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
