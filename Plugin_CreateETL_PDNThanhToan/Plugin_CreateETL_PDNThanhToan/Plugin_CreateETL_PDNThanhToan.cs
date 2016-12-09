@@ -47,10 +47,12 @@ namespace Plugin_CreateETL_PDNThanhToan
                 queryChiTiet.ColumnSet = new ColumnSet(true);
                 var dsChiTiet = service.RetrieveMultiple(queryChiTiet);
 
-                if (!fullEntity.Contains("new_ngayduyet"))
+                if (dsChiTiet.Entities.Count == 0)
                 {
-                    throw new Exception("Phiếu thanh toán chưa có ngày duyệt!");
+                    throw new Exception("Phiếu chưa có chi tiết!");
                 }
+                DateTime ngayNghiemThu = (DateTime)dsChiTiet[0]["actualstart"];
+
                 // loai thanh toan dich vu
                 if (fullEntity.Contains("new_loaithanhtoan") && ((OptionSetValue)fullEntity["new_loaithanhtoan"]).Value == 100000000)
                 {
@@ -64,10 +66,10 @@ namespace Plugin_CreateETL_PDNThanhToan
                             {
                                 Entity phieuNghiemThu = service.Retrieve("new_nghiemthudichvu", ((EntityReference)chiTiet["new_nghiemthudichvu"]).Id, new ColumnSet(true));
                                 Entity hDDauTuMiaCT = service.Retrieve("new_hopdongdautumia", ((EntityReference)phieuNghiemThu["new_hopdongdautumia"]).Id, new ColumnSet(true));
-                                if (!phieuNghiemThu.Contains("new_ngayduyet"))
-                                {
-                                    throw new Exception("Nghiệm thu chưa có ngày duyệt!");
-                                }
+                                //if (!phieuNghiemThu.Contains("new_ngayduyet"))
+                                //{
+                                //    throw new Exception("Nghiệm thu chưa có ngày duyệt!");
+                                //}
                                 // kiem tra neu la khach hang dau tu mia thi phat sinh, nong truong khong phat sinh CRE
                                 if (phieuNghiemThu != null && phieuNghiemThu.Contains("new_khachhangdautumia"))
                                 {
@@ -100,7 +102,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         etl_ND["new_terms"] = "Tra Ngay";
                                         etl_ND["new_taxtype"] = "";
                                         etl_ND["new_invoiceamount"] = new Money(((Money)phieuNghiemThu["new_qd_dautukhl"]).Value * (-1));
-                                        etl_ND["new_gldate"] = phieuNghiemThu["new_ngayduyet"];
+                                        etl_ND["new_gldate"] = phieuNghiemThu["actualstart"];
                                         etl_ND["new_invoicetype"] = "CRE";
 
                                         if (phieuNghiemThu.Contains("new_khachhang"))
@@ -141,7 +143,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         etl_STA["new_terms"] = "Tra Ngay";
                                         etl_STA["new_taxtype"] = "";
                                         etl_STA["new_invoiceamount"] = (Money)phieuNghiemThu["new_qd_dautukhl"];
-                                        etl_STA["new_gldate"] = phieuNghiemThu["new_ngayduyet"];
+                                        etl_STA["new_gldate"] = phieuNghiemThu["new_ngaythuchien"];
                                         etl_STA["new_invoicetype"] = "STA";
 
                                         if (phieuNghiemThu.Contains("new_khachhang"))
@@ -176,7 +178,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         //apply_PGNhomgiong_CRE["new_name"] = "new_phieugiaonhanhomgiong";
                                         apply_PGNhomgiong_CRE["new_paymentamount"] = new Money(((Money)phieuNghiemThu["new_qd_dautukhl"]).Value * (-1));
                                         //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
-                                        apply_PGNhomgiong_CRE["new_paymentdate"] = phieuNghiemThu["new_ngayduyet"];
+                                        apply_PGNhomgiong_CRE["new_paymentdate"] = phieuNghiemThu["actualstart"];
                                         apply_PGNhomgiong_CRE["new_paymentdocumentname"] = "CANTRU_03";
                                         apply_PGNhomgiong_CRE["new_vouchernumber"] = "CTND";
                                         apply_PGNhomgiong_CRE["new_cashflow"] = "00.00";
@@ -213,7 +215,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         //apply_PGNhomgiong_STA["new_name"] = "new_phieugiaonhanhomgiong";
                                         apply_PGNhomgiong_STA["new_paymentamount"] = phieuNghiemThu["new_qd_dautukhl"];
                                         //apply_PGNhomgiong_STA["new_suppliernumber"] = KH["new_makhachhang"];
-                                        apply_PGNhomgiong_STA["new_paymentdate"] = phieuNghiemThu["new_ngayduyet"];
+                                        apply_PGNhomgiong_STA["new_paymentdate"] = phieuNghiemThu["actualstart"];
                                         apply_PGNhomgiong_STA["new_paymentdocumentname"] = "CANTRU_03";
                                         apply_PGNhomgiong_STA["new_vouchernumber"] = "CTND";
                                         apply_PGNhomgiong_STA["new_cashflow"] = "00.00";
@@ -277,7 +279,7 @@ namespace Plugin_CreateETL_PDNThanhToan
                                         etl_ND["new_taxtype"] = "";
                                         // tong tien chi tiet thanh toan
                                         etl_ND["new_invoiceamount"] = new Money(tien * (-1));
-                                        etl_ND["new_gldate"] = phieuNghiemThu["new_ngayduyet"]; // ngay duyet phieu nghiem thu
+                                        etl_ND["new_gldate"] = phieuNghiemThu["actualstart"]; // ngay duyet phieu nghiem thu
                                         etl_ND["new_invoicetype"] = "CRE";
 
                                         if (phieuNghiemThu.Contains("new_khachhang"))
@@ -331,7 +333,7 @@ namespace Plugin_CreateETL_PDNThanhToan
 
                     // tong tien chi tiet thanh toan
                     etl_PhaiTraSTA["new_invoiceamount"] = new Money(((Money)fullEntity["new_tongtienthanhtoan"]).Value);// tong tien de nghi thanh toan
-                    etl_PhaiTraSTA["new_gldate"] = fullEntity["new_ngayduyet"]; // ngay duyet phieu nghiem thu
+                    etl_PhaiTraSTA["new_gldate"] = ngayNghiemThu; // ngay duyet phieu nghiem thu
                     etl_PhaiTraSTA["new_invoicetype"] = "STA";
                     //etl_PhaiTraSTA["new_paymenttype"] = "CK";
 
@@ -378,7 +380,7 @@ namespace Plugin_CreateETL_PDNThanhToan
 
                         //apply_PGNhomgiong_CRE["new_suppliernumber"] = KH["new_makhachhang"];
                         apply_PhaiTraSTA["new_referencenumber"] = HDDichVu["new_sohopdong"].ToString() + "_" + apply_PhaiTraSTA["new_name"];
-                        apply_PhaiTraSTA["new_paymentdate"] = fullEntity["new_ngayduyet"];
+                        apply_PhaiTraSTA["new_paymentdate"] = ngayNghiemThu;
                         apply_PhaiTraSTA["new_paymentdocumentname"] = "CANTRU_03";
                         apply_PhaiTraSTA["new_vouchernumber"] = "BN";
                         apply_PhaiTraSTA["new_cashflow"] = "02.03";

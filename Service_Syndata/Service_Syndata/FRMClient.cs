@@ -66,7 +66,6 @@ namespace Service_Syndata
                     xkey.Load(keyfile);
                     foreach (XmlNode a in xdoc.GetElementsByTagName("Table"))
                     {
-
                         string key = "";
                         string type = a.Attributes["type"].Value;
                         string from = a.Attributes["from"].Value;
@@ -75,8 +74,7 @@ namespace Service_Syndata
                         //DateTime lastTime = DateTime.Parse(ConfigurationManager.AppSettings.Get(synkey));
                         XmlNodeList xnList = xkey.SelectNodes("/Keys/Key[@value='" + synkey + "']");
                         XmlNode xn = xnList[0];
-                        DateTime lastTime = DateTime.Parse(xn.InnerText);
-
+                        DateTime lastTime = DateTime.Parse(xn.InnerText).AddMinutes(-5);
 
                         if (type == "0") //CRM to Client
                         {
@@ -94,11 +92,6 @@ namespace Service_Syndata
                             {
                                 bool loi = false;
 
-                                string newLastTime = lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                string newCurrentTime = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                bool flagInserted = false;
-                                bool flagUpdated = false;
-
                                 #region begin insert
                                 // Insert data
                                 QueryExpression exp = new QueryExpression(from);
@@ -112,6 +105,13 @@ namespace Service_Syndata
                                     if (a.ChildNodes[i].Attributes["datatype"].Value.Trim() == "Key")
                                         key = a.ChildNodes[i].Attributes["from"].Value;
                                 }
+
+                                currentTime = DateTime.Now;
+
+                                string newLastTime = lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                                string newCurrentTime = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                                bool flagInserted = false;
+                                bool flagUpdated = false;
 
                                 exp.Criteria.AddCondition("createdon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
                                 while (!loi)
@@ -244,6 +244,7 @@ namespace Service_Syndata
 
                                 #region begin update
                                 exp.Criteria.Conditions.Clear();
+                                newCurrentTime = DateTime.Now.AddMinutes(5).ToString("yyyy/MM/dd HH:mm:ss.fff");
                                 exp.Criteria.AddCondition("modifiedon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
                                 EntityCollection update = crmServices.RetrieveMultiple(exp);
 
@@ -333,6 +334,7 @@ namespace Service_Syndata
                                 if ((flagInserted == true || flagUpdated == true) && !loi)
                                 {
                                     myTrans.Commit();
+                                    currentTime = DateTime.Now;
                                     ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     xn.InnerText = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                     xkey.Save("Synkey.xml");
@@ -478,6 +480,7 @@ namespace Service_Syndata
                                     }
                                     if (!loi)
                                     {
+                                        currentTime = DateTime.Now;
                                         ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                         xn.InnerText = t.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                         xkey.Save("Synkey.xml");
