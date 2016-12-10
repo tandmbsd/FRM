@@ -46,16 +46,22 @@ namespace Plugin_CreateETL_PDNThanhToan
                 queryChiTiet.Criteria.AddCondition("new_phieudenghithanhtoan", ConditionOperator.Equal, fullEntity.Id);
                 queryChiTiet.ColumnSet = new ColumnSet(true);
                 var dsChiTiet = service.RetrieveMultiple(queryChiTiet);
-
-                if (dsChiTiet.Entities.Count == 0)
-                {
-                    throw new Exception("Phiếu chưa có chi tiết!");
-                }
-                DateTime ngayNghiemThu = (DateTime)dsChiTiet[0]["actualstart"];
-
+                
                 // loai thanh toan dich vu
                 if (fullEntity.Contains("new_loaithanhtoan") && ((OptionSetValue)fullEntity["new_loaithanhtoan"]).Value == 100000000)
                 {
+                    if (dsChiTiet.Entities.Count == 0)
+                    {
+                        throw new Exception("Phiếu chưa có chi tiết!");
+                    }
+                    var chiTietNT = dsChiTiet.Entities[0];
+                    var phieuNT = service.Retrieve("new_nghiemthudichvu", ((EntityReference)chiTietNT["new_nghiemthudichvu"]).Id, new ColumnSet(new string[] { "actualstart" }));
+                    if (phieuNT == null)
+                    {
+                        throw new Exception("Chi tiết thanh toán chưa có phiếu nghiệm thu!");
+                    }
+                    DateTime ngayNghiemThu = (DateTime)phieuNT["actualstart"];
+
                     Entity HDDichVu = service.Retrieve("new_hopdongcungungdichvu", ((EntityReference)fullEntity["new_hopdongcungcapdichvu"]).Id, new ColumnSet(true));
                     if (dsChiTiet != null && dsChiTiet.Entities.Count > 0)
                     {

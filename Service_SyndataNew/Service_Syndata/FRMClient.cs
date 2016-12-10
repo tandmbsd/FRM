@@ -247,10 +247,9 @@ namespace Service_Syndata
                                 #endregion
 
                                 #region begin update
-                                exp.Criteria.Conditions.Clear();
-                                newCurrentTime = DateTime.Now.AddMinutes(5).ToString("yyyy/MM/dd HH:mm:ss.fff");
+                                exp.Criteria.Conditions.Clear();                                
                                 exp.Criteria.AddCondition("modifiedon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
-                                //EntityCollection update = crmServices.RetrieveMultiple(exp);
+                                EntityCollection update = crmServices.RetrieveMultiple(exp);
 
                                 foreach (Entity b in update.Entities)
                                 {
@@ -261,6 +260,7 @@ namespace Service_Syndata
 
                                         for (int i = 0; i < a.ChildNodes.Count; i++)
                                         {
+                                            #region Build Update
                                             string atto = a.ChildNodes[i].Attributes["to"].Value;
                                             string atfrom = a.ChildNodes[i].Attributes["from"].Value;
 
@@ -311,6 +311,7 @@ namespace Service_Syndata
                                                     }
                                                     break;
                                             }
+                                            #endregion
                                         }
 
                                         try
