@@ -120,7 +120,7 @@ namespace Service_Syndata
                                     // Retrieve the page.
 
                                     EntityCollection insert = crmServices.RetrieveMultiple(exp);
-                                    
+
                                     foreach (Entity b in insert.Entities)
                                     {
                                         #region Build insert
@@ -247,7 +247,8 @@ namespace Service_Syndata
                                 #endregion
 
                                 #region begin update
-                                exp.Criteria.Conditions.Clear();                                
+                                exp.Criteria.Conditions.Clear();
+                                newCurrentTime = DateTime.Now.AddMinutes(5).ToString("yyyy/MM/dd HH:mm:ss.fff");
                                 exp.Criteria.AddCondition("modifiedon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
                                 EntityCollection update = crmServices.RetrieveMultiple(exp);
 
@@ -260,7 +261,6 @@ namespace Service_Syndata
 
                                         for (int i = 0; i < a.ChildNodes.Count; i++)
                                         {
-                                            #region Build Update
                                             string atto = a.ChildNodes[i].Attributes["to"].Value;
                                             string atfrom = a.ChildNodes[i].Attributes["from"].Value;
 
@@ -311,7 +311,6 @@ namespace Service_Syndata
                                                     }
                                                     break;
                                             }
-                                            #endregion
                                         }
 
                                         try
@@ -382,6 +381,10 @@ namespace Service_Syndata
                             conn.Open();
                             try
                             {
+                                int totalInsertPart = 100;
+                                int countInsert = 0;
+                                DateTime lastTimePart = new DateTime();
+
                                 #region begin insert
                                 currentTime = DateTime.Now;
                                 // Insert data
@@ -401,21 +404,26 @@ namespace Service_Syndata
 
                                 scmd.CommandType = CommandType.Text;
                                 if (from == "PhieuDoTapChat")
-                                    scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" fr WHERE \"CreatedDate\" BETWEEN '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND '" + currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND fr.\"KLAfter\" != 0 ";
+                                    scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" fr WHERE \"CreatedDate\" BETWEEN '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND '" + currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND fr.\"KLAfter\" != 0 ORDER BY \"CreatedDate\"";
                                 else
-                                    scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" BETWEEN '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND '" + currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "'";
+                                    scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" BETWEEN '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND '" + currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' ORDER BY \"CreatedDate\"";
 
                                 DataTable insert = new DataTable();
                                 NpgsqlDataAdapter adp = new NpgsqlDataAdapter(scmd);
                                 adp.Fill(insert);
                                 DateTime t = DateTime.Now;
+
                                 foreach (DataRow b in insert.Rows)
                                 {
+
+                                    ++countInsert;
+                                    lastTimePart = (DateTime)b["CreatedDate"];
                                     Entity record = new Entity(to);
                                     //listInsert.Add(Guid.Parse(b[key].ToString()), 1);
 
                                     for (int i = 0; i < a.ChildNodes.Count; i++)
                                     {
+                                        #region Begin build insert sql
                                         string atto = a.ChildNodes[i].Attributes["to"].Value;
                                         string atfrom = a.ChildNodes[i].Attributes["from"].Value;
 
@@ -458,39 +466,42 @@ namespace Service_Syndata
                                                     record[atto] = decimal.Parse(b[atfrom].ToString());
                                                 break;
                                         }
+                                        #endregion
+
+
+                                        //crmServices.Create(record);
+                                        CreateRequest createRequest = new CreateRequest();
+                                        createRequest.Target = record;
+                                        rqs.Requests.Add(createRequest);
+                                        t = DateTime.Parse(b["CreatedDate"].ToString());
+                                        t = t.AddMilliseconds(1000);
                                     }
 
-                                    //crmServices.Create(record);
-                                    CreateRequest createRequest = new CreateRequest();
-                                    createRequest.Target = record;
-                                    rqs.Requests.Add(createRequest);
-                                    t = DateTime.Parse(b["CreatedDate"].ToString());
-                                    t = t.AddMilliseconds(1000);
-                                }
-
-                                #endregion
-
-                                if (rqs.Requests.Count > 0)
-                                {
-                                    ExecuteMultipleResponse responseWithResults2 = (ExecuteMultipleResponse)crmServices.Execute(rqs);
-
-                                    foreach (ExecuteMultipleResponseItem ab in responseWithResults2.Responses)
+                                    #endregion
+                                    if ((countInsert % totalInsertPart) == 0 || countInsert >= insert.Rows.Count)
                                     {
-                                        if (ab.Fault != null)
+                                        if (rqs.Requests.Count > 0)
                                         {
-                                            loi = true;
-                                            Console.WriteLine("Type 1.0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + ": " + ab.Fault.Message);
-                                            Console.WriteLine(ab.Fault.TraceText);
-                                            break;
+                                            ExecuteMultipleResponse responseWithResults2 = (ExecuteMultipleResponse)crmServices.Execute(rqs);
+
+                                            foreach (ExecuteMultipleResponseItem ab in responseWithResults2.Responses)
+                                            {
+                                                if (ab.Fault != null)
+                                                {
+                                                    loi = true;
+                                                    Console.WriteLine("Type 1.0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + ": " + ab.Fault.Message);
+                                                    Console.WriteLine(ab.Fault.TraceText);
+                                                    break;
+                                                }
+                                            }
+                                            if (!loi)
+                                            {
+                                                ConfigurationManager.AppSettings.Set(synkey, lastTimePart.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+                                                xn.InnerText = t.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                                                xkey.Save("Synkey.xml");
+                                            }
                                         }
                                     }
-                                    if (!loi)
-                                    {                                        
-                                        ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
-                                        xn.InnerText = t.ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                        xkey.Save("Synkey.xml");
-                                    }
-
                                 }
                             }
                             catch (Exception ex)

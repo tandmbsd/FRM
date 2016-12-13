@@ -121,7 +121,7 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                                     a["new_tapchatthucte"] = (decimal)((AliasedValue)result[0]["c.new_tapchatthucte"]).Value;
 
                                     decimal tlmia = (decimal)target["new_trongluong"] - (decimal)((AliasedValue)result[0]["b.new_trongluong"]).Value;
-                                    a["new_trongluongmia"] = tlmia * (1 - ((decimal)((AliasedValue)result[0]["c.new_tapchatthucte"]).Value / 100));
+                                    a["new_trongluongmia"] = tlmia;
                                 }
                         }
 
@@ -143,7 +143,7 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                                     a["new_tapchatthucte"] = (decimal)((AliasedValue)result[0]["c.new_tapchatthucte"]).Value;
 
                                     decimal tlmia = (decimal)((AliasedValue)result[0]["a.new_trongluong"]).Value - (decimal)target["new_trongluong"];
-                                    a["new_trongluongmia"] = tlmia * (1 - ((decimal)((AliasedValue)result[0]["c.new_tapchatthucte"]).Value / 100));
+                                    a["new_trongluongmia"] = tlmia;
                                 }
                         }
                         a["statuscode"] = new OptionSetValue(100000002);
@@ -205,7 +205,7 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                                 a["new_trongluongbi"] = (decimal)((AliasedValue)result[0]["b.new_trongluong"]).Value;
 
                                 decimal tlmia = (decimal)((AliasedValue)result[0]["a.new_trongluong"]).Value - (decimal)((AliasedValue)result[0]["b.new_trongluong"]).Value;
-                                a["new_trongluongmia"] = tlmia * (1 - ((decimal)target["new_tapchatthucte"] / 100));
+                                a["new_trongluongmia"] = tlmia;
                             }
                     }
                     service.Update(a);

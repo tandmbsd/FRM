@@ -12,6 +12,7 @@ using System.Data;
 using Npgsql;
 using System.ServiceModel.Description;
 using System.Text;
+using System.Linq;
 
 namespace Service_Syndata
 {
@@ -78,7 +79,6 @@ namespace Service_Syndata
 
                         if (type == "0") //CRM to Client
                         {
-                            lastTime = lastTime.AddMinutes(-15);
                             Console.WriteLine("Syn from CRM - Client [ " + from + "] : ");
 
                             #region type 0
@@ -118,8 +118,29 @@ namespace Service_Syndata
                                 while (!loi)
                                 {
                                     // Retrieve the page.
-
                                     EntityCollection insert = crmServices.RetrieveMultiple(exp);
+
+                                    string keyName = "";
+                                    for (int i = 0; i < a.ChildNodes.Count; i++)
+                                    {
+                                        if (a.ChildNodes[i].Attributes["datatype"].Value.Trim() == "Key")
+                                        {
+                                            keyName = a.ChildNodes[i].Attributes["to"].Value;
+                                            break;
+                                        }
+                                    }
+                                    List<Guid> dskey = new List<Guid>();
+
+                                    if (insert.Entities.Count > 0)
+                                    {
+                                        var query = "SELECT \"" + keyName + "\" FROM \"" + to + "\" WHERE \"" + keyName + "\" in (" + string.Join(",", insert.Entities.Select(o => "'" + o.Id.ToString().ToLower() + "'").ToArray()) + ")";
+                                        var cmd = new NpgsqlCommand(query, conn);
+                                        NpgsqlDataAdapter adp = new NpgsqlDataAdapter(cmd);
+                                        DataTable keytb = new DataTable();
+                                        adp.Fill(keytb);
+                                        foreach (DataRow lr in keytb.Rows)
+                                            dskey.Add(new Guid(lr[keyName].ToString()));
+                                    }
 
                                     foreach (Entity b in insert.Entities)
                                     {
@@ -128,7 +149,7 @@ namespace Service_Syndata
                                         string tvalue = "";
                                         string clm = "";
                                         string keyValue = "";
-                                        string keyName = "";
+
                                         for (int i = 0; i < a.ChildNodes.Count; i++)
                                         {
                                             string atto = a.ChildNodes[i].Attributes["to"].Value;
@@ -200,23 +221,15 @@ namespace Service_Syndata
                                         string tcmd = "";
                                         try
                                         {
-                                            if (!string.IsNullOrEmpty(keyName) && !string.IsNullOrEmpty(keyValue))
+                                            if (!dskey.Contains(b.Id))
                                             {
-                                                var query = "SELECT COUNT(*) FROM \"" + to + "\" WHERE \"" + keyName + "\" = " + keyValue;
-                                                var cmd = new NpgsqlCommand(query, conn);
-                                                var dr = cmd.ExecuteScalar().ToString();
-                                                if (dr != "0")
-                                                {
-                                                    continue;
-                                                }
+                                                //========check cho nay
+                                                tcmd += "INSERT INTO \"" + to + "\" ( " + clm + " ) Values (" + tvalue + ")";
+                                                //byte[] bytes = Encoding.Default.GetBytes(tcmd);
+                                                pgCommand.CommandText = tcmd; // Encoding.UTF8.GetString(bytes);
+                                                var i = pgCommand.ExecuteNonQuery();
+                                                flagInserted = true;
                                             }
-                                            tcmd += "INSERT INTO \"" + to + "\" ( " + clm + " ) Values (" + tvalue + ")";
-
-                                            //byte[] bytes = Encoding.Default.GetBytes(tcmd);
-
-                                            pgCommand.CommandText = tcmd; // Encoding.UTF8.GetString(bytes);
-                                            var i = pgCommand.ExecuteNonQuery();
-                                            flagInserted = true;
                                         }
                                         catch (NpgsqlException ex)
                                         {
@@ -364,7 +377,7 @@ namespace Service_Syndata
                             bool loi = false;
                             Console.WriteLine("Syn from Client - CRM: " + from);
                             #region type 1
-                            Dictionary<Guid, int> listInsert = new Dictionary<Guid, int>();
+                            //Dictionary<Guid, int> listInsert = new Dictionary<Guid, int>();
 
                             ExecuteMultipleRequest rqs = new ExecuteMultipleRequest()
                             {
@@ -381,7 +394,7 @@ namespace Service_Syndata
                             conn.Open();
                             try
                             {
-                                int totalInsertPart = 100;
+                                int totalInsertPart = 30;
                                 int countInsert = 0;
                                 DateTime lastTimePart = new DateTime();
 
@@ -403,19 +416,14 @@ namespace Service_Syndata
                                 selecttext += " , " + "\"" + "CreatedDate" + "\"";
 
                                 scmd.CommandType = CommandType.Text;
-                                if (from == "PhieuDoTapChat")
-                                    scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" fr WHERE \"CreatedDate\" BETWEEN '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND '" + currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND fr.\"KLAfter\" != 0 ORDER BY \"CreatedDate\"";
-                                else
-                                    scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" BETWEEN '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND '" + currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' ORDER BY \"CreatedDate\"";
+                                scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" > '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND \"CreatedDate\" <= '" + currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' ORDER BY \"CreatedDate\"";
 
                                 DataTable insert = new DataTable();
                                 NpgsqlDataAdapter adp = new NpgsqlDataAdapter(scmd);
                                 adp.Fill(insert);
-                                DateTime t = DateTime.Now;
 
                                 foreach (DataRow b in insert.Rows)
                                 {
-
                                     ++countInsert;
                                     lastTimePart = (DateTime)b["CreatedDate"];
                                     Entity record = new Entity(to);
@@ -473,8 +481,6 @@ namespace Service_Syndata
                                         CreateRequest createRequest = new CreateRequest();
                                         createRequest.Target = record;
                                         rqs.Requests.Add(createRequest);
-                                        t = DateTime.Parse(b["CreatedDate"].ToString());
-                                        t = t.AddMilliseconds(1000);
                                     }
 
                                     #endregion
@@ -497,7 +503,7 @@ namespace Service_Syndata
                                             if (!loi)
                                             {
                                                 ConfigurationManager.AppSettings.Set(synkey, lastTimePart.ToString("yyyy/MM/dd HH:mm:ss.fff"));
-                                                xn.InnerText = t.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                                                xn.InnerText = lastTimePart.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                                 xkey.Save("Synkey.xml");
                                             }
                                         }
@@ -584,11 +590,7 @@ namespace Service_Syndata
                 sqlErrorMessages.AppendFormat("Mesage: {0}\n", error.Message)
                 .AppendFormat("Severity level: {0}\n", error.Detail)
                 .AppendFormat("Detail SQL: {0}\n", error.ErrorSql)
-
                 .AppendLine(new string('-', error.Message.Length + 7));
-
-
-
             }
             return sqlErrorMessages;
         }
