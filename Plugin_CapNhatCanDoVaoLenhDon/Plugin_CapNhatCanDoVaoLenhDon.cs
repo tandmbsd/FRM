@@ -158,8 +158,8 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                     Entity a = new Entity("new_lenhdon");
                     a.Id = ((EntityReference)target["new_lenhdon"]).Id;
                     a["new_phieudoccs"] = new EntityReference("new_phieudoccs", target.Id);
-                    if (target.Contains("new_ccsthanhtoan"))
-                        a["new_ccsthucte"] = target["new_ccsthanhtoan"];
+                    if (target.Contains("new_ccsdo"))
+                        a["new_ccsthucte"] = target["new_ccsdo"];
                     if (target.Contains("new_ngay"))
                         a["new_thoigiandoccs"] = target["new_ngay"];
                     service.Update(a);

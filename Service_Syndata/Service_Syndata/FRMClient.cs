@@ -13,6 +13,7 @@ using Npgsql;
 using System.ServiceModel.Description;
 using System.Text;
 using System.Linq;
+using System.IO;
 
 namespace Service_Syndata
 {
@@ -28,6 +29,7 @@ namespace Service_Syndata
             int interval = int.Parse(ConfigurationManager.AppSettings.Get("Interval"));
             string configfile = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Config.xml");
             string keyfile = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Synkey.xml");
+            string logFile = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sync.log");
 
             string url = ConfigurationManager.AppSettings.Get("CRMUrl");
             string domain = ConfigurationManager.AppSettings.Get("Domain");
@@ -80,7 +82,6 @@ namespace Service_Syndata
                         if (type == "0") //CRM to Client
                         {
                             Console.WriteLine("Syn from CRM - Client [ " + from + "] : ");
-
                             #region type 0
                             Dictionary<Guid, int> listInsert = new Dictionary<Guid, int>();
                             NpgsqlConnection conn = new NpgsqlConnection(connectString);
@@ -88,7 +89,7 @@ namespace Service_Syndata
 
                             NpgsqlTransaction myTrans = conn.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
                             NpgsqlCommand pgCommand = conn.CreateCommand();
-                            DateTime t = DateTime.Now;
+
                             try
                             {
                                 bool loi = false;
@@ -109,7 +110,7 @@ namespace Service_Syndata
 
                                 currentTime = DateTime.Now;
 
-                                string newLastTime = lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                                string newLastTime = lastTime.AddMinutes(-15).ToString("yyyy/MM/dd HH:mm:ss.fff");
                                 string newCurrentTime = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
                                 bool flagInserted = false;
                                 bool flagUpdated = false;
@@ -236,6 +237,10 @@ namespace Service_Syndata
                                             Console.WriteLine("Type 0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
                                             Console.WriteLine(SqlExceptionMessage(ex).ToString());
                                             loi = true;
+                                            using (var sw = File.AppendText(logFile))
+                                            {
+                                                sw.WriteLine("\r\nType 0.1\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.Message + "\r\n" + ex.StackTrace);
+                                            }
                                             break;
                                         }
                                         #endregion
@@ -267,6 +272,7 @@ namespace Service_Syndata
 
                                 foreach (Entity b in update.Entities)
                                 {
+                                    #region Build Update
                                     if (!listInsert.ContainsKey(b.Id))
                                     {
                                         string toKey = "";
@@ -344,6 +350,7 @@ namespace Service_Syndata
                                         }
 
                                     }
+                                    #endregion
                                 }
 
                                 #endregion
@@ -361,7 +368,10 @@ namespace Service_Syndata
                             {
                                 Console.WriteLine("Type 0.2 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + e.StackTrace);
                                 Console.WriteLine(e.ToString());
-
+                                using (var sw = File.AppendText(logFile))
+                                {
+                                    sw.WriteLine("\r\nType 0.2\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + e.Message + "\r\n" + e.StackTrace);
+                                }
                                 myTrans.Rollback();
                             }
                             finally
@@ -416,7 +426,9 @@ namespace Service_Syndata
                                 selecttext += " , " + "\"" + "CreatedDate" + "\"";
 
                                 scmd.CommandType = CommandType.Text;
-                                scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" > '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' AND \"CreatedDate\" <= '" + currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' ORDER BY \"CreatedDate\"";
+                                scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" > '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") +
+                                    "' AND \"CreatedDate\" <= '" +
+                                    currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' ORDER BY \"CreatedDate\"";
 
                                 DataTable insert = new DataTable();
                                 NpgsqlDataAdapter adp = new NpgsqlDataAdapter(scmd);
@@ -475,13 +487,11 @@ namespace Service_Syndata
                                                 break;
                                         }
                                         #endregion
-
-
-                                        //crmServices.Create(record);
-                                        CreateRequest createRequest = new CreateRequest();
-                                        createRequest.Target = record;
-                                        rqs.Requests.Add(createRequest);
                                     }
+                                    //crmServices.Create(record);
+                                    CreateRequest createRequest = new CreateRequest();
+                                    createRequest.Target = record;
+                                    rqs.Requests.Add(createRequest);
 
                                     #endregion
                                     if ((countInsert % totalInsertPart) == 0 || countInsert >= insert.Rows.Count)
@@ -497,6 +507,10 @@ namespace Service_Syndata
                                                     loi = true;
                                                     Console.WriteLine("Type 1.0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + ": " + ab.Fault.Message);
                                                     Console.WriteLine(ab.Fault.TraceText);
+                                                    using (var sw = File.AppendText(logFile))
+                                                    {
+                                                        sw.WriteLine("\r\nType 1.0\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ab.Fault.Message + "\r\n" + ab.Fault.TraceText);
+                                                    }
                                                     break;
                                                 }
                                             }
@@ -514,6 +528,10 @@ namespace Service_Syndata
                             {
                                 Console.WriteLine("Type 1.1 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
                                 Console.WriteLine(ex.ToString());
+                                using (var sw = File.AppendText(logFile))
+                                {
+                                    sw.WriteLine("\r\nType 1.1\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.Message + "\r\n" + ex.StackTrace);
+                                }
                             }
                             conn.Close();
 

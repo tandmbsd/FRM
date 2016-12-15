@@ -468,14 +468,14 @@ namespace Service_Syndata
                                         }
                                         #endregion
 
-
-                                        //crmServices.Create(record);
-                                        CreateRequest createRequest = new CreateRequest();
-                                        createRequest.Target = record;
-                                        rqs.Requests.Add(createRequest);
-                                        t = DateTime.Parse(b["CreatedDate"].ToString());
-                                        t = t.AddMilliseconds(1000);
                                     }
+                                    //crmServices.Create(record);
+                                    CreateRequest createRequest = new CreateRequest();
+                                    createRequest.Target = record;
+                                    rqs.Requests.Add(createRequest);
+                                    t = DateTime.Parse(b["CreatedDate"].ToString());
+                                    t = t.AddMilliseconds(1000);
+
 
                                     #endregion
                                     if ((countInsert % totalInsertPart) == 0 || countInsert >= insert.Rows.Count)
