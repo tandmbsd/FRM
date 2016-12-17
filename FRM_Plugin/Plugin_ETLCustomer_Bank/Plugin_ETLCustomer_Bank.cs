@@ -31,10 +31,10 @@ namespace Plugin_BienBanMiaChay
                 {
                     MessageQueue mq;
 
-                    if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName))
-                        mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
+                    if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName.ToUpper()))
+                        mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName.ToUpper());
                     else
-                        mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
+                        mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName.ToUpper());
 
                     Message m = new Message();
                     m.Body = Serialize(tmp);
@@ -59,10 +59,10 @@ namespace Plugin_BienBanMiaChay
                 }
 
                 MessageQueue mq;
-                if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName))
-                    mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
+                if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName.ToUpper()))
+                    mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName.ToUpper());
                 else
-                    mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName);
+                    mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_" + context.OrganizationName.ToUpper());
 
                 Message m = new Message();
                 m.Body = Serialize(tmp);

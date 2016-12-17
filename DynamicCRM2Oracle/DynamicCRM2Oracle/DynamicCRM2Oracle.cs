@@ -89,14 +89,14 @@ namespace DynamicCRM2Oracle
             string service = xdoc.GetElementsByTagName("Service").Count > 0 ? xdoc.GetElementsByTagName("Service")[0].InnerText : "";
             string user = xdoc.GetElementsByTagName("UserName").Count > 0 ? xdoc.GetElementsByTagName("UserName")[0].InnerText : "";
             string pass = xdoc.GetElementsByTagName("Password").Count > 0 ? xdoc.GetElementsByTagName("Password")[0].InnerText : "";
-            string oradb = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + host + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + service + ")));User Id = " + user + "; Password = " + pass + "; ";
+            string oradb = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + host + ")(PORT=" + port + ")))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=" + service + ")));User Id=" + user + "; Password=" + pass + "; ";
             //string oradb = "SERVER=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=" + host + ")(PORT=" + port + "))(CONNECT_DATA=(SERVICE_NAME=" + service + ")));uid=" + user + ";pwd=" + pass + ";";
 
             Console.WriteLine("get config !");
             Console.WriteLine(oradb);
             conn = new OracleConnection(oradb);
             conn.Open();
-            OracleCommand cmd = new OracleCommand("Select count(*) from ERPTEST.FRM_SUPPLIER_INT_T ", conn);
+            OracleCommand cmd = new OracleCommand("Select count(*) from ERP.FRM_SUPPLIER_INT_T ", conn);
             cmd.ExecuteNonQuery();
             conn.Close();
 
@@ -127,10 +127,10 @@ namespace DynamicCRM2Oracle
 
         void BeginETL()
         {
-            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_TEST"))
-                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_TEST");
+            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_TEST2"))
+                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_TEST2");
             else
-                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_TEST");
+                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_TEST2");
             mq.Formatter = new System.Messaging.XmlMessageFormatter(new string[] { "System.String,mscorlib" });
 
             while (!stop)
@@ -269,7 +269,7 @@ namespace DynamicCRM2Oracle
             string maKH = (a.Contains("new_makhachhang") ? a["new_makhachhang"].ToString() : "");
             string address = (a.Contains("new_diachithuongtru") ? ((EntityReference)a["new_diachithuongtru"]).Name : "");
 
-            OracleCommand cmd = new OracleCommand("Insert into ERPTEST.FRM_SUPPLIER_INT_T (Supplier_Name, Alternate_Name, Supplier_Type_Code, " +
+            OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_SUPPLIER_INT_T (Supplier_Name, Alternate_Name, Supplier_Type_Code, " +
                " FRM_Registration_Num, FRM_Customer_ID, Country_Code, Address, City, Site_Name) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9)", conn);
             cmd.Parameters.Add(new OracleParameter("1", OracleDbType.Varchar2, s1, ParameterDirection.Input));
             cmd.Parameters.Add(new OracleParameter("2", OracleDbType.Varchar2, tenKh, ParameterDirection.Input));
@@ -301,7 +301,7 @@ namespace DynamicCRM2Oracle
             string sotk = (a.Contains("new_sotaikhoan") ? a["new_sotaikhoan"].ToString() : "");
             string chutk = (a.Contains("new_chutaikhoan") ? a["new_chutaikhoan"].ToString() : "");
 
-            OracleCommand cmd = new OracleCommand("Insert into ERPTEST.FRM_SUPPLIER_BANKACC_INT_T ( FRM_Customer_ID, Supplier_Name, Country_Code, Bank_Name, Bank_Branch, " +
+            OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_SUPPLIER_BANKACC_INT_T ( FRM_Customer_ID, Supplier_Name, Country_Code, Bank_Name, Bank_Branch, " +
                " Bank_Account_Num, Bank_Account_Name, Currency_Code) VALUES (:1, :2, :3, :4, :5, :6, :7, :8)", conn);
             cmd.Parameters.Add(new OracleParameter("1", OracleDbType.Varchar2, maKH, ParameterDirection.Input));
             cmd.Parameters.Add(new OracleParameter("2", OracleDbType.Varchar2, s1, ParameterDirection.Input));
@@ -361,7 +361,7 @@ namespace DynamicCRM2Oracle
                         tran_type = "Mixed";
                     else tran_type = "";
 
-                    OracleCommand cmd = new OracleCommand("Insert into ERPTEST.FRM_TRANSACTION_INT_T  (" +
+                    OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_TRANSACTION_INT_T  (" +
                         "Invoice_Number, " + //1
                         "Invoice_Type_Des, " + //2
                         "Transaction_Type, " + //3
@@ -415,7 +415,10 @@ namespace DynamicCRM2Oracle
                     cmd.Parameters.Add(new OracleParameter("23", OracleDbType.Varchar2, a.Contains("new_descriptionheader") ? a["new_descriptionheader"].ToString() : "", ParameterDirection.Input));
 
                     cmd.Transaction = trans;
+                    Console.WriteLine(cmd.CommandText);
                     cmd.ExecuteNonQuery();
+
+                    
                 }
                 else
                 {
@@ -424,7 +427,7 @@ namespace DynamicCRM2Oracle
                     string s1 = StringUtil.RemoveSign4VietnameseString(tenKh).ToUpper() + "_" + cmnd;
                     string maKH = (a.Contains("new_makhachhang") ? a["new_makhachhang"].ToString() : "");
 
-                    OracleCommand cmd = new OracleCommand("Insert into ERPTEST.FRM_APPLY_PAYMENT_INT_T  (" +
+                    OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_APPLY_PAYMENT_INT_T  (" +
                         "APPLY_ID, " + //1
                         "Supplier_Name, " +//2
                         "FRM_Customer_ID, " +//3
@@ -469,6 +472,8 @@ namespace DynamicCRM2Oracle
                     cmd.Parameters.Add(new OracleParameter("19", OracleDbType.Varchar2, a.Contains("new_prepay_num") ? a["new_prepay_num"].ToString() : "", ParameterDirection.Input));//Type
 
                     cmd.Transaction = trans;
+
+                    Console.WriteLine(cmd.CommandText);
                     cmd.ExecuteNonQuery();
                 }
             }

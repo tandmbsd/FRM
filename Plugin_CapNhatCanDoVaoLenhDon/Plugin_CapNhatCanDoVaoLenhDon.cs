@@ -162,7 +162,23 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                         a["new_ccsthucte"] = target["new_ccsdo"];
                     if (target.Contains("new_ngay"))
                         a["new_thoigiandoccs"] = target["new_ngay"];
+                    
                     service.Update(a);
+
+                    // cap nhat ccs thanh toan khi do ccs sau khi can ra
+                    var lenhDonId = ((EntityReference)target["new_lenhdon"]).Id;
+                    var lenhDon = service.Retrieve("new_lenhdon", lenhDonId, new ColumnSet(new string[] {
+                        "new_trongluongbi", "new_vudautu", "new_tapchatthucte", "new_trongluongxoi" }));
+                    if (lenhDon.Contains("new_trongluongbi"))
+                    {
+                        OrganizationRequest request = new OrganizationRequest("new_Action_GetChinhSachCanDo");
+                        request["new_lenhdon"] = lenhDonId;
+                        request["new_vudautu"] = ((EntityReference)lenhDon["new_vudautu"]).Id.ToString();
+                        request["new_tapchatthucte"] = lenhDon["new_tapchatthucte"];
+                        request["new_ccsthucte"] = target["new_ccsdo"];
+                        request["new_trongluongthucte"] = Math.Round((decimal)lenhDon["new_trongluongxoi"] - (decimal)lenhDon["new_trongluongbi"], 2);
+                        OrganizationResponse result = service.Execute(request);
+                    }
                 }
             }
             else if (target.LogicalName.Trim().ToLower() == "new_phieudotapchat")
