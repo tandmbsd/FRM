@@ -20,6 +20,7 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
             service = factory.CreateOrganizationService(context.UserId);
 
             Entity target = (Entity)context.InputParameters["Target"];
+            if (context.Depth > 1) return;
 
             if (target.LogicalName.Trim().ToLower() == "new_phieudangtai")
             {
@@ -39,7 +40,7 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                             a["new_thoigiandangtai"] = target["new_ngay"];
                             //test += "\r\n" + ((DateTime)target["new_ngay"]).ToString() + "\r\n";
                         }
-                        if (target.Contains("new_loaimiachay") && !string.IsNullOrEmpty((string)target["new_loaimiachay"]))
+                        if (target.Contains("new_loaimiachay") && !string.IsNullOrEmpty(target["new_loaimiachay"].ToString()) && target["new_loaimiachay"].ToString() != "")
                         {
                             string loaiMiaChay = target["new_loaimiachay"].ToString();
                             int toLoaiMia = 100000000;
@@ -72,7 +73,7 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception(ex.Message);
+                        throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
                     }
 
                 }
@@ -162,7 +163,7 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                         a["new_ccsthucte"] = target["new_ccsdo"];
                     if (target.Contains("new_ngay"))
                         a["new_thoigiandoccs"] = target["new_ngay"];
-                    
+
                     service.Update(a);
 
                     // cap nhat ccs thanh toan khi do ccs sau khi can ra
@@ -172,7 +173,7 @@ namespace Plugin_CapNhatCanDoVaoLenhDon
                     if (lenhDon.Contains("new_trongluongbi"))
                     {
                         OrganizationRequest request = new OrganizationRequest("new_Action_GetChinhSachCanDo");
-                        request["new_lenhdon"] = lenhDonId;
+                        request["new_lenhdon"] = lenhDonId.ToString();
                         request["new_vudautu"] = ((EntityReference)lenhDon["new_vudautu"]).Id.ToString();
                         request["new_tapchatthucte"] = lenhDon["new_tapchatthucte"];
                         request["new_ccsthucte"] = target["new_ccsdo"];

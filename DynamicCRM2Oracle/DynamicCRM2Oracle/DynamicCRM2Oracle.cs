@@ -29,14 +29,21 @@ namespace DynamicCRM2Oracle
         static OracleConnection conn;
         static List<Entity> dsRecord = new List<Entity>();
         static List<string> dsMessage = new List<string>();
+        public static string pathLog
+        {
+            get
+            {
+                return "log_" + DateTime.Now.Date.ToString("yyMMdd") + ".txt";
+            }
+        }
         //private System.Diagnostics.EventLog eventLog1;
         public DynamicCRM2Oracle()
         {
             //eventLog1 = new System.Diagnostics.EventLog();
             //if (!System.Diagnostics.EventLog.SourceExists("DynamicCRM2Oracle"))
             //{
-            //    System.Diagnostics.EventLog.CreateEventSource(
-            //        "DynamicCRM2Oracle", "DynamicCRM2OracleLog");
+            //System.Diagnostics.EventLog.CreateEventSource(
+            //"DynamicCRM2Oracle", "DynamicCRM2OracleLog");
             //}
             //eventLog1.Source = "DynamicCRM2Oracle";
             //eventLog1.Log = "DynamicCRM2OracleLog";
@@ -127,10 +134,10 @@ namespace DynamicCRM2Oracle
 
         void BeginETL()
         {
-            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_TEST2"))
-                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_TEST2");
+            if (MessageQueue.Exists(@".\Private$\DynamicCRM2Oracle_TTCS"))
+                mq = new MessageQueue(@".\Private$\DynamicCRM2Oracle_TTCS");
             else
-                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_TEST2");
+                mq = MessageQueue.Create(@".\Private$\DynamicCRM2Oracle_TTCS");
             mq.Formatter = new System.Messaging.XmlMessageFormatter(new string[] { "System.String,mscorlib" });
 
             while (!stop)
@@ -210,8 +217,16 @@ namespace DynamicCRM2Oracle
                                         cursor.Close();
                                         dsMessage.Clear();
                                         dsRecord.Clear();
+
+                                        using (var sw = File.AppendText(pathLog))
+                                        {
+                                            sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                                            sw.WriteLine(ex2.Message);
+                                            sw.WriteLine(ex2.StackTrace);
+                                        }
                                         Console.WriteLine(ex2.Message);
                                         Console.WriteLine(ex2.StackTrace);
+
                                         Console.ReadLine();
                                     }
 
@@ -229,7 +244,14 @@ namespace DynamicCRM2Oracle
                     {
                         Console.WriteLine(ex.Message);
                         Console.WriteLine(ex.StackTrace);
+                        using (var sw = File.AppendText(pathLog))
+                        {
+                            sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                            sw.WriteLine(ex.Message);
+                            sw.WriteLine(ex.StackTrace);
+                        }
                         Console.ReadLine();
+
                     }
                     #endregion
                 }
@@ -270,7 +292,7 @@ namespace DynamicCRM2Oracle
             string address = (a.Contains("new_diachithuongtru") ? ((EntityReference)a["new_diachithuongtru"]).Name : "");
 
             OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_SUPPLIER_INT_T (Supplier_Name, Alternate_Name, Supplier_Type_Code, " +
-               " FRM_Registration_Num, FRM_Customer_ID, Country_Code, Address, City, Site_Name) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9)", conn);
+             " FRM_Registration_Num, FRM_Customer_ID, Country_Code, Address, City, Site_Name) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9)", conn);
             cmd.Parameters.Add(new OracleParameter("1", OracleDbType.Varchar2, s1, ParameterDirection.Input));
             cmd.Parameters.Add(new OracleParameter("2", OracleDbType.Varchar2, tenKh, ParameterDirection.Input));
             cmd.Parameters.Add(new OracleParameter("3", OracleDbType.Varchar2, "FARMERS", ParameterDirection.Input));
@@ -284,6 +306,11 @@ namespace DynamicCRM2Oracle
             conn.Open();
             int row = cmd.ExecuteNonQuery();
             conn.Close();
+            using (var sw = File.AppendText(pathLog))
+            {
+                sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                sw.WriteLine(cmd.CommandText);
+            }
             if (row == 0)
                 return false;
             else
@@ -302,7 +329,7 @@ namespace DynamicCRM2Oracle
             string chutk = (a.Contains("new_chutaikhoan") ? a["new_chutaikhoan"].ToString() : "");
 
             OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_SUPPLIER_BANKACC_INT_T ( FRM_Customer_ID, Supplier_Name, Country_Code, Bank_Name, Bank_Branch, " +
-               " Bank_Account_Num, Bank_Account_Name, Currency_Code) VALUES (:1, :2, :3, :4, :5, :6, :7, :8)", conn);
+             " Bank_Account_Num, Bank_Account_Name, Currency_Code) VALUES (:1, :2, :3, :4, :5, :6, :7, :8)", conn);
             cmd.Parameters.Add(new OracleParameter("1", OracleDbType.Varchar2, maKH, ParameterDirection.Input));
             cmd.Parameters.Add(new OracleParameter("2", OracleDbType.Varchar2, s1, ParameterDirection.Input));
             cmd.Parameters.Add(new OracleParameter("3", OracleDbType.Varchar2, "VN", ParameterDirection.Input));
@@ -314,6 +341,11 @@ namespace DynamicCRM2Oracle
             conn.Open();
             int row = cmd.ExecuteNonQuery();
             conn.Close();
+            using (var sw = File.AppendText(pathLog))
+            {
+                sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                sw.WriteLine(cmd.CommandText);
+            }
             if (row == 0)
                 return false;
             else
@@ -361,31 +393,31 @@ namespace DynamicCRM2Oracle
                         tran_type = "Mixed";
                     else tran_type = "";
 
-                    OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_TRANSACTION_INT_T  (" +
-                        "Invoice_Number, " + //1
-                        "Invoice_Type_Des, " + //2
-                        "Transaction_Type, " + //3
-                        "Customer_Type, " + //4
-                        "Season, " + //5
-                        "Contract_Number, " + //6
-                        "Document_No, " + //7
-                        "Transaction_Line, " +//8
-                        "Supplier_Name, " + //9
-                        "FRM_Customer_ID, " + //10
-                        "Invoice_Date, " + //11
-                        "GL_Date, " + //12
-                        "Description_Header, " +//13
-                        "Voucher_Number, " +//14
-                        "Terms_Name, " +//15
-                        "Tax_Invoice_Type, " +//16
-                        "Tax_Type, " +//17
-                        "Invoice_Amount, " +//18
-                        "Payment_Type, " +//19
-                        "Description_Lines, " +//20
-                        "INVOICE_BATCH, " + //21
-                        "PAYMENT_NO, " + //22
-                        "PAYMENT_TYPE_DES)"//23
-                        + " VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20, :21, :22, :23)", conn);
+                    OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_TRANSACTION_INT_T(" +
+                    "Invoice_Number, " + //1
+                    "Invoice_Type_Des, " + //2
+                    "Transaction_Type, " + //3
+                    "Customer_Type, " + //4
+                    "Season, " + //5
+                    "Contract_Number, " + //6
+                    "Document_No, " + //7
+                    "Transaction_Line, " +//8
+                    "Supplier_Name, " + //9
+                    "FRM_Customer_ID, " + //10
+                    "Invoice_Date, " + //11
+                    "GL_Date, " + //12
+                    "Description_Header, " +//13
+                    "Voucher_Number, " +//14
+                    "Terms_Name, " +//15
+                    "Tax_Invoice_Type, " +//16
+                    "Tax_Type, " +//17
+                    "Invoice_Amount, " +//18
+                    "Payment_Type, " +//19
+                    "Description_Lines, " +//20
+                    "INVOICE_BATCH, " + //21
+                    "PAYMENT_NO, " + //22
+                    "PAYMENT_TYPE_DES)"//23
+                    + " VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20, :21, :22, :23)", conn);
                     cmd.Parameters.Add(new OracleParameter("1", OracleDbType.Varchar2, a.Contains("new_name") ? a["new_name"].ToString() : "", ParameterDirection.Input));//Invoice_Number
                     cmd.Parameters.Add(new OracleParameter("2", OracleDbType.Varchar2, tran_type, ParameterDirection.Input));//Invoice_Type_Des
                     cmd.Parameters.Add(new OracleParameter("3", OracleDbType.Varchar2, a.Contains("new_transactiontype") ? a["new_transactiontype"].ToString() : "", ParameterDirection.Input)); // Transaction_Type
@@ -410,7 +442,7 @@ namespace DynamicCRM2Oracle
                     cmd.Parameters.Add(new OracleParameter("19", OracleDbType.Varchar2, a.Contains("new_paymenttype") ? a["new_paymenttype"].ToString() : "", ParameterDirection.Input));//Payment_Type
                     cmd.Parameters.Add(new OracleParameter("20", OracleDbType.Varchar2, a.Contains("new_descriptionlines") ? a["new_descriptionlines"].ToString() : "", ParameterDirection.Input));//Description_Lines
 
-                    cmd.Parameters.Add(new OracleParameter("21", OracleDbType.Varchar2, "DT_CANTRU_2015", ParameterDirection.Input));//Description_Lines      
+                    cmd.Parameters.Add(new OracleParameter("21", OracleDbType.Varchar2, "DT_CANTRU_2015", ParameterDirection.Input));//Description_Lines
                     cmd.Parameters.Add(new OracleParameter("22", OracleDbType.Varchar2, lenhChi, ParameterDirection.Input));
                     cmd.Parameters.Add(new OracleParameter("23", OracleDbType.Varchar2, a.Contains("new_descriptionheader") ? a["new_descriptionheader"].ToString() : "", ParameterDirection.Input));
 
@@ -418,7 +450,12 @@ namespace DynamicCRM2Oracle
                     Console.WriteLine(cmd.CommandText);
                     cmd.ExecuteNonQuery();
 
-                    
+                    using (var sw = File.AppendText(pathLog))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        sw.WriteLine(cmd.CommandText);
+                    }
+
                 }
                 else
                 {
@@ -427,27 +464,27 @@ namespace DynamicCRM2Oracle
                     string s1 = StringUtil.RemoveSign4VietnameseString(tenKh).ToUpper() + "_" + cmnd;
                     string maKH = (a.Contains("new_makhachhang") ? a["new_makhachhang"].ToString() : "");
 
-                    OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_APPLY_PAYMENT_INT_T  (" +
-                        "APPLY_ID, " + //1
-                        "Supplier_Name, " +//2
-                        "FRM_Customer_ID, " +//3
-                        "Payment_Date, " +//4
-                        "Bank_Account_Name, " +//5
-                        "Document_No, " +//6
-                        "Description, " +//7
-                        "Voucher_Number, " +//8
-                        "Receiver_Sender, " +//9
-                        "Address, " +//10
-                        "Originial_Document, " +//11
-                        "Cash_Flow, " +//12
-                        "Invoice_Num, " +//13
-                        "Payment_Amount, " +//14
-                        "SUPPLIER_BANK_NUM, " +//15
-                        "Reference_Num, " + //16
-                        "Payment_num, " + //17
-                        "TYPE, " +//18
-                        "PREPAY_NUM)"//19
-                        + " VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19)", conn);
+                    OracleCommand cmd = new OracleCommand("Insert into ERP.FRM_APPLY_PAYMENT_INT_T(" +
+                    "APPLY_ID, " + //1
+                    "Supplier_Name, " +//2
+                    "FRM_Customer_ID, " +//3
+                    "Payment_Date, " +//4
+                    "Bank_Account_Name, " +//5
+                    "Document_No, " +//6
+                    "Description, " +//7
+                    "Voucher_Number, " +//8
+                    "Receiver_Sender, " +//9
+                    "Address, " +//10
+                    "Originial_Document, " +//11
+                    "Cash_Flow, " +//12
+                    "Invoice_Num, " +//13
+                    "Payment_Amount, " +//14
+                    "SUPPLIER_BANK_NUM, " +//15
+                    "Reference_Num, " + //16
+                    "Payment_num, " + //17
+                    "TYPE, " +//18
+                    "PREPAY_NUM)"//19
+                    + " VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19)", conn);
                     cmd.Parameters.Add(new OracleParameter("1", OracleDbType.Varchar2, a.Id, ParameterDirection.Input));//ApplyId
                     cmd.Parameters.Add(new OracleParameter("2", OracleDbType.Varchar2, s1, ParameterDirection.Input));//Supplier_Name
                     cmd.Parameters.Add(new OracleParameter("3", OracleDbType.Varchar2, maKH, ParameterDirection.Input)); // FRM_Customer_ID
@@ -475,6 +512,12 @@ namespace DynamicCRM2Oracle
 
                     Console.WriteLine(cmd.CommandText);
                     cmd.ExecuteNonQuery();
+
+                    using (var sw = File.AppendText(pathLog))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        sw.WriteLine(cmd.CommandText);
+                    }
                 }
             }
 

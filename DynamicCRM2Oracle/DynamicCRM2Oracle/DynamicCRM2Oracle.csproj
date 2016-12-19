@@ -70,8 +70,9 @@
       <HintPath>..\..\..\..\..\hpthang\Work\TTC\Projects\DynamicCRM2Oracle\DynamicCRM2Oracle\bin\Debug\HybridService.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Crm.Sdk.Proxy">
-      <HintPath>..\..\..\..\..\hpthang\Work\TTC\Projects\DynamicCRM2Oracle\DynamicCRM2Oracle\bin\Debug\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+    <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\VFM\Email marketing\Workflow_CampaignActivity_CreateCampaignAPI\EmailMarketingCommon\bin\Debug\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk">
       <HintPath>..\..\..\..\..\hpthang\Work\TTC\Projects\DynamicCRM2Oracle\DynamicCRM2Oracle\bin\Debug\Microsoft.Xrm.Sdk.dll</HintPath>
@@ -137,10 +138,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+ Other similar extension points exist, see Microsoft.Common.targets.
+<Target Name="BeforeBuild">
+</Target>
+<Target Name="AfterBuild">
+</Target>
+-->
 </Project>

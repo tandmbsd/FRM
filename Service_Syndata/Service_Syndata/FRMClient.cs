@@ -82,305 +82,305 @@ namespace Service_Syndata
                         if (type == "0") //CRM to Client
                         {
                             Console.WriteLine("Syn from CRM - Client [ " + from + "] : ");
-                            #region type 0
-                            Dictionary<Guid, int> listInsert = new Dictionary<Guid, int>();
-                            NpgsqlConnection conn = new NpgsqlConnection(connectString);
-                            conn.Open();
+                            //#region type 0
+                            //Dictionary<Guid, int> listInsert = new Dictionary<Guid, int>();
+                            //NpgsqlConnection conn = new NpgsqlConnection(connectString);
+                            //conn.Open();
 
-                            NpgsqlTransaction myTrans = conn.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
-                            NpgsqlCommand pgCommand = conn.CreateCommand();
+                            //NpgsqlTransaction myTrans = conn.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+                            //NpgsqlCommand pgCommand = conn.CreateCommand();
 
-                            try
-                            {
-                                bool loi = false;
+                            //try
+                            //{
+                            //    bool loi = false;
 
-                                #region begin insert
-                                // Insert data
-                                QueryExpression exp = new QueryExpression(from);
-                                exp.PageInfo = new PagingInfo();
-                                exp.PageInfo.PageNumber = 1;
-                                exp.PageInfo.PagingCookie = null;
+                            //    #region begin insert
+                            //    Insert data
+                            //    QueryExpression exp = new QueryExpression(from);
+                            //    exp.PageInfo = new PagingInfo();
+                            //    exp.PageInfo.PageNumber = 1;
+                            //    exp.PageInfo.PagingCookie = null;
 
-                                for (int i = 0; i < a.ChildNodes.Count; i++)
-                                {
-                                    exp.ColumnSet.AddColumn(a.ChildNodes[i].Attributes["from"].Value);
-                                    if (a.ChildNodes[i].Attributes["datatype"].Value.Trim() == "Key")
-                                        key = a.ChildNodes[i].Attributes["from"].Value;
-                                }
+                            //    for (int i = 0; i < a.ChildNodes.Count; i++)
+                            //    {
+                            //        exp.ColumnSet.AddColumn(a.ChildNodes[i].Attributes["from"].Value);
+                            //        if (a.ChildNodes[i].Attributes["datatype"].Value.Trim() == "Key")
+                            //            key = a.ChildNodes[i].Attributes["from"].Value;
+                            //    }
 
-                                currentTime = DateTime.Now;
+                            //    currentTime = DateTime.Now;
 
-                                string newLastTime = lastTime.AddMinutes(-15).ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                string newCurrentTime = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                bool flagInserted = false;
-                                bool flagUpdated = false;
+                            //    string newLastTime = lastTime.AddMinutes(-15).ToString("yyyy/MM/dd HH:mm:ss.fff");
+                            //    string newCurrentTime = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                            //    bool flagInserted = false;
+                            //    bool flagUpdated = false;
 
-                                exp.Criteria.AddCondition("createdon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
-                                while (!loi)
-                                {
-                                    // Retrieve the page.
-                                    EntityCollection insert = crmServices.RetrieveMultiple(exp);
+                            //    exp.Criteria.AddCondition("createdon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
+                            //    while (!loi)
+                            //    {
+                            //        Retrieve the page.
+                            //       EntityCollection insert = crmServices.RetrieveMultiple(exp);
 
-                                    string keyName = "";
-                                    for (int i = 0; i < a.ChildNodes.Count; i++)
-                                    {
-                                        if (a.ChildNodes[i].Attributes["datatype"].Value.Trim() == "Key")
-                                        {
-                                            keyName = a.ChildNodes[i].Attributes["to"].Value;
-                                            break;
-                                        }
-                                    }
-                                    List<Guid> dskey = new List<Guid>();
+                            //        string keyName = "";
+                            //        for (int i = 0; i < a.ChildNodes.Count; i++)
+                            //        {
+                            //            if (a.ChildNodes[i].Attributes["datatype"].Value.Trim() == "Key")
+                            //            {
+                            //                keyName = a.ChildNodes[i].Attributes["to"].Value;
+                            //                break;
+                            //            }
+                            //        }
+                            //        List<Guid> dskey = new List<Guid>();
 
-                                    if (insert.Entities.Count > 0)
-                                    {
-                                        var query = "SELECT \"" + keyName + "\" FROM \"" + to + "\" WHERE \"" + keyName + "\" in (" + string.Join(",", insert.Entities.Select(o => "'" + o.Id.ToString().ToLower() + "'").ToArray()) + ")";
-                                        var cmd = new NpgsqlCommand(query, conn);
-                                        NpgsqlDataAdapter adp = new NpgsqlDataAdapter(cmd);
-                                        DataTable keytb = new DataTable();
-                                        adp.Fill(keytb);
-                                        foreach (DataRow lr in keytb.Rows)
-                                            dskey.Add(new Guid(lr[keyName].ToString()));
-                                    }
+                            //        if (insert.Entities.Count > 0)
+                            //        {
+                            //            var query = "SELECT \"" + keyName + "\" FROM \"" + to + "\" WHERE \"" + keyName + "\" in (" + string.Join(",", insert.Entities.Select(o => "'" + o.Id.ToString().ToLower() + "'").ToArray()) + ")";
+                            //            var cmd = new NpgsqlCommand(query, conn);
+                            //            NpgsqlDataAdapter adp = new NpgsqlDataAdapter(cmd);
+                            //            DataTable keytb = new DataTable();
+                            //            adp.Fill(keytb);
+                            //            foreach (DataRow lr in keytb.Rows)
+                            //                dskey.Add(new Guid(lr[keyName].ToString()));
+                            //        }
 
-                                    foreach (Entity b in insert.Entities)
-                                    {
-                                        #region Build insert
-                                        listInsert.Add((Guid)b[key], 1);
-                                        string tvalue = "";
-                                        string clm = "";
-                                        string keyValue = "";
+                            //        foreach (Entity b in insert.Entities)
+                            //        {
+                            //            #region Build insert
+                            //            listInsert.Add((Guid)b[key], 1);
+                            //            string tvalue = "";
+                            //            string clm = "";
+                            //            string keyValue = "";
 
-                                        for (int i = 0; i < a.ChildNodes.Count; i++)
-                                        {
-                                            string atto = a.ChildNodes[i].Attributes["to"].Value;
-                                            string atfrom = a.ChildNodes[i].Attributes["from"].Value;
+                            //            for (int i = 0; i < a.ChildNodes.Count; i++)
+                            //            {
+                            //                string atto = a.ChildNodes[i].Attributes["to"].Value;
+                            //                string atfrom = a.ChildNodes[i].Attributes["from"].Value;
 
-                                            switch (a.ChildNodes[i].Attributes["datatype"].Value.Trim())
-                                            {
-                                                case "Key":
-                                                    clm += " \"" + atto + "\" ";
-                                                    keyValue = (b.Contains(atfrom) ? ("'" + ((Guid)b[atfrom]).ToString() + "'") : "");
-                                                    keyName = atto;
-                                                    tvalue += (b.Contains(atfrom) ? ("'" + ((Guid)b[atfrom]).ToString() + "'") : "NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        tvalue += " , ";
-                                                        clm += " , ";
-                                                    }
-                                                    break;
-                                                case "String":
-                                                    clm += " \"" + atto + "\" ";
-                                                    tvalue += (b.Contains(atfrom) ? ("'" + b[atfrom].ToString() + "'") : "NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        tvalue += " , ";
-                                                        clm += " , ";
-                                                    }
-                                                    break;
-                                                case "Lookup":
-                                                    clm += " \"" + atto + "\" , \"" + a.ChildNodes[i].Attributes["toname"].Value + "\" ";
-                                                    tvalue += (b.Contains(atfrom) ? ("'" + ((EntityReference)b[atfrom]).Id.ToString() + "'") : "NULL");
-                                                    tvalue += (b.Contains(atfrom) ? (" , '" + ((EntityReference)b[atfrom]).Name + "'") : " , NULL");
+                            //                switch (a.ChildNodes[i].Attributes["datatype"].Value.Trim())
+                            //                {
+                            //                    case "Key":
+                            //                        clm += " \"" + atto + "\" ";
+                            //                        keyValue = (b.Contains(atfrom) ? ("'" + ((Guid)b[atfrom]).ToString() + "'") : "");
+                            //                        keyName = atto;
+                            //                        tvalue += (b.Contains(atfrom) ? ("'" + ((Guid)b[atfrom]).ToString() + "'") : "NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            tvalue += " , ";
+                            //                            clm += " , ";
+                            //                        }
+                            //                        break;
+                            //                    case "String":
+                            //                        clm += " \"" + atto + "\" ";
+                            //                        tvalue += (b.Contains(atfrom) ? ("'" + b[atfrom].ToString() + "'") : "NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            tvalue += " , ";
+                            //                            clm += " , ";
+                            //                        }
+                            //                        break;
+                            //                    case "Lookup":
+                            //                        clm += " \"" + atto + "\" , \"" + a.ChildNodes[i].Attributes["toname"].Value + "\" ";
+                            //                        tvalue += (b.Contains(atfrom) ? ("'" + ((EntityReference)b[atfrom]).Id.ToString() + "'") : "NULL");
+                            //                        tvalue += (b.Contains(atfrom) ? (" , '" + ((EntityReference)b[atfrom]).Name + "'") : " , NULL");
 
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        tvalue += " , ";
-                                                        clm += " , ";
-                                                    }
-                                                    break;
-                                                case "Date":
-                                                    clm += " \"" + atto + "\" ";
-                                                    tvalue += (b.Contains(atfrom) ? ("'" + ((DateTime)b[atfrom]).ToLongDateString() + " " + ((DateTime)b[atfrom]).ToLongTimeString() + "'") : "NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        tvalue += " , ";
-                                                        clm += " , ";
-                                                    }
-                                                    break;
-                                                case "OptionSet":
-                                                    clm += " \"" + atto + "\" , \"" + a.ChildNodes[i].Attributes["toname"].Value + "\"";
-                                                    tvalue += (b.Contains(atfrom) ? (((OptionSetValue)b[atfrom]).Value.ToString()) : "NULL");
-                                                    tvalue += (b.Contains(atfrom) ? (" , '" + GetoptionsetText(from, atfrom, ((OptionSetValue)b[atfrom]).Value) + "' ") : " , NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        tvalue += " , ";
-                                                        clm += " , ";
-                                                    }
-                                                    break;
-                                                default:
-                                                    clm += " \"" + atto + "\" ";
-                                                    tvalue += (b.Contains(atfrom) ? (b[atfrom].ToString()) : "NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        tvalue += " , ";
-                                                        clm += " , ";
-                                                    }
-                                                    break;
-                                            }
-                                        }
-                                        string tcmd = "";
-                                        try
-                                        {
-                                            if (!dskey.Contains(b.Id))
-                                            {
-                                                //========check cho nay
-                                                tcmd += "INSERT INTO \"" + to + "\" ( " + clm + " ) Values (" + tvalue + ")";
-                                                //byte[] bytes = Encoding.Default.GetBytes(tcmd);
-                                                pgCommand.CommandText = tcmd; // Encoding.UTF8.GetString(bytes);
-                                                var i = pgCommand.ExecuteNonQuery();
-                                                flagInserted = true;
-                                            }
-                                        }
-                                        catch (NpgsqlException ex)
-                                        {
-                                            Console.WriteLine("Type 0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
-                                            Console.WriteLine(SqlExceptionMessage(ex).ToString());
-                                            loi = true;
-                                            using (var sw = File.AppendText(logFile))
-                                            {
-                                                sw.WriteLine("\r\nType 0.1\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.Message + "\r\n" + ex.StackTrace);
-                                            }
-                                            break;
-                                        }
-                                        #endregion
-                                    }
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            tvalue += " , ";
+                            //                            clm += " , ";
+                            //                        }
+                            //                        break;
+                            //                    case "Date":
+                            //                        clm += " \"" + atto + "\" ";
+                            //                        tvalue += (b.Contains(atfrom) ? ("'" + ((DateTime)b[atfrom]).ToLongDateString() + " " + ((DateTime)b[atfrom]).ToLongTimeString() + "'") : "NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            tvalue += " , ";
+                            //                            clm += " , ";
+                            //                        }
+                            //                        break;
+                            //                    case "OptionSet":
+                            //                        clm += " \"" + atto + "\" , \"" + a.ChildNodes[i].Attributes["toname"].Value + "\"";
+                            //                        tvalue += (b.Contains(atfrom) ? (((OptionSetValue)b[atfrom]).Value.ToString()) : "NULL");
+                            //                        tvalue += (b.Contains(atfrom) ? (" , '" + GetoptionsetText(from, atfrom, ((OptionSetValue)b[atfrom]).Value) + "' ") : " , NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            tvalue += " , ";
+                            //                            clm += " , ";
+                            //                        }
+                            //                        break;
+                            //                    default:
+                            //                        clm += " \"" + atto + "\" ";
+                            //                        tvalue += (b.Contains(atfrom) ? (b[atfrom].ToString()) : "NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            tvalue += " , ";
+                            //                            clm += " , ";
+                            //                        }
+                            //                        break;
+                            //                }
+                            //            }
+                            //            string tcmd = "";
+                            //            try
+                            //            {
+                            //                if (!dskey.Contains(b.Id))
+                            //                {
+                            //                    ======== check cho nay
+                            //                    tcmd += "INSERT INTO \"" + to + "\" ( " + clm + " ) Values (" + tvalue + ")";
+                            //                    byte[] bytes = Encoding.Default.GetBytes(tcmd);
+                            //                    pgCommand.CommandText = tcmd; // Encoding.UTF8.GetString(bytes);
+                            //                    var i = pgCommand.ExecuteNonQuery();
+                            //                    flagInserted = true;
+                            //                }
+                            //            }
+                            //            catch (NpgsqlException ex)
+                            //            {
+                            //                Console.WriteLine("Type 0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
+                            //                Console.WriteLine(SqlExceptionMessage(ex).ToString());
+                            //                loi = true;
+                            //                using (var sw = File.AppendText(logFile))
+                            //                {
+                            //                    sw.WriteLine("\r\nType 0.1\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.Message + "\r\n" + ex.StackTrace);
+                            //                }
+                            //                break;
+                            //            }
+                            //            #endregion
+                            //        }
 
-                                    // Check for more records, if it returns true.
-                                    if (insert.MoreRecords)
-                                    {
-                                        // Increment the page number to retrieve the next page.
-                                        exp.PageInfo.PageNumber++;
+                            //        Check for more records, if it returns true.
+                            //        if (insert.MoreRecords)
+                            //        {
+                            //            Increment the page number to retrieve the next page.
+                            //           exp.PageInfo.PageNumber++;
 
-                                        // Set the paging cookie to the paging cookie returned from current results.
-                                        exp.PageInfo.PagingCookie = insert.PagingCookie;
-                                    }
-                                    else
-                                    {
-                                        // If no more records are in the result nodes, exit the loop.
-                                        break;
-                                    }
-                                }
+                            //            Set the paging cookie to the paging cookie returned from current results.
+                            //            exp.PageInfo.PagingCookie = insert.PagingCookie;
+                            //        }
+                            //        else
+                            //        {
+                            //            If no more records are in the result nodes, exit the loop.
+                            //            break;
+                            //        }
+                            //    }
 
-                                #endregion
+                            //    #endregion
 
-                                #region begin update
-                                exp.Criteria.Conditions.Clear();
-                                newCurrentTime = DateTime.Now.AddMinutes(5).ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                exp.Criteria.AddCondition("modifiedon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
-                                EntityCollection update = crmServices.RetrieveMultiple(exp);
+                            //    #region begin update
+                            //    exp.Criteria.Conditions.Clear();
+                            //    newCurrentTime = DateTime.Now.AddMinutes(5).ToString("yyyy/MM/dd HH:mm:ss.fff");
+                            //    exp.Criteria.AddCondition("modifiedon", ConditionOperator.Between, new string[] { newLastTime, newCurrentTime });
+                            //    EntityCollection update = crmServices.RetrieveMultiple(exp);
 
-                                foreach (Entity b in update.Entities)
-                                {
-                                    #region Build Update
-                                    if (!listInsert.ContainsKey(b.Id))
-                                    {
-                                        string toKey = "";
-                                        string updateString = "";
+                            //    foreach (Entity b in update.Entities)
+                            //    {
+                            //        #region Build Update
+                            //        if (!listInsert.ContainsKey(b.Id))
+                            //        {
+                            //            string toKey = "";
+                            //            string updateString = "";
 
-                                        for (int i = 0; i < a.ChildNodes.Count; i++)
-                                        {
-                                            string atto = a.ChildNodes[i].Attributes["to"].Value;
-                                            string atfrom = a.ChildNodes[i].Attributes["from"].Value;
+                            //            for (int i = 0; i < a.ChildNodes.Count; i++)
+                            //            {
+                            //                string atto = a.ChildNodes[i].Attributes["to"].Value;
+                            //                string atfrom = a.ChildNodes[i].Attributes["from"].Value;
 
-                                            switch (a.ChildNodes[i].Attributes["datatype"].Value.Trim())
-                                            {
-                                                case "Key":
-                                                    toKey = atto;
-                                                    break;
-                                                case "String":
-                                                    updateString += " \"" + atto + "\" = " + (b.Contains(atfrom) ? ("'" + b[atfrom].ToString() + "'") : " NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        updateString += " , ";
-                                                    }
-                                                    break;
-                                                case "Lookup":
-                                                    updateString += " \"" + atto + "\" =  " + (b.Contains(atfrom) ? ("'" + ((EntityReference)b[atfrom]).Id.ToString() + "'") : "NULL") +
-                                                    ", \"" + a.ChildNodes[i].Attributes["toname"].Value + "\" = " + (b.Contains(atfrom) ? (" '" + ((EntityReference)b[atfrom]).Name + "'") : "NULL");
+                            //                switch (a.ChildNodes[i].Attributes["datatype"].Value.Trim())
+                            //                {
+                            //                    case "Key":
+                            //                        toKey = atto;
+                            //                        break;
+                            //                    case "String":
+                            //                        updateString += " \"" + atto + "\" = " + (b.Contains(atfrom) ? ("'" + b[atfrom].ToString() + "'") : " NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            updateString += " , ";
+                            //                        }
+                            //                        break;
+                            //                    case "Lookup":
+                            //                        updateString += " \"" + atto + "\" =  " + (b.Contains(atfrom) ? ("'" + ((EntityReference)b[atfrom]).Id.ToString() + "'") : "NULL") +
+                            //                        ", \"" + a.ChildNodes[i].Attributes["toname"].Value + "\" = " + (b.Contains(atfrom) ? (" '" + ((EntityReference)b[atfrom]).Name + "'") : "NULL");
 
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        updateString += " , ";
-                                                    }
-                                                    break;
-                                                case "Date":
-                                                    updateString += " \"" + atto + "\" = "
-                                                     + (b.Contains(atfrom) ? ("'" + ((DateTime)b[atfrom]).ToLongDateString() + " " + ((DateTime)b[atfrom]).ToLongTimeString() + "'") : " NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        updateString += " , ";
-                                                    }
-                                                    break;
-                                                case "OptionSet":
-                                                    updateString += " \"" + atto + "\" = " + (b.Contains(atfrom) ? (((OptionSetValue)b[atfrom]).Value.ToString()) : " NULL") +
-                                                        " , \"" + a.ChildNodes[i].Attributes["toname"].Value + "\" = "
-                                                         + (b.Contains(atfrom) ? (" '" + GetoptionsetText(from, atfrom, ((OptionSetValue)b[atfrom]).Value) + "' ") : " NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        updateString += " , ";
-                                                    }
-                                                    break;
-                                                default:
-                                                    updateString += " \"" + atto + "\" = "
-                                                     + (b.Contains(atfrom) ? ("'" + b[atfrom].ToString() + "'") : " NULL");
-                                                    if (i < (a.ChildNodes.Count - 1))
-                                                    {
-                                                        updateString += " , ";
-                                                    }
-                                                    break;
-                                            }
-                                        }
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            updateString += " , ";
+                            //                        }
+                            //                        break;
+                            //                    case "Date":
+                            //                        updateString += " \"" + atto + "\" = "
+                            //                         + (b.Contains(atfrom) ? ("'" + ((DateTime)b[atfrom]).ToLongDateString() + " " + ((DateTime)b[atfrom]).ToLongTimeString() + "'") : " NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            updateString += " , ";
+                            //                        }
+                            //                        break;
+                            //                    case "OptionSet":
+                            //                        updateString += " \"" + atto + "\" = " + (b.Contains(atfrom) ? (((OptionSetValue)b[atfrom]).Value.ToString()) : " NULL") +
+                            //                            " , \"" + a.ChildNodes[i].Attributes["toname"].Value + "\" = "
+                            //                             + (b.Contains(atfrom) ? (" '" + GetoptionsetText(from, atfrom, ((OptionSetValue)b[atfrom]).Value) + "' ") : " NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            updateString += " , ";
+                            //                        }
+                            //                        break;
+                            //                    default:
+                            //                        updateString += " \"" + atto + "\" = "
+                            //                         + (b.Contains(atfrom) ? ("'" + b[atfrom].ToString() + "'") : " NULL");
+                            //                        if (i < (a.ChildNodes.Count - 1))
+                            //                        {
+                            //                            updateString += " , ";
+                            //                        }
+                            //                        break;
+                            //                }
+                            //            }
 
-                                        try
-                                        {
-                                            string tcmd = "UPDATE \"" + to + "\" SET  " + updateString +
-                                            " WHERE \"" + toKey + "\" = '" + b.Id.ToString() + "'";
+                            //            try
+                            //            {
+                            //                string tcmd = "UPDATE \"" + to + "\" SET  " + updateString +
+                            //                " WHERE \"" + toKey + "\" = '" + b.Id.ToString() + "'";
 
-                                            pgCommand.CommandText = tcmd;
-                                            pgCommand.ExecuteNonQuery();
-                                            flagUpdated = true;
-                                        }
-                                        catch (NpgsqlException ex)
-                                        {
-                                            Console.WriteLine("Type 0.1 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
-                                            Console.WriteLine(SqlExceptionMessage(ex).ToString());
-                                            loi = true;
-                                            break;
-                                        }
+                            //                pgCommand.CommandText = tcmd;
+                            //                pgCommand.ExecuteNonQuery();
+                            //                flagUpdated = true;
+                            //            }
+                            //            catch (NpgsqlException ex)
+                            //            {
+                            //                Console.WriteLine("Type 0.1 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ex.StackTrace);
+                            //                Console.WriteLine(SqlExceptionMessage(ex).ToString());
+                            //                loi = true;
+                            //                break;
+                            //            }
 
-                                    }
-                                    #endregion
-                                }
+                            //        }
+                            //        #endregion
+                            //    }
 
-                                #endregion
+                            //    #endregion
 
-                                if ((flagInserted == true || flagUpdated == true) && !loi)
-                                {
-                                    myTrans.Commit();
-                                    //currentTime = DateTime.Now;
-                                    ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
-                                    xn.InnerText = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                    xkey.Save("Synkey.xml");
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("Type 0.2 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + e.StackTrace);
-                                Console.WriteLine(e.ToString());
-                                using (var sw = File.AppendText(logFile))
-                                {
-                                    sw.WriteLine("\r\nType 0.2\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + e.Message + "\r\n" + e.StackTrace);
-                                }
-                                myTrans.Rollback();
-                            }
-                            finally
-                            {
-                                pgCommand.Dispose();
-                                myTrans.Dispose();
-                                conn.Close();
-                            }
-                            #endregion
+                            //    if ((flagInserted == true || flagUpdated == true) && !loi)
+                            //    {
+                            //        myTrans.Commit();
+                            //        currentTime = DateTime.Now;
+                            //        ConfigurationManager.AppSettings.Set(synkey, currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+                            //        xn.InnerText = currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                            //        xkey.Save("Synkey.xml");
+                            //    }
+                            //}
+                            //catch (Exception e)
+                            //{
+                            //    Console.WriteLine("Type 0.2 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + e.StackTrace);
+                            //    Console.WriteLine(e.ToString());
+                            //    using (var sw = File.AppendText(logFile))
+                            //    {
+                            //        sw.WriteLine("\r\nType 0.2\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + e.Message + "\r\n" + e.StackTrace);
+                            //    }
+                            //    myTrans.Rollback();
+                            //}
+                            //finally
+                            //{
+                            //    pgCommand.Dispose();
+                            //    myTrans.Dispose();
+                            //    conn.Close();
+                            //}
+                            //#endregion
                         }
                         else //Client to CRM
                         {
@@ -404,121 +404,124 @@ namespace Service_Syndata
                             conn.Open();
                             try
                             {
-                                int totalInsertPart = 30;
-                                int countInsert = 0;
-                                DateTime lastTimePart = new DateTime();
-
-                                #region begin insert
-                                currentTime = DateTime.Now;
-                                // Insert data
-                                NpgsqlCommand scmd = new NpgsqlCommand();
-                                scmd.Connection = conn;
-                                string selecttext = "";
-
-                                for (int i = 0; i < a.ChildNodes.Count; i++)
+                                //if (from.ToLower() == "phieucan")
                                 {
-                                    selecttext += "\"" + a.ChildNodes[i].Attributes["from"].Value + "\"";
-                                    if (a.ChildNodes[i].Attributes["datatype"].Value.Trim() == "Key")
-                                        key = a.ChildNodes[i].Attributes["from"].Value;
-                                    if (i < a.ChildNodes.Count - 1)
-                                        selecttext += " , ";
-                                }
-                                selecttext += " , " + "\"" + "CreatedDate" + "\"";
+                                    int totalInsertPart = 30;
+                                    int countInsert = 0;
+                                    DateTime lastTimePart = new DateTime();
 
-                                scmd.CommandType = CommandType.Text;
-                                scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" > '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") +
-                                    "' AND \"CreatedDate\" <= '" +
-                                    currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' ORDER BY \"CreatedDate\"";
-
-                                DataTable insert = new DataTable();
-                                NpgsqlDataAdapter adp = new NpgsqlDataAdapter(scmd);
-                                adp.Fill(insert);
-
-                                foreach (DataRow b in insert.Rows)
-                                {
-                                    ++countInsert;
-                                    lastTimePart = (DateTime)b["CreatedDate"];
-                                    Entity record = new Entity(to);
-                                    //listInsert.Add(Guid.Parse(b[key].ToString()), 1);
+                                    #region begin insert
+                                    currentTime = DateTime.Now;
+                                    // Insert data
+                                    NpgsqlCommand scmd = new NpgsqlCommand();
+                                    scmd.Connection = conn;
+                                    string selecttext = "";
 
                                     for (int i = 0; i < a.ChildNodes.Count; i++)
                                     {
-                                        #region Begin build insert sql
-                                        string atto = a.ChildNodes[i].Attributes["to"].Value;
-                                        string atfrom = a.ChildNodes[i].Attributes["from"].Value;
-
-                                        switch (a.ChildNodes[i].Attributes["datatype"].Value.Trim())
-                                        {
-                                            case "Key":
-                                                record.Id = Guid.Parse(b[key].ToString());
-                                                record[to + "id"] = Guid.Parse(b[key].ToString());
-                                                break;
-                                            case "String":
-                                                if (b[atfrom] != DBNull.Value)
-                                                    record[atto] = b[atfrom].ToString();
-                                                break;
-                                            case "Lookup":
-                                                if (b[atfrom] != DBNull.Value && (String)b[atfrom] != "" && (String)b[atfrom] != " ")
-                                                    record[atto] = new EntityReference(a.ChildNodes[i].Attributes["entity"].Value, Guid.Parse(b[atfrom].ToString()));
-                                                break;
-                                            case "Date":
-                                                if (b[atfrom] != DBNull.Value)
-                                                    record[atto] = DateTime.Parse(b[atfrom].ToString());
-                                                break;
-                                            case "OptionSet":
-                                                if (b[atfrom] != DBNull.Value)
-                                                    record[atto] = new OptionSetValue(int.Parse(b[atfrom].ToString()));
-                                                break;
-                                            case "Money":
-                                                if (b[atfrom] != DBNull.Value)
-                                                    record[atto] = new Money(decimal.Parse(b[atfrom].ToString()));
-                                                break;
-                                            case "Boolean":
-                                                if (b[atfrom] != DBNull.Value)
-                                                    record[atto] = bool.Parse(b[atfrom].ToString());
-                                                break;
-                                            case "Number":
-                                                if (b[atfrom] != DBNull.Value)
-                                                    record[atto] = int.Parse(b[atfrom].ToString());
-                                                break;
-                                            default:
-                                                if (b[atfrom] != DBNull.Value)
-                                                    record[atto] = decimal.Parse(b[atfrom].ToString());
-                                                break;
-                                        }
-                                        #endregion
+                                        selecttext += "\"" + a.ChildNodes[i].Attributes["from"].Value + "\"";
+                                        if (a.ChildNodes[i].Attributes["datatype"].Value.Trim() == "Key")
+                                            key = a.ChildNodes[i].Attributes["from"].Value;
+                                        if (i < a.ChildNodes.Count - 1)
+                                            selecttext += " , ";
                                     }
-                                    //crmServices.Create(record);
-                                    CreateRequest createRequest = new CreateRequest();
-                                    createRequest.Target = record;
-                                    rqs.Requests.Add(createRequest);
+                                    selecttext += " , " + "\"" + "CreatedDate" + "\"";
 
-                                    #endregion
-                                    if ((countInsert % totalInsertPart) == 0 || countInsert >= insert.Rows.Count)
+                                    scmd.CommandType = CommandType.Text;
+                                    scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" > '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") +
+                                    "' AND \"CreatedDate\" <= '" +
+                                    currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' ORDER BY \"CreatedDate\"";
+                                    //scmd.CommandText = "select " + selecttext + " FROM \"" + from + "\" where \"SoPhieuCan\"='PC20160003711' or \"SoPhieuCan\"='PC20160003714' or \"SoPhieuCan\"='PC20160003439' or \"SoPhieuCan\"='PC20160003713' or \"SoPhieuCan\"='PC20160003375' or \"SoPhieuCan\"='PC20160003712' or \"SoPhieuCan\"='PC20160003141' or \"SoPhieuCan\"='PC20160002759'";
+                                    DataTable insert = new DataTable();
+                                    NpgsqlDataAdapter adp = new NpgsqlDataAdapter(scmd);
+                                    adp.Fill(insert);
+
+                                    foreach (DataRow b in insert.Rows)
                                     {
-                                        if (rqs.Requests.Count > 0)
-                                        {
-                                            ExecuteMultipleResponse responseWithResults2 = (ExecuteMultipleResponse)crmServices.Execute(rqs);
+                                        ++countInsert;
+                                        lastTimePart = (DateTime)b["CreatedDate"];
+                                        Entity record = new Entity(to);
+                                        //listInsert.Add(Guid.Parse(b[key].ToString()), 1);
 
-                                            foreach (ExecuteMultipleResponseItem ab in responseWithResults2.Responses)
+                                        for (int i = 0; i < a.ChildNodes.Count; i++)
+                                        {
+                                            #region Begin build insert sql
+                                            string atto = a.ChildNodes[i].Attributes["to"].Value;
+                                            string atfrom = a.ChildNodes[i].Attributes["from"].Value;
+
+                                            switch (a.ChildNodes[i].Attributes["datatype"].Value.Trim())
                                             {
-                                                if (ab.Fault != null)
-                                                {
-                                                    loi = true;
-                                                    Console.WriteLine("Type 1.0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + ": " + ab.Fault.Message);
-                                                    Console.WriteLine(ab.Fault.TraceText);
-                                                    using (var sw = File.AppendText(logFile))
-                                                    {
-                                                        sw.WriteLine("\r\nType 1.0\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ab.Fault.Message + "\r\n" + ab.Fault.TraceText);
-                                                    }
+                                                case "Key":
+                                                    record.Id = Guid.Parse(b[key].ToString());
+                                                    record[to + "id"] = Guid.Parse(b[key].ToString());
                                                     break;
-                                                }
+                                                case "String":
+                                                    if (b[atfrom] != DBNull.Value && (from.ToLower() == "phieudangtai" && !string.IsNullOrEmpty(b[atfrom].ToString())))
+                                                        record[atto] = b[atfrom].ToString();
+                                                    break;
+                                                case "Lookup":
+                                                    if (b[atfrom] != DBNull.Value && (String)b[atfrom] != "" && (String)b[atfrom] != " ")
+                                                        record[atto] = new EntityReference(a.ChildNodes[i].Attributes["entity"].Value, Guid.Parse(b[atfrom].ToString()));
+                                                    break;
+                                                case "Date":
+                                                    if (b[atfrom] != DBNull.Value)
+                                                        record[atto] = DateTime.Parse(b[atfrom].ToString());
+                                                    break;
+                                                case "OptionSet":
+                                                    if (b[atfrom] != DBNull.Value)
+                                                        record[atto] = new OptionSetValue(int.Parse(b[atfrom].ToString()));
+                                                    break;
+                                                case "Money":
+                                                    if (b[atfrom] != DBNull.Value)
+                                                        record[atto] = new Money(decimal.Parse(b[atfrom].ToString()));
+                                                    break;
+                                                case "Boolean":
+                                                    if (b[atfrom] != DBNull.Value)
+                                                        record[atto] = bool.Parse(b[atfrom].ToString());
+                                                    break;
+                                                case "Number":
+                                                    if (b[atfrom] != DBNull.Value)
+                                                        record[atto] = int.Parse(b[atfrom].ToString());
+                                                    break;
+                                                default:
+                                                    if (b[atfrom] != DBNull.Value)
+                                                        record[atto] = decimal.Parse(b[atfrom].ToString());
+                                                    break;
                                             }
-                                            if (!loi)
+                                            #endregion
+                                        }
+                                        //crmServices.Create(record);
+                                        CreateRequest createRequest = new CreateRequest();
+                                        createRequest.Target = record;
+                                        rqs.Requests.Add(createRequest);
+
+                                        #endregion
+                                        if ((countInsert % totalInsertPart) == 0 || countInsert >= insert.Rows.Count)
+                                        {
+                                            if (rqs.Requests.Count > 0)
                                             {
-                                                ConfigurationManager.AppSettings.Set(synkey, lastTimePart.ToString("yyyy/MM/dd HH:mm:ss.fff"));
-                                                xn.InnerText = lastTimePart.ToString("yyyy/MM/dd HH:mm:ss.fff");
-                                                xkey.Save("Synkey.xml");
+                                                ExecuteMultipleResponse responseWithResults2 = (ExecuteMultipleResponse)crmServices.Execute(rqs);
+
+                                                foreach (ExecuteMultipleResponseItem ab in responseWithResults2.Responses)
+                                                {
+                                                    if (ab.Fault != null)
+                                                    {
+                                                        loi = true;
+                                                        Console.WriteLine("Type 1.0 " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + ": " + ab.Fault.Message);
+                                                        Console.WriteLine(ab.Fault.TraceText);
+                                                        using (var sw = File.AppendText(logFile))
+                                                        {
+                                                            sw.WriteLine("\r\nType 1.0\r\n" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\r\n" + ab.Fault.Message + "\r\n" + ab.Fault.TraceText);
+                                                        }
+                                                        break;
+                                                    }
+                                                }
+                                                if (!loi)
+                                                {
+                                                    ConfigurationManager.AppSettings.Set(synkey, lastTimePart.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+                                                    xn.InnerText = lastTimePart.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                                                    xkey.Save("Synkey.xml");
+                                                }
                                             }
                                         }
                                     }
