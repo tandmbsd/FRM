@@ -404,7 +404,7 @@ namespace Service_Syndata
                             conn.Open();
                             try
                             {
-                                //if (from.ToLower() == "phieucan")
+                                //if (from.ToLower() == "phieudangtai")
                                 {
                                     int totalInsertPart = 30;
                                     int countInsert = 0;
@@ -431,7 +431,7 @@ namespace Service_Syndata
                                     scmd.CommandText = "Select " + selecttext + " FROM \"" + from + "\" WHERE \"CreatedDate\" > '" + lastTime.ToString("yyyy/MM/dd HH:mm:ss.fff") +
                                     "' AND \"CreatedDate\" <= '" +
                                     currentTime.ToString("yyyy/MM/dd HH:mm:ss.fff") + "' ORDER BY \"CreatedDate\"";
-                                    //scmd.CommandText = "select " + selecttext + " FROM \"" + from + "\" where \"SoPhieuCan\"='PC20160003711' or \"SoPhieuCan\"='PC20160003714' or \"SoPhieuCan\"='PC20160003439' or \"SoPhieuCan\"='PC20160003713' or \"SoPhieuCan\"='PC20160003375' or \"SoPhieuCan\"='PC20160003712' or \"SoPhieuCan\"='PC20160003141' or \"SoPhieuCan\"='PC20160002759'";
+                                    //scmd.CommandText = "select " + selecttext + " FROM \"" + from + "\" where \"SoDangTai\"='1012-TAI-158'";// or \"SoPhieuCan\"='PC20160003714' or \"SoPhieuCan\"='PC20160003439' or \"SoPhieuCan\"='PC20160003713' or \"SoPhieuCan\"='PC20160003375' or \"SoPhieuCan\"='PC20160003712' or \"SoPhieuCan\"='PC20160003141' or \"SoPhieuCan\"='PC20160002759'";
                                     DataTable insert = new DataTable();
                                     NpgsqlDataAdapter adp = new NpgsqlDataAdapter(scmd);
                                     adp.Fill(insert);
