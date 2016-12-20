@@ -22,7 +22,10 @@ namespace Plugin_UpdateDinhMucChitietHDMiaTheoDienTich
 
             if (target.Contains("statuscode") && ((OptionSetValue)target["statuscode"]).Value == 100000000) //Da ky HD
             {
-                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id, new ColumnSet(new string[] { "new_dongiahopdong", "new_dongiahopdongkhl", "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id,
+                    new ColumnSet(new string[] { "new_dongiahopdong", "new_dongiahopdongkhl",
+                        "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+
                 Entity cthdmianew = new Entity("new_thuadatcanhtac");
                 cthdmianew.Id = ctHDmia.Id;
                 cthdmianew["new_dautuhoanlai"] = new Money((ctHDmia.Contains("new_dongiahopdong") ? ((Money)ctHDmia["new_dongiahopdong"]).Value : 0) * (ctHDmia.Contains("new_dientichhopdong") ? (decimal)ctHDmia["new_dientichhopdong"] : 0));
@@ -36,7 +39,10 @@ namespace Plugin_UpdateDinhMucChitietHDMiaTheoDienTich
 
             if (target.Contains("new_dientichthucte") || (target.Contains("new_trangthainghiemthu") && ((OptionSetValue)target["new_trangthainghiemthu"]).Value >= 100000002)) //NT lần 1
             {
-                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id, new ColumnSet(new string[] { "new_dongiahopdong", "new_dongiahopdongkhl", "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id,
+                    new ColumnSet(new string[] { "new_dongiahopdong", "new_dongiahopdongkhl",
+                        "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+
                 Entity cthdmianew = new Entity("new_thuadatcanhtac");
                 cthdmianew.Id = target.Id;
                 cthdmianew["new_dientichconlai"] = ctHDmia.Contains("new_dientichthucte") ? ctHDmia["new_dientichthucte"] : (decimal)0;
@@ -45,13 +51,17 @@ namespace Plugin_UpdateDinhMucChitietHDMiaTheoDienTich
 
             if (target.Contains("new_dientichhopdong") || target.Contains("new_dongiahopdong") || target.Contains("new_dongiahopdongkhl") || target.Contains("new_dongiaphanbonhd"))
             {
-                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id, new ColumnSet(new string[] { "statuscode", "new_dongiahopdong", "new_dongiahopdongkhl", "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id,
+                    new ColumnSet(new string[] { "statuscode", "new_dongiahopdong", "new_dongiahopdongkhl",
+                        "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+
                 Entity cthdmianew = new Entity("new_thuadatcanhtac");
                 cthdmianew.Id = ctHDmia.Id;
                 cthdmianew["new_dautuhoanlai"] = new Money((ctHDmia.Contains("new_dongiahopdong") ? ((Money)ctHDmia["new_dongiahopdong"]).Value : 0) * (ctHDmia.Contains("new_dientichhopdong") ? (decimal)ctHDmia["new_dientichhopdong"] : 0));
                 cthdmianew["new_dautukhonghoanlai"] = new Money((ctHDmia.Contains("new_dongiahopdongkhl") ? ((Money)ctHDmia["new_dongiahopdongkhl"]).Value : 0) * (ctHDmia.Contains("new_dientichhopdong") ? (decimal)ctHDmia["new_dientichhopdong"] : 0));
                 cthdmianew["new_tongchiphidautu"] = new Money(((Money)cthdmianew["new_dautuhoanlai"]).Value + ((Money)cthdmianew["new_dautukhonghoanlai"]).Value);
                 cthdmianew["new_sotienphanbontoithieu"] = new Money((ctHDmia.Contains("new_dongiaphanbonhd") ? ((Money)ctHDmia["new_dongiaphanbonhd"]).Value : 0) * (ctHDmia.Contains("new_dientichhopdong") ? (decimal)ctHDmia["new_dientichhopdong"] : 0));
+
                 if (((OptionSetValue)ctHDmia["statuscode"]).Value == 1)
                 {
                     cthdmianew["new_dientichconlai"] = ctHDmia.Contains("new_dientichhopdong") ?  ctHDmia["new_dientichhopdong"] : (decimal)0;
@@ -62,7 +72,10 @@ namespace Plugin_UpdateDinhMucChitietHDMiaTheoDienTich
 
             if (target.Contains("new_dientichthucte"))
             {
-                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id, new ColumnSet(new string[] { "new_dongiahopdong", "new_dongiahopdongkhl", "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id,
+                    new ColumnSet(new string[] { "new_dongiahopdong", "new_dongiahopdongkhl",
+                        "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+
                 Entity cthdmianew = new Entity("new_thuadatcanhtac");
                 cthdmianew.Id = ctHDmia.Id;
 
@@ -75,7 +88,10 @@ namespace Plugin_UpdateDinhMucChitietHDMiaTheoDienTich
 
             if (target.Contains("new_dientichconlai"))
             {
-                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id, new ColumnSet(new string[] { "new_dongiahopdong", "new_dongiahopdongkhl", "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id,
+                    new ColumnSet(new string[] { "new_dongiahopdong", "new_dongiahopdongkhl",
+                        "new_dongiaphanbonhd", "new_dientichhopdong", "new_dientichthucte", "new_dientichconlai" }));
+                
                 Entity cthdmianew = new Entity("new_thuadatcanhtac");
                 cthdmianew.Id = ctHDmia.Id;
 

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Plugin_UpdateDinhMucChitietHDMiaTheoDienTich</RootNamespace>
     <AssemblyName>Plugin_UpdateDinhMucChitietHDMiaTheoDienTich</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xrm.Sdk">
-      <HintPath>..\Dll\Microsoft.Xrm.Sdk.dll</HintPath>
+      <HintPath>..\..\..\..\..\Duy\frm\Owner\Plugin_CreatePBDT_PGNPhanBon\Plugin_CreatePBDT_PGNPhanBon\bin\Debug\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
