@@ -462,10 +462,11 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                 Entity chitiet = service.Retrieve("new_thuadatcanhtac",
                             ((EntityReference)en["new_chitiethopdong"]).Id, new ColumnSet(new string[] { "new_thuadatcanhtacid" }));
 
-                decimal hl = (en.Contains("new_dmhlvt") ? ((Money)en["new_dmhlvt"]).Value : new decimal(0)) + (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
+                decimal hl = (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
+                decimal tonghl = (en.Contains("new_dmhlvt") ? ((Money)en["new_dmhlvt"]).Value : new decimal(0)) + (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
                 decimal khl = en.Contains("new_dm0hl") ? ((Money)en["new_dm0hl"]).Value : new decimal(0);
 
-                tongdmhl += hl;
+                tongdmhl += tonghl;
                 tongdmkhl += khl;
 
                 if (!dtDinhMuc.ContainsKey(chitiet.Id))
@@ -631,8 +632,8 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                 Entity chitiet = service.Retrieve("new_thuadatcanhtac",
                             ((EntityReference)en["new_chitiethopdong"]).Id, new ColumnSet(new string[] { "new_thuadatcanhtacid" }));
 
-                decimal hl = (en.Contains("new_dmhlvt") ? ((Money)en["new_dmhlvt"]).Value : new decimal(0)) + (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
-
+                decimal hl = (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
+                decimal tonghl = (en.Contains("new_dmhlvt") ? ((Money)en["new_dmhlvt"]).Value : new decimal(0)) + (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
                 decimal khl = en.Contains("new_dm0hl") ? ((Money)en["new_dm0hl"]).Value : new decimal(0);
 
                 tongdmhl += hl;
@@ -683,7 +684,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                         throw new Exception("Tổng định mức hoàn lại phải khác 0");
 
                     decimal sotien = phanbohoanlai * a.dinhMucHL / tongdmhl;
-
+                    trace.Trace(phanbohoanlai.ToString() + "-" + a.dinhMucHL.ToString() + "-" + tongdmhl.ToString() + "-" + sotien.ToString());
                     if (!dtTungthua.ContainsKey(key))
                     {
                         dtTungthua.Add(key, sotien);
@@ -702,7 +703,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                         Entity tilethuhoivon = service.Retrieve("new_tylethuhoivondukien", a.tylethuhoiid,
                                 new ColumnSet(new string[] { "new_sotienthuhoi", "new_tiendaphanbo", "new_tylephantram" }));
                         decimal dinhmuc = dtTungthua[key] * (decimal)tilethuhoivon["new_tylephantram"] / 100;
-
+                        trace.Trace("dinh muc: " + dinhmuc.ToString());
                         decimal tiendaphanbo = tilethuhoivon.Contains("new_tiendaphanbo") ?
                              ((Money)tilethuhoivon["new_tiendaphanbo"]).Value : new decimal(0);
                         decimal sotienphanbo = a.sotien - a.daphanbo;
@@ -731,6 +732,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                     }
                 }
             }
+            //throw new Exception("as");
             trace.Trace("end phan bo dau tu");
         }
 
