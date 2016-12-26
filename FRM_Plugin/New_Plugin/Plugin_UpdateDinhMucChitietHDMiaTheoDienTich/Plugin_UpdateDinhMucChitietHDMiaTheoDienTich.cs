@@ -101,6 +101,11 @@ namespace Plugin_UpdateDinhMucChitietHDMiaTheoDienTich
 
                 service.Update(cthdmianew);
             }
+
+            if ()
+            {
+                
+            }
         }
     }
 }

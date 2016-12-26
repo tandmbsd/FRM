@@ -1,11 +1,10 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xrm.Sdk.Messages;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Query;
 
 namespace Plugin_ChangStatusHDOnThamDinh
 {
@@ -51,6 +50,7 @@ namespace Plugin_ChangStatusHDOnThamDinh
                         q.Criteria.AddCondition(new ConditionExpression("new_hopdongdautumia",ConditionOperator.Equal , ((EntityReference)PreImg["new_hopdongdautumia"]).Id));
 
                         EntityCollection result = service.RetrieveMultiple(q);
+
                         foreach(Entity a in result.Entities)
                         {
                             if (((OptionSetValue)a["statuscode"]).Value == 100000008)
@@ -203,8 +203,6 @@ namespace Plugin_ChangStatusHDOnThamDinh
 
             }
             #endregion
-
-            
 
         }
     }
