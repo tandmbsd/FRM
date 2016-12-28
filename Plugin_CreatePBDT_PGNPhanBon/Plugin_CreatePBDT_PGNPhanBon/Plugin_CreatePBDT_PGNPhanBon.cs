@@ -279,6 +279,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                     trace.Trace("end apply STA");
                 }
                 Send(null);
+                throw  new Exception("sda");
             }
         }
 
@@ -513,16 +514,17 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                 {
                     i++;
                     DinhMuc a = dtDinhMuc[key];
+                    Entity chitiet = service.Retrieve("new_thuadatcanhtac", key,
+                        new ColumnSet(new string[] { "new_chinhsachdautu", "new_name" }));
+
                     if (tongdmkhl == 0)
                         throw new Exception("Tổng định mức không hoàn lại phải khác 0");
 
                     decimal sotien = phanbokhonghoanlai * a.dinhMucKHL / tongdmkhl;
 
+                    trace.Trace(chitiet["new_name"].ToString());
                     trace.Trace(sotien.ToString() + "-" + phanbokhonghoanlai.ToString()
                                             + "-" + a.dinhMucKHL + "-" + tongdmkhl.ToString() + "\n");
-
-                    Entity chitiet = service.Retrieve("new_thuadatcanhtac", key,
-                        new ColumnSet(new string[] { "new_chinhsachdautu", "new_name" }));
 
                     if (!chitiet.Contains("new_chinhsachdautu"))
                         throw new Exception(chitiet["new_name"].ToString() + " không có chính sách đầu tư");
@@ -555,6 +557,7 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                 trace.Trace("End KHL");
             }
             trace.Trace("end phan bo dau tu");
+            
         }
 
         public void GenPhanBoDauTuHL(Entity target, Guid idCRE)
@@ -632,17 +635,18 @@ namespace Plugin_CreatePBDT_PGNPhanBon
                 Entity chitiet = service.Retrieve("new_thuadatcanhtac",
                             ((EntityReference)en["new_chitiethopdong"]).Id, new ColumnSet(new string[] { "new_thuadatcanhtacid" }));
 
-                decimal hl = (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
-                decimal tonghl = (en.Contains("new_dmhlvt") ? ((Money)en["new_dmhlvt"]).Value : new decimal(0)) + (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
+                decimal hltm = (en.Contains("new_dmhltm") ? ((Money)en["new_dmhltm"]).Value : new decimal(0));
+                decimal hlvt = (en.Contains("new_dmhlvt") ? ((Money)en["new_dmhlvt"]).Value : new decimal(0));
+                decimal tonghl = hltm + hlvt;
                 decimal khl = en.Contains("new_dm0hl") ? ((Money)en["new_dm0hl"]).Value : new decimal(0);
 
-                tongdmhl += hl;
+                tongdmhl += tonghl;
                 tongdmkhl += khl;
 
                 if (!dtDinhMuc.ContainsKey(chitiet.Id))
-                    dtDinhMuc.Add(chitiet.Id, new DinhMuc(hl, khl));
+                    dtDinhMuc.Add(chitiet.Id, new DinhMuc(tonghl, khl));
                 else
-                    dtDinhMuc[chitiet.Id] = new DinhMuc(hl, khl);
+                    dtDinhMuc[chitiet.Id] = new DinhMuc(tonghl, khl);
             }
 
             trace.Trace("vong lap chi tiet hddt mia");

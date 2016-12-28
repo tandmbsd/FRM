@@ -1,12 +1,9 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xrm.Sdk.Messages;
-using Microsoft.Crm.Sdk.Messages;
+using Microsoft.Xrm.Sdk;
 
 namespace Action_ChangeStage
 {
@@ -17,9 +14,9 @@ namespace Action_ChangeStage
         void IPlugin.Execute(IServiceProvider serviceProvider)
         {
             IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
-            //EntityReference target = (EntityReference)context.InputParameters["Target"];
             factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             service = factory.CreateOrganizationService(context.UserId);
+
             try
             {
                 string entityName = context.InputParameters["Entity"].ToString();
@@ -27,7 +24,6 @@ namespace Action_ChangeStage
                 Guid StageId = Guid.Parse(context.InputParameters["StageId"].ToString());
                 string attributeName = context.InputParameters["Attribute"].ToString();
                 int attributeValue = int.Parse(context.InputParameters["Value"].ToString());
-
 
                 Entity updatedStage = new Entity(entityName);
                 updatedStage.Id = RecordID;

@@ -102,9 +102,18 @@ namespace Plugin_UpdateDinhMucChitietHDMiaTheoDienTich
                 service.Update(cthdmianew);
             }
 
-            if ()
+            if (target.Contains("new_dinhmucdautukhonghoanlai"))
             {
-                
+                Entity ctHDmia = service.Retrieve("new_thuadatcanhtac", target.Id,
+                    new ColumnSet(new string[] { "new_conlai_khonghoanlai" }));
+
+                Entity cthdmianew = new Entity("new_thuadatcanhtac");
+                cthdmianew.Id = ctHDmia.Id;
+
+                cthdmianew["new_conlai_khonghoanlai"] = target["new_dinhmucdautukhonghoanlai"];
+               
+
+                service.Update(cthdmianew);
             }
         }
     }

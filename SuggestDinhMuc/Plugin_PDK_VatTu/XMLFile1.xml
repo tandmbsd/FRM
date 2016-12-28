@@ -1,0 +1,11 @@
+﻿<fetch mapping='logical' aggregate='true' version='1.0'>
+  
+  <entity name='new_chitietdangkyvattu'>
+    
+    <attribute name='new_sotienkhl' alias='khl' aggregate='sum' />
+    <attribute name='new_sotienhl' alias='hl' aggregate='sum' />
+    <filter type='and'>
+      <condition attribute='new_phieudangkyvattu' operator='eq' value='38F69D90-19C8-E611-80CB-9457A558474F'/>
+    </filter>
+  </entity>
+</fetch>
