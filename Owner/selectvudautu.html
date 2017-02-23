@@ -1,0 +1,392 @@
+﻿<html>
+<head>
+</head>
+<body style="word-wrap: break-word;">
+    ﻿
+
+
+    <title></title>
+    <style>
+        body, html {
+            /*background: #ffffff;
+            text-align: center;*/
+            padding-top: 50px;
+        }
+
+        /* The CSS */
+        select {
+            padding: 3px;
+            margin: 0;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+            -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+            box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+            background: lightgrey;
+            color: black;
+            border: none;
+            outline: none;
+            display: inline-block;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            width: 140px;
+        }
+
+        .button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 5px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin-left: 15px;
+        }
+
+        /* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            select {
+                padding-right: 18px;
+                margin-top: 30px;
+            }
+        }
+
+        label {
+            position: relative;
+        }
+
+            label:after {
+                content: '<>';
+                font: 11px "Consolas", monospace;
+                color: #aaa;
+                -webkit-transform: rotate(90deg);
+                -moz-transform: rotate(90deg);
+                -ms-transform: rotate(90deg);
+                transform: rotate(90deg);
+                right: 8px;
+                top: 2px;
+                padding: 0 0 2px;
+                border-bottom: 1px solid #ddd;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            label:before {
+                content: '';
+                right: 6px;
+                top: 0px;
+                width: 20px;
+                height: 20px;
+                background: #f8f8f8;
+                position: absolute;
+                pointer-events: none;
+                display: block;
+            }
+    </style>
+    <script type="text/javascript" src="ClientGlobalContext.js.aspx"></script>
+    <style type="text/css">
+        body {
+            direction: LTR;
+            margin: 0px;
+            border: 0px;
+            cursor: default;
+            font-family: Segoe UI,Tahoma,Arial;
+            font-size: 11px;
+        }
+
+        .ms-crm-RefreshDialog-Header {
+            top: 0px;
+            position: absolute;
+            width: 96%;
+            height: 75px;
+            padding-top: 10px;
+            background-color: #FFFFFF;
+            border-bottom-color: #A4ABB2;
+        }
+
+        DIV.ms-crm-RefreshDialog-Header-Title {
+            font-weight: Lighter;
+            font-size: 27px;
+            font-family: Segoe UI Light, Segoe UI, Tahoma, Arial;
+            margin-left: 30px;
+            margin-right: 30px;
+            color: #262626;
+        }
+
+        .ms-crm-TextAutoEllipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ms-crm-RefreshDialog-Header-Desc {
+            padding-top: 2px;
+            font-family: Segoe UI,Tahoma,Arial;
+            margin-left: 30px;
+            margin-right: 30px;
+            color: #666666;
+            font-size: 12px;
+        }
+
+        .ms-crm-RefreshDialog-Main {
+            font-size: 12px;
+            top: 90px;
+            position: absolute;
+            bottom: 49px;
+            vertical-align: top;
+            width: 95%;
+            font-family: Segoe UI,Tahoma,Arial;
+            color: #444444;
+            background-color: #FFFFFF;
+            border-bottom-color: #A4ABB2;
+            right: 30px;
+            left: 30px;
+        }
+
+        .ms-crm-RefreshDialog-Footer {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            min-width: 288px;
+            height: 44px;
+            text-align: right;
+            background-color: #F8F8F8;
+            border-top-color: #FFFFFF;
+        }
+
+        .ms-crm-RefreshDialog-Button {
+            color: #444444;
+            background-color: #FFFFFF;
+            height: 24px;
+            font-family: Segoe UI,Tahoma,Arial;
+            border: 1px solid #C6C6C6;
+            background-image: none;
+            margin-top: 10px;
+            width: auto;
+            min-width: 80px;
+            white-space: nowrap;
+            font-size: 12px;
+            line-height: 16px;
+            width: 84px;
+            text-align: center;
+            cursor: pointer;
+            background-repeat: repeat-x;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+
+    <script src="new_jquery.1.9.1.js"></script>
+    <script src="new_CrmFetchKit.js"></script>
+    <script src="new_execute.services.utilities.js"></script>
+    <script src="new_modal.utilities.js"></script>
+
+    <!--<script>
+        var id = Xrm.Page.data.entity.getId();
+        function btn_CopyBangGia() {
+            var clientUrl = Xrm.Page.context.getClientUrl();
+            var url = clientUrl + "/webresources/new_selectvudautu?type=1";
+            //CRM 2015 SP 1
+            var dialogwindow = new parent.Mscrm.CrmDialog(parent.Mscrm.CrmUri.create(url), id, 450, 175);
+            dialogwindow.show();
+        }
+    </script>-->
+
+    <script type="text/javascript">
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+        }
+        //var parameter = {etn:"",action:"",pa:[]}
+        function CallAction(parameter) {
+            try {
+                if (parameter.id != null) {
+                    //window.top.$ui.Confirm("Xác nhận", "Bạn có thật sự muốn copy ?", function (e) {
+                        ExecuteAction(
+                        parameter.id
+                        , parameter.etn // new_banggiavanchuyen
+                        , parameter.action//"new_ActionCopy_BangGiaVanChuyen"
+                        , parameter.pa//[{ name: 'VudautuID', type: 'string', value: vudautuid }]
+                        , function (result) {
+                            //debugger;
+                            //alert("a");
+                            if (result != null && result.status != null) {
+                                if (result.status == "error")
+                                    window.top.$ui.Dialog("Lỗi", result.data);
+                                else if (result.status == "success") {
+                                    window.parent.Xrm.Utility.openEntityForm(parameter.etn, result.data.ReturnId.value, null, { openInNewWindow: true });
+                                }
+                                else {
+                                    console.log(JSON.stringify(result));
+                                }
+                            }
+                        });
+                    //}, null);
+                }
+                else {
+                    window.top.$ui.Dialog("Lỗi", "Thông báo lỗi!", null);
+                }
+            }
+            catch (e) {
+                window.top.$ui.Dialog("Lỗi", e.message, null);
+            }
+        }
+
+        function BangGiaVanChuyen(id, vudautuid) {
+            try {
+                if (id != null) {
+                    window.top.$ui.Confirm("Xác nhận", "Bạn có muốn copy bảng giá vận chuyển này không ?", function (e) {
+                        ExecuteAction(
+                        id
+                        , "new_banggiavanchuyen"
+                        , "new_ActionCopy_BangGiaVanChuyen"
+                        , [{ name: 'VudautuID', type: 'string', value: vudautuid }]
+                        , function (result) {
+                            //debugger;
+                            //alert("a");
+                            if (result != null && result.status != null) {
+                                if (result.status == "error")
+                                    window.top.$ui.Dialog("Lỗi", result.data);
+                                else if (result.status == "success") {
+                                    window.parent.Xrm.Utility.openEntityForm("new_banggiavanchuyen", result.data.ReturnId.value, null, { openInNewWindow: true });
+                                }
+                                else {
+                                    console.log(JSON.stringify(result));
+                                }
+                            }
+                        });
+                    }, null);
+                }
+                else {
+                    window.top.$ui.Dialog("Lỗi", "Thông báo lỗi!", null);
+                }
+            }
+            catch (e) {
+                window.top.$ui.Dialog("Lỗi", e.message, null);
+            }
+        }
+
+        function removeAction() {
+            window.top.Mscrm.InlineDialogUtility.closeAllInlineDialogs();
+        }
+    </script>
+
+    <script type="text/javascript">
+        var Xrm = window.parent.Xrm;
+        var type = null;
+
+        $(document).ready(function () {
+
+            type = getURLParameter("type");
+            console.log(type);
+
+            var dialog;
+            if (window.getDialogArguments() != null) {
+                dialog = window.getDialogArguments();
+            }
+            var id = dialog;
+
+            var fetch = [];
+            fetch.push("<fetch mapping='logical' version='1.0'>");
+            fetch.push("<entity name='new_vudautu'>");
+            fetch.push("<attribute name='new_vudautuid' />");
+            fetch.push("<attribute name='new_name' />");
+            fetch.push("</entity>");
+            fetch.push("</fetch>");
+
+            CrmFetchKit.Fetch(fetch.join(''), false).then(function (rs) {
+                for (index in rs) {
+                    var opt = document.createElement('option');
+                    opt.innerHTML = rs[index].attributes.new_name.value;
+                    opt.value = rs[index].attributes.new_vudautuid.value;
+                    select.appendChild(opt);
+                }
+            }, function (er) {
+                console.log(er.message)
+            });
+
+
+            $('#btnCopy').click(function (e) {
+                if (type != null && type.length > 0) {
+                    switch (type) {
+                        case "1"://bang gia van chuyen
+                            var pr = { id: id, etn: "new_banggiavanchuyen", action: "new_ActionCopy_BangGiaVanChuyen", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "2"://bang gia dich vu
+                            var pr = { id: id, etn: "new_banggiadichvu", action: "new_ActionCopy_BangGiaDichVu", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "3"://bang gia giong
+                            var pr = { id: id, etn: "new_banggiagiong", action: "new_ActionCopy_BangGiaGiong", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "4"://bang gia thuoc
+                            var pr = { id: id, etn: "new_banggiathuoc", action: "new_ActionCopy_BangGiaThuoc", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "5"://bang gia vat tu khac
+                            var pr = { id: id, etn: "new_banggiavattukhac", action: "new_ActionCopy_BangGiaVatTu", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "6"://chinh sach dau tu
+                            var pr = { id: id, etn: "new_chinhsachdautu", action: "new_Action_CopyChinhSachDauTu", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "7"://chinh sach thu mua
+                            var pr = { id: id, etn: "new_chinhsachthumua", action: "new_Action_CopyChinhSachThuMua", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "8"://chinh sach dau tu bo sung
+                            var pr = { id: id, etn: "new_chinhsachdautubosung", action: "new_ActionCopy_BangGiaDichVu", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "9"://bang gia cong don
+                            var pr = { id: id, etn: "new_banggiacongdon", action: "new_ActionCopy_BangGiaCongDon", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                            break;
+                        case "10": // bang gia phan bon
+                            var pr = { id: id, etn: "new_banggiaphanbon", action: "new_ActionCopy_BangGiaPhanBon", pa: [{ name: 'VudautuID', type: 'string', value: $("#select").val() }] }
+                            CallAction(pr);
+                        default:
+                            break;
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+    <!--<body>
+        <div style="color:blue;font-size:30px">Chọn vụ đầu tư</div>
+        <label>
+            <select id="select"></select>
+        </label>
+        <div style="margin-top:15px">
+            <button class="button" id="btnCopy">Copy</button>
+            <button class="button" onclick="removeAction()">Cancel</button>
+        </div>
+    </body>-->
+
+    <div class="ms-crm-RefreshDialog-Main-Container">
+        <div class="ms-crm-RefreshDialog-Header" id="tdDialogHeader">
+            <div id="dialogHeaderTitle" class="ms-crm-RefreshDialog-Header-Title ms-crm-TextAutoEllipsis" title="Copy Record" style="width: calc(100% - 95px) !important;;">Copy Record</div>
+            <div id="dialogHeaderDesc" class="ms-crm-RefreshDialog-Header-Desc" title="Chọn vụ đầu tư">Please select if you want copy record</div>
+            <select id="select" style="margin-left:30px"></select>
+
+        </div>
+        <div class="ms-crm-RefreshDialog-Footer" id="tdDialogFooter">
+            <button id="btnCopy" type="button" class="ms-crm-RefreshDialog-Button" tabindex="1" style="margin-left: 8px;">
+                OK
+            </button>
+            <button id="cmdDialogCancel" onclick="removeAction();" type="button" class="ms-crm-RefreshDialog-Button" tabindex="1" style="margin-left: 8px; margin-right: 30px">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+
+</body>
+</html>

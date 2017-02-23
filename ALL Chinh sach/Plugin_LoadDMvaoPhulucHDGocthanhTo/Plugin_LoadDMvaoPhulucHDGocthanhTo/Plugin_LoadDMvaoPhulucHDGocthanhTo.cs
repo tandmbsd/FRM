@@ -63,6 +63,7 @@ namespace Plugin_LoadDMvaoPhulucHDGocthanhTo
                             EntityReference thuadatEntityRef = new EntityReference();
                             Guid thuadatId = new Guid();
                             Entity thuadatObj = new Entity();
+
                             if (ChiTietHD.Attributes.Contains("new_thuadat"))
                             {
                                 thuadatEntityRef = ChiTietHD.GetAttributeValue<EntityReference>("new_thuadat");
@@ -70,14 +71,17 @@ namespace Plugin_LoadDMvaoPhulucHDGocthanhTo
                                 thuadatObj = service.Retrieve("new_thuadat", thuadatId,
                                     new ColumnSet(new string[] { "new_nhomdat", "new_loaisohuudat", "new_vungdialy", "new_nhomculy","new_diachi" }));
                             }
+
                             EntityReference giongmiaEntityRef = new EntityReference();
                             Guid giongmiaId = new Guid();
                             Entity giongmiaObj = new Entity();
+
                             if (ChiTietHD.Attributes.Contains("new_giongmia"))
                             {
                                 giongmiaEntityRef = ChiTietHD.GetAttributeValue<EntityReference>("new_giongmia");
                                 giongmiaId = giongmiaEntityRef.Id;
-                                giongmiaObj = service.Retrieve("new_giongmia", giongmiaId, new ColumnSet(new string[] { "new_nhomgiong", "new_name" }));
+                                giongmiaObj = service.Retrieve("new_giongmia", giongmiaId,
+                                    new ColumnSet(new string[] { "new_nhomgiong", "new_name" }));
                             }
 
                             EntityReference HDDTmiaRef = new EntityReference();
@@ -87,7 +91,8 @@ namespace Plugin_LoadDMvaoPhulucHDGocthanhTo
                             {
                                 HDDTmiaRef = ChiTietHD.GetAttributeValue<EntityReference>("new_hopdongdautumia");
                                 DHDTmiaId = HDDTmiaRef.Id;
-                                HDDTmia = service.Retrieve("new_hopdongdautumia", DHDTmiaId, new ColumnSet(new string[] { "new_vudautu", "new_chinhantienmat" }));
+                                HDDTmia = service.Retrieve("new_hopdongdautumia", DHDTmiaId,
+                                    new ColumnSet(new string[] { "new_vudautu", "new_chinhantienmat" }));
                             }
 
                             if (HDDTmia == null || DHDTmiaId == Guid.Empty || !HDDTmia.Attributes.Contains("new_vudautu"))
@@ -848,7 +853,7 @@ namespace Plugin_LoadDMvaoPhulucHDGocthanhTo
 
                                     // ----------------- DINH MUC DAU TU HOAN LAI
 
-                                    dongiaDTHL = dongiaDTHL - dongiaPhanbon + dongiabsHL + dongiabsPB + dongiabsTM;
+                                    
 
                                     decimal dinhmucDTHL = dongiaDTHL * dientichhd;
 
@@ -924,6 +929,7 @@ namespace Plugin_LoadDMvaoPhulucHDGocthanhTo
             q.Criteria.AddCondition(new ConditionExpression("new_vudautu", ConditionOperator.Equal, VDT.Id));
             q.Criteria.AddCondition(new ConditionExpression("new_loaihopdong", ConditionOperator.Equal, 100000000));
             q.Criteria.AddCondition(new ConditionExpression("new_mucdichdautu", ConditionOperator.Equal, 100000000));
+            q.Criteria.AddCondition(new ConditionExpression("statecode", ConditionOperator.Equal, 0));
             q.Orders.Add(new OrderExpression("new_ngayapdung", OrderType.Descending));
 
             EntityCollection entc = crmservices.RetrieveMultiple(q);

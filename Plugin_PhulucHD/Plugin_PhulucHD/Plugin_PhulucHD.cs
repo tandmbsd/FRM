@@ -188,7 +188,8 @@ namespace Plugin_PhulucHD
                                 {
                                     foreach (Entity plgocto in dsPLGocsangTo.Entities)
                                     {
-                                        Entity plgocsangto = service.Retrieve("new_phuluchopdong_gocsangto", plgocto.Id, new ColumnSet(true));
+                                        Entity plgocsangto = service.Retrieve("new_phuluchopdong_gocsangto", plgocto.Id,
+                                            new ColumnSet(true));
 
                                         EntityReference ctHDDTmiaRef = plgocsangto.GetAttributeValue<EntityReference>("new_chitiethopdongdautumia");
                                         Entity ChiTietHD = service.Retrieve("new_thuadatcanhtac", ctHDDTmiaRef.Id,

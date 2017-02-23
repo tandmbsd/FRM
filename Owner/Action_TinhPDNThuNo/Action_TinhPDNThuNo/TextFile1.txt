@@ -1,0 +1,110 @@
+﻿var tragoc;
+var tongtien;
+var tonglai;
+
+Tính lãi từng phiếu phân bổ(phiếu phân bổ, số tiền) {
+	if (phiếu phân bổ.loại lãi suất  == cố định){
+		lãi = (ngày hiện tại - phiếu phân bổ.ngày tính lãi cuối) * (phiếu phân bổ.lãi suất/365) * số tiền;
+		return lãi;
+	}
+	else {
+		DS lãi  = lấy tất cả lãi suất từ ngày tính lãi cuối cùng đến ngày hiện tại;
+		tổng lãi = 0;
+		foreach (Lãi in DS Lãi){
+			tổng lãi += tính lãi từng đoạn;
+		}
+		return tổng lãi;
+	}
+}
+
+// hàm chính để tính lãi
+
+ClearALLPhieuTinhLai();
+
+if (Hình thức thu nợ = trả gốc){
+	Lấy hết tất cả phiếu phân bổ order theo tiêu chí ưu tiên cấn trừ trên vụ đầu tư.
+	if (cách tính lãi = "Tính trên tiền thu"){
+		var totalLai = 0;
+		var tongtienscope = 0;
+		Lặp từng phiếu phân bổ đầu tư cấn trừ dần đến hết, khi nào đủ số tiền gốc cần cấn trừ {
+			if (tongtienscope >= tragoc)
+				break;
+			var sotientinhlai = phiếu phân bổ.số tiền > (tragoc - tongtienscope) ?  tragoc - tongtienscope :  phiếu phân bổ.số tiền;
+			tongtienscope += sotientinhlai;
+
+			if (phiếu cuối cùng (phiếu cuối là phiếu làm tổng vượt giá trị trừ gốc)){
+				totalLai += Tính lãi từng phiếu phân bổ(phiếu phân bổ, sotientinhlai);
+				CreatePhieuTinhLai();
+			}
+			else {
+				totalLai += Tính lãi từng phiếu phân bổ(phiếu phân bổ, sotientinhlai);
+				CreatePhieuTinhLai();
+			}
+		}
+
+		tongtien = tragoc + totalLai;
+		tonglai = totalLai;
+		return;
+	}
+	else {
+		var totalLai = 0;
+		var tongtienscope = 0;
+		Lặp từng phiếu phân bổ đầu tư {
+		    var sotientinhlai = phiếu phân bổ.số tiền >= (tragoc - tongtienscope) ?  tragoc - tongtienscope :  phiếu phân bổ.số tiền;
+			tongtienscope += sotientinhlai;
+
+			totalLai += Tính lãi từng phiếu phân bổ(phiếu phân bổ, số tiền trên Phiếu phân bổ);
+			if (sotientinhlai >0){
+				CreatePhieuTinhLai();
+			}
+		}
+
+		tongtien = tragoc + totalLai;
+		tonglai = totalLai;
+		return;
+	}
+}
+else { //trả tổng tiền
+	Lấy hết tất cả phiếu phân bổ order theo tiêu chí ưu tiên cấn trừ trên vụ đầu tư.
+		if (cách tính lãi = "Tính trên tiền thu"){
+		var tiengoc= 0;
+		var totalLai = 0;
+		var tongtienscope = 0;
+		Lặp từng phiếu phân bổ đầu tư cấn trừ dần đến hết, khi nào đủ số tiền gốc cần cấn trừ {
+			if (tongtienscope >= tragoc)
+				break;
+			var sotientinhlai = phiếu phân bổ.số tiền > (tragoc - tongtienscope) ?  tragoc - tongtienscope :  phiếu phân bổ.số tiền;
+			tongtienscope += sotientinhlai;
+
+			if (phiếu cuối cùng (phiếu cuối là phiếu làm tổng vượt giá trị trừ gốc)){
+				totalLai += Tính lãi từng phiếu phân bổ(phiếu phân bổ, sotientinhlai);
+				CreatePhieuTinhLai();
+			}
+			else {
+				totalLai += Tính lãi từng phiếu phân bổ(phiếu phân bổ, sotientinhlai);
+				CreatePhieuTinhLai();
+			}
+		}
+
+		tongtien = tragoc + totalLai;
+		tonglai = totalLai;
+		return;
+	}
+	else {
+		var totalLai = 0;
+		var tongtienscope = 0;
+		Lặp từng phiếu phân bổ đầu tư {
+		    var sotientinhlai = phiếu phân bổ.số tiền >= (tragoc - tongtienscope) ?  tragoc - tongtienscope :  phiếu phân bổ.số tiền;
+			tongtienscope += sotientinhlai;
+
+			totalLai += Tính lãi từng phiếu phân bổ(phiếu phân bổ, số tiền trên Phiếu phân bổ);
+			if (sotientinhlai >0){
+				CreatePhieuTinhLai();
+			}
+		}
+
+		tongtien = tragoc + totalLai;
+		tonglai = totalLai;
+		return;
+	}
+}

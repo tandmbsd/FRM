@@ -1,0 +1,11 @@
+﻿ <fetch mapping='logical' version='1.0'>
+                    <entity name='new_phieudenghithuong'>
+                    <attribute name='new_phieudenghithuongid'/>
+                    <filter type='and'>
+                    <condition attribute='new_ngaylapphieu' operator='ge' value='{0}'></condition>
+                    <condition attribute='new_ngaylapphieu' operator='le' value='{0}'></condition>
+                    <condition attribute='new_vudautu' operator='eq' value='{0}'></condition>
+                    <condition attribute='new_loaithuong' operator='eq' value='{0}'></condition>
+                    </filter>
+                    </entity>
+                    </fetch>
